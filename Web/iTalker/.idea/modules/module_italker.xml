@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_italker" default="compile.module.italker">
+  <dirname property="module.italker.basedir" file="${ant.file.module_italker}"/>
+  
+  <property name="module.jdk.home.italker" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.italker" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.italker" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.italker" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="italker.output.dir" value="${module.italker.basedir}/../../out/production/iTalker"/>
+  <property name="italker.testoutput.dir" value="${module.italker.basedir}/../../out/test/iTalker"/>
+  
+  <path id="italker.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="italker.module.production.classpath">
+    <path refid="${module.jdk.classpath.italker}"/>
+  </path>
+  
+  <path id="italker.runtime.production.module.classpath">
+    <pathelement location="${italker.output.dir}"/>
+  </path>
+  
+  <path id="italker.module.classpath">
+    <path refid="${module.jdk.classpath.italker}"/>
+    <pathelement location="${italker.output.dir}"/>
+  </path>
+  
+  <path id="italker.runtime.module.classpath">
+    <pathelement location="${italker.testoutput.dir}"/>
+    <pathelement location="${italker.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.italker">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.italker">
+    <patternset refid="excluded.from.module.italker"/>
+  </patternset>
+  
+  
+  <target name="compile.module.italker" depends="compile.module.italker.production,compile.module.italker.tests" description="Compile module iTalker"/>
+  
+  <target name="compile.module.italker.production" depends="register.custom.compilers" description="Compile module iTalker; production classes"/>
+  
+  <target name="compile.module.italker.tests" depends="register.custom.compilers,compile.module.italker.production" description="compile module iTalker; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.italker" description="cleanup module">
+    <delete dir="${italker.output.dir}"/>
+    <delete dir="${italker.testoutput.dir}"/>
+  </target>
+</project>
