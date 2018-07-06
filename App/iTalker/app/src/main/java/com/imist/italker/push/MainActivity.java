@@ -11,13 +11,7 @@ import com.imist.italker.common.app.Activity;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MainActivity extends Activity implements IView{
-
-    @BindView(R.id.text_result)
-    TextView mResultText;
-    @BindView(R.id.edit_query)
-    EditText mInputText;
-    IPresenter presenter;
+public class MainActivity extends Activity {
 
     @Override
     protected int getContentLayoutId() {
@@ -27,21 +21,5 @@ public class MainActivity extends Activity implements IView{
     @Override
     protected void initData() {
         super.initData();
-        presenter = new Presenter(this);
-    }
-
-    @OnClick(R.id.btn_submit)
-    void onSubmit(){
-        presenter.search();
-    }
-
-    @Override
-    public String getInputString() {
-        return mInputText.getText().toString();
-    }
-
-    @Override
-    public void setResultString(String string) {
-        mResultText.setText(string);
     }
 }
