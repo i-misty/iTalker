@@ -87,11 +87,10 @@
         android:elevation="@dimen/len_4"
         android:outlineProvider="bounds"
         android:translationZ="@dimen/len_8"
-        app:menu="@menu/navigation_items"
         app:itemIconTint="@color/text_nav"
         app:itemTextColor="@color/text_nav"
+        app:menu="@menu/navigation_items"
         tools:targetApi="lollipop"
-        tools:visibility="invisible"
-        />
+        tools:visibility="invisible" />
 
 </android.support.design.widget.CoordinatorLayout>

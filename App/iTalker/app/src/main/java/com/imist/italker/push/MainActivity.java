@@ -68,7 +68,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         mTittle.setText(item.getTitle());
-        return false;
+        return true;
     }
 
 
