@@ -87,7 +87,7 @@
         android:elevation="@dimen/len_4"
         android:outlineProvider="bounds"
         android:translationZ="@dimen/len_8"
-        app:menu="@id/navigation"
+        app:menu="@menu/navigation_items"
         app:itemIconTint="@color/text_nav"
         app:itemTextColor="@color/text_nav"
         tools:targetApi="lollipop"
