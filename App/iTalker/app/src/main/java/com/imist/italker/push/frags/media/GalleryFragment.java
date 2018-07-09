@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
+import com.imist.italker.common.tools.UiTool;
 import com.imist.italker.common.widget.GalleryView;
 import com.imist.italker.push.R;
 
@@ -66,6 +67,13 @@ public class GalleryFragment extends BottomSheetDialogFragment implements Galler
         }
     }
 
+
+    /**
+     * 设置事件监听，并返回自己
+     *
+     * @param listener OnSelectedListener
+     * @return GalleryFragment
+     */
     public GalleryFragment setListener(OnSelectedListener listener) {
         mListener = listener;
         return this;
@@ -100,9 +108,9 @@ public class GalleryFragment extends BottomSheetDialogFragment implements Galler
             if (window == null) {
                 return;
             }
-            int screenHeignt = getContext().getResources().getDisplayMetrics().heightPixels;
-            int statusHeight = (int) Ui.dipToPx(getContext().getResources(), 25);
-            int dialogHeight = screenHeignt = statusHeight;
+            int screenHeight = UiTool.getScreenHeight(getOwnerActivity());
+            int statusHeight = UiTool.getStatusBarHeight(getOwnerActivity());
+            int dialogHeight = screenHeight = statusHeight;
             window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
                     dialogHeight <= 0 ? ViewGroup.LayoutParams.MATCH_PARENT : dialogHeight);
 
