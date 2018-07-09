@@ -16,6 +16,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.imist.italker.common.app.Activity;
 import com.imist.italker.common.widget.PortraitView;
+import com.imist.italker.push.activities.AccountActivity;
 import com.imist.italker.push.frags.main.ActiveFragment;
 import com.imist.italker.push.frags.main.ContactFragment;
 import com.imist.italker.push.frags.main.GroupFragment;
@@ -90,7 +91,7 @@ public class MainActivity extends Activity
 
     @OnClick(R.id.btn_action)
     void onActionClick() {
-
+        AccountActivity.show(this);
     }
 
     /**
