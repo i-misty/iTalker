@@ -1,6 +1,8 @@
-package com.imist.italker.push;
+package com.imist.italker.push.activities;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.view.Menu;
@@ -16,7 +18,8 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.imist.italker.common.app.Activity;
 import com.imist.italker.common.widget.PortraitView;
-import com.imist.italker.push.activities.AccountActivity;
+import com.imist.italker.push.R;
+import com.imist.italker.push.frags.assist.PermissionsFragment;
 import com.imist.italker.push.frags.main.ActiveFragment;
 import com.imist.italker.push.frags.main.ContactFragment;
 import com.imist.italker.push.frags.main.GroupFragment;
@@ -50,6 +53,10 @@ public class MainActivity extends Activity
 
     private NavHelper<Integer> mNavhelper;
 
+    public static void show(Context context){
+        context.startActivity(new Intent(context,MainActivity.class));
+    }
+
     @Override
     protected int getContentLayoutId() {
         return R.layout.activity_main;
@@ -74,6 +81,7 @@ public class MainActivity extends Activity
                         this.view.setBackground(resource.getCurrent());
                     }
                 });
+        PermissionsFragment.haveAll(this,getSupportFragmentManager());
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.content.Intent;
 
 import com.imist.italker.common.app.Activity;
 import com.imist.italker.common.app.Fragment;
-import com.imist.italker.push.MainActivity;
 import com.imist.italker.push.R;
 import com.imist.italker.push.frags.account.UpdateInfoFragment;
 
