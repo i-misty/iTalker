@@ -43,6 +43,6 @@ dependencies {
     implementation "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
 
-    implementation project(':common')  //app --> factory --> common
+    implementation project(':common')  //app --> factory --> common -->lang
     implementation project(':factory')
 }
