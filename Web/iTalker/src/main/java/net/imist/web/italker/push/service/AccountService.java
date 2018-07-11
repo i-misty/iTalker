@@ -1,6 +1,6 @@
 package net.imist.web.italker.push.service;
 
-import net.imist.web.italker.push.bean.User;
+import net.imist.web.italker.push.bean.db.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

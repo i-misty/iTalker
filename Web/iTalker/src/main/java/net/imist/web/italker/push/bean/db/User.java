@@ -74,21 +74,35 @@ public class User {
     private LocalDateTime lastReceivedAt = LocalDateTime.now();
 
 
-    //我关注的人的列表方法
+    // 我关注的人的列表方法
+    // 对应的数据库表字段为TB_USER_FOLLOW.originId
     @JoinColumn(name = "originId")
-    //定义为懒加载，加载User信息的时候不去加载集合
+    // 定义为懒加载，默认加载User信息的时候，并不查询这个集合
     @LazyCollection(LazyCollectionOption.EXTRA)
     // 1对多，一个用户可以有很多关注人，每一次关注都是一个记录
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<UserFollow> following = new HashSet<>();
 
-    //关注我的人的列表
+
+    // 关注我的人的列表
+    // 对应的数据库表字段为TB_USER_FOLLOW.targetId
     @JoinColumn(name = "targetId")
-    //定义为懒加载，加载User信息的时候不去加载集合
+    // 定义为懒加载，默认加载User信息的时候，并不查询这个集合
     @LazyCollection(LazyCollectionOption.EXTRA)
     // 1对多，一个用户可以被很多人关注，每一次关注都是一个记录
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<UserFollow> followers = new HashSet<>();
+
+    // 我所有创建的群
+    // 对应的字段为：Group.ownerId
+    @JoinColumn(name = "ownerId")
+    // 懒加载集合方式为尽可能的不加载具体的数据，
+    // 当访问groups.size()仅仅查询数量，不加载具体的Group信息
+    // 只有当遍历集合的时候才加载具体的数据
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    // FetchType.LAZY：懒加载，加载用户信息时不加载这个集合
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Group> groups = new HashSet<>();
 
 
     public String getId() {
@@ -201,5 +215,13 @@ public class User {
 
     public void setFollowers(Set<UserFollow> followers) {
         this.followers = followers;
+    }
+
+    public Set<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
     }
 }
