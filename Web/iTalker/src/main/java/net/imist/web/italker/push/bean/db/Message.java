@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "TB_MESSAGE")
-public class Message  {
+public class Message {
 
     public static final int TYPE_STR = 1; // 字符串类型
     public static final int TYPE_PIC = 2; // 图片类型
