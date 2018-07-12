@@ -1,6 +1,9 @@
 package net.imist.web.italker.push.service;
 
+import net.imist.web.italker.push.bean.api.account.RegisterModel;
+import net.imist.web.italker.push.bean.card.UserCard;
 import net.imist.web.italker.push.bean.db.User;
+import net.imist.web.italker.push.factory.UserFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -18,27 +21,36 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/account")
 public class AccountService {
-    //GET 127.0.0.1/api/account/login
-    @GET
-    @Path("/login")  //若是不带路径则当GET请求时默认访问此方法 若是当前类存在路径相同的get方法则报错
-    public String get(){
-        return "you get  the login";
-    }
 
-    /**
-     * POST 127.0.0.1/api/account/login
-     *     jersey 可以识别请求方式 ，返回不同数据格式的值，但是要指定
-     * @return
-     */
     @POST
-    @Path("/login")
+    @Path("/register")
     @Consumes (MediaType.APPLICATION_JSON)  //指定请求传入json
     @Produces (MediaType.APPLICATION_JSON)  //返回 json
-    public User post(){
-        User user = new User();
-        user.setName("iMist");
-        user.setSex(1);
-        return user;
+    public UserCard register(RegisterModel model) {
+        User user = UserFactory.findByPhone(model.getAccount().trim());
+        if (user != null){
+            UserCard card = new UserCard();
+            card.setName("已有了 Phone");
+            return card;
+        }
+        user = UserFactory.findByName(model.getName().trim());
+        if (user != null){
+            UserCard card = new UserCard();
+            card.setName("已有了name");
+            return card;
+        }
+        user = UserFactory.register(model.getAccount(),
+                model.getPassword(),
+                model.getName());
+        if (user != null){
+            UserCard card = new UserCard();
+            card.setName(user.getName());
+            card.setPhone(user.getPhone());
+            card.setSex(user.getSex());
+            card.setFollow(true);
+            card.setModifyAt(user.getUpdateAt());
+            return card;
+        }
+        return null;
     }
-
 }
