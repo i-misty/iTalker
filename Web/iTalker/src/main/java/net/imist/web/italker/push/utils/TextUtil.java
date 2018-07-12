@@ -1,6 +1,5 @@
 package net.imist.web.italker.push.utils;
 
-
 import net.imist.web.italker.push.provider.GsonProvider;
 
 import java.math.BigInteger;

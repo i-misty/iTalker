@@ -8,7 +8,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import java.util.logging.Logger;
 
 /**
- * @author iMist
+ @author iMist
  */
 public class Application extends ResourceConfig {
     public Application() {
@@ -16,7 +16,6 @@ public class Application extends ResourceConfig {
         //packages("net.imist.web.italker.push.service");
         packages(AccountService.class.getPackage().getName());
         //注册json解析器
-        //全量输出，输出流过大，过于占用资源
         //register(JacksonJsonProvider.class);
         register(GsonProvider.class);
         //注册日志打印输出
