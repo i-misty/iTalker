@@ -10,7 +10,16 @@ public class RegisterModel {
     private String password;
     @Expose
     private String name;
+    @Expose
+    private String pushId;
 
+    public String getPushId() {
+        return pushId;
+    }
+
+    public void setPushId(String pushId) {
+        this.pushId = pushId;
+    }
 
     public String getAccount() {
         return account;
