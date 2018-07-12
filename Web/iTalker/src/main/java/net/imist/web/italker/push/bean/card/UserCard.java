@@ -1,6 +1,7 @@
 package net.imist.web.italker.push.bean.card;
 
 import com.google.gson.annotations.Expose;
+import net.imist.web.italker.push.bean.db.User;
 
 import java.time.LocalDateTime;
 
@@ -33,6 +34,19 @@ public class UserCard {
     //用户信息最后的更新时间
     @Expose
     private LocalDateTime modifyAt = LocalDateTime.now();
+
+    public UserCard(User user) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.phone = user.getPhone();
+        this.portrait = user.getPortrait();
+        this.desc = user.getDescription();
+        this.sex = user.getSex();
+        this.modifyAt = user.getUpdateAt();
+        //TODO 得到关注人和粉丝数量
+        //懒加载会报错因为没有session
+        //user.getFollowers().size();
+    }
 
     public String getId() {
         return id;

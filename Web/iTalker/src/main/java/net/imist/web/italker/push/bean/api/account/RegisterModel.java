@@ -1,5 +1,6 @@
 package net.imist.web.italker.push.bean.api.account;
 
+import com.google.common.base.Strings;
 import com.google.gson.annotations.Expose;
 
 public class RegisterModel {
@@ -33,5 +34,15 @@ public class RegisterModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    // 校验
+    public static boolean check(RegisterModel model) {
+        return model != null
+                && !Strings.isNullOrEmpty(model.account)
+                && !Strings.isNullOrEmpty(model.password)
+                && !Strings.isNullOrEmpty(model.name);
+
     }
 }
