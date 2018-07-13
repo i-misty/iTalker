@@ -30,17 +30,17 @@ public class UserFollow {
     //optional 不可选，必须存储，一条关注记录一定要有一个“你”
     @ManyToOne(optional = false)
     //定义关联的表字段为originid,对应User.id
-    @JoinColumn(name = "originId" )
+    @JoinColumn(name = "originId")
     private User origin;
     //提取到对应的modle中
-    @Column (nullable = false,updatable = false,insertable = false)
+    @Column(nullable = false, updatable = false, insertable = false)
     private String originId;
     //关注的目标
     //多对一
     @ManyToOne(optional = false)
-    @JoinColumn(name = "targetId" )
+    @JoinColumn(name = "targetId")
     private User target;
-    @Column (nullable = false,updatable = false,insertable = false)
+    @Column(nullable = false, updatable = false, insertable = false)
     private String targetId;
 
     //别名也就是对target的备注名，可以为null
