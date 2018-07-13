@@ -39,6 +39,9 @@ public class UserFactory {
      * @return User
      */
     public static User bindPushId(User user, String pushId) {
+        if (Strings.isNullOrEmpty(pushId)) {
+            return null;
+        }
         //第一步，查询是否有其他账户绑定了这个设备
         //取消绑定避免消息推送混乱
         Hib.queryOnly(session -> {
@@ -68,8 +71,6 @@ public class UserFactory {
                 return user;
             });
         }
-
-
     }
 
     /**
@@ -125,8 +126,12 @@ public class UserFactory {
         User user = new User();
         user.setName(name);
         user.setPassword(password);
+        // 账户就是手机号
         user.setPhone(account);
-        return Hib.query(session -> (User) session.save(user));
+        return Hib.query(session -> {
+            session.save(user);
+            return user;
+        });
     }
 
     /**
@@ -146,6 +151,12 @@ public class UserFactory {
 
     }
 
+    /**
+     * 对密码进行加密操作
+     *
+     * @param password 原文
+     * @return 密文
+     */
     private static String encodePassword(String password) {
         //密码去除首尾空格
         password = password.trim();

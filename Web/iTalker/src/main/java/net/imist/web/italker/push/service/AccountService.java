@@ -5,7 +5,6 @@ import net.imist.web.italker.push.bean.api.account.AccountRspModel;
 import net.imist.web.italker.push.bean.api.account.LoginModel;
 import net.imist.web.italker.push.bean.api.account.RegisterModel;
 import net.imist.web.italker.push.bean.api.base.ResponseModel;
-
 import net.imist.web.italker.push.bean.db.User;
 import net.imist.web.italker.push.factory.UserFactory;
 
@@ -34,12 +33,45 @@ public class AccountService {
         User user = UserFactory.login(model.getAccount(),model.getPassword());
         if (user != null){
             if (!Strings.isNullOrEmpty(model.getPushId())){
-
+                return bind(user,model.getPushId());
             }
             AccountRspModel rspModel = new AccountRspModel(user);
             return ResponseModel.buildOk(rspModel);
         }else {
             return ResponseModel.buildLoginError();
+        }
+    }
+
+
+
+    @POST
+    @Path("/register")
+    @Consumes (MediaType.APPLICATION_JSON)  //指定请求传入json
+    @Produces (MediaType.APPLICATION_JSON)  //返回 json
+    public ResponseModel<AccountRspModel> register(RegisterModel model) {
+        if (!RegisterModel.check(model)){
+            return ResponseModel.buildParameterError();
+        }
+        User user = UserFactory.findByPhone(model.getAccount().trim());
+        if (user != null){
+            return ResponseModel.buildHaveAccountError();
+        }
+        user = UserFactory.findByName(model.getName().trim());
+        if (user != null) {
+            // 已有用户名
+            return ResponseModel.buildHaveNameError();
+        }
+        user = UserFactory.register(model.getAccount(),
+                model.getPassword(),
+                model.getName());
+        if (user != null){
+            if (!Strings.isNullOrEmpty(model.getPushId())){
+                return bind(user,model.getPushId());
+            }
+            AccountRspModel rspModel = new AccountRspModel(user);
+            return ResponseModel.buildOk(rspModel);
+        }else {
+            return ResponseModel.buildRegisterError();
         }
     }
 
@@ -55,42 +87,30 @@ public class AccountService {
         //通过token拿到个人信息
         User user = UserFactory.findByToken(token);
         if (user != null){
-            //进行设备id的绑定操作
-            user = UserFactory.bindPushId(user,pushId);
-           if (user != null){
-               AccountRspModel rspModel = new AccountRspModel(user);
-               return ResponseModel.buildOk(rspModel);
-           }else {
-               return ResponseModel.buildServiceError();
-           }
+            return bind(user,pushId);
         }else {
-            return ResponseModel.buildLoginError();
+            //token失效无法进行绑定
+            return ResponseModel.buildAccountError();
         }
     }
-    @POST
-    @Path("/register")
-    @Consumes (MediaType.APPLICATION_JSON)  //指定请求传入json
-    @Produces (MediaType.APPLICATION_JSON)  //返回 json
-    public ResponseModel<AccountRspModel> register(RegisterModel model) {
-        if (RegisterModel.check(model)){
-            return ResponseModel.buildParameterError();
+
+    /**
+     *绑定的操作
+     * @param self
+     * @param pushId
+     * @return
+     */
+    private ResponseModel<AccountRspModel> bind(User self,String pushId){
+
+        //进行设备id的绑定操作
+        User user = UserFactory.bindPushId(self,pushId);
+        //绑定失败可能为null
+        if (user == null){
+            //绑定失败服务器异常
+            return ResponseModel.buildServiceError();
         }
-        User user = UserFactory.findByPhone(model.getAccount().trim());
-        if (user != null){
-            return ResponseModel.buildHaveAccountError();
-        }
-        user = UserFactory.findByName(model.getName().trim());
-        if (user != null){
-            return ResponseModel.buildHaveNameError();
-        }
-        user = UserFactory.register(model.getAccount(),
-                model.getPassword(),
-                model.getName());
-        if (user != null){
-            AccountRspModel rspModel = new AccountRspModel(user);
-            return ResponseModel.buildOk(rspModel);
-        }else {
-            return ResponseModel.buildRegisterError();
-        }
+        //返回当前账户,并且已经绑定了
+        AccountRspModel rspModel = new AccountRspModel(user,true);
+        return ResponseModel.buildOk(rspModel);
     }
 }
