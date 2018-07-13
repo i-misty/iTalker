@@ -1,0 +1,15 @@
+*.lock
+*.iml
+.gradle
+*/local.properties
+*/.idea/libraries
+*/.idea/modules.xml
+*/.idea/workspace.xml
+
+*/.gradle/
+.DS_Store
+*/.idea/*
+*/build/*
+*/out/*
+/captures
+.externalNativeBuild
