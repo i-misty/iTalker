@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
  */
 
 @Path("/account")
-public class AccountService {
+public class AccountService extends BaseService{
 
 
     @POST
@@ -84,14 +84,10 @@ public class AccountService {
         if (Strings.isNullOrEmpty(token) || Strings.isNullOrEmpty(pushId)){
             return ResponseModel.buildParameterError();
         }
+        //User user = UserFactory.findByToken(token);
         //通过token拿到个人信息
-        User user = UserFactory.findByToken(token);
-        if (user != null){
-            return bind(user,pushId);
-        }else {
-            //token失效无法进行绑定
-            return ResponseModel.buildAccountError();
-        }
+        User user = getSelf();
+        return bind(user,pushId);
     }
 
     /**

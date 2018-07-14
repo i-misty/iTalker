@@ -10,37 +10,30 @@ import net.imist.web.italker.push.factory.UserFactory;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
+
 /**
  * 用户信息处理的Services
  */
 @Path("/user")
-public class UserServices {
+public class UserServices extends BaseService {
+
     /**
      * 更新用户信息的接口
-
-     * @param token
+     *
      * @param model
-     * @return  返回自己的用户信息
+     * @return 返回自己的用户信息
      */
     @PUT  //不写就是当前的目录
     @Consumes(MediaType.APPLICATION_JSON)  //指定请求传入json
     @Produces(MediaType.APPLICATION_JSON)
-    public ResponseModel<UserCard> update(@HeaderParam("token") String token,
-                                          UpdateInfoModel model) {
-        if (Strings.isNullOrEmpty(token) || !UpdateInfoModel.check(model)) {
+    public ResponseModel<UserCard> update(UpdateInfoModel model) {
+        if (!UpdateInfoModel.check(model)) {
             ResponseModel.buildParameterError();
         }
-        //通过token拿到个人信息
-        User user = UserFactory.findByToken(token);
-        if (user != null) {
-            user = model.updateToUser(user);
-            user = UserFactory.update(user);
-            UserCard card = new UserCard(user,true);
-            return ResponseModel.buildOk(card);
-        } else {
-            //token失效无法进行绑定
-            return ResponseModel.buildAccountError();
-        }
-
+        User self = getSelf();
+        self = model.updateToUser(self);
+        self = UserFactory.update(self);
+        UserCard card = new UserCard(self, true);
+        return ResponseModel.buildOk(card);
     }
 }
