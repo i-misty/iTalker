@@ -4,7 +4,6 @@ import com.google.common.base.Strings;
 import net.imist.web.italker.push.bean.db.User;
 import net.imist.web.italker.push.utils.Hib;
 import net.imist.web.italker.push.utils.TextUtil;
-import org.hibernate.Session;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,10 +25,25 @@ public class UserFactory {
     }
 
     public static User findByName(String name) {
-        return Hib.query(session -> (User) session.createQuery("from User where name =:name")
+        return Hib.query(session -> (User) session
+                .createQuery("from User where name =:name")
                 .setParameter("name", name)
                 .uniqueResult());
     }
+
+    /**
+     * 更新用户信息到数据库
+     *
+     * @param user
+     * @return
+     */
+    public static User update(User user) {
+        return Hib.query(session -> {
+            session.saveOrUpdate(user);
+            return user;
+        });
+    }
+
 
     /**
      * 给当前的账户绑定pushId
@@ -66,10 +80,7 @@ public class UserFactory {
             }
             //更新新的设备id
             user.setPushId(pushId);
-            return Hib.query(session -> {
-                session.saveOrUpdate(user);
-                return user;
-            });
+            return update(user);
         }
     }
 
@@ -144,10 +155,7 @@ public class UserFactory {
         String newToken = UUID.randomUUID().toString();
         newToken = TextUtil.encodeBase64(newToken);
         user.setToken(newToken);
-        return Hib.query(session -> {
-            session.saveOrUpdate(user);
-            return user;
-        });
+        return update(user);
 
     }
 
