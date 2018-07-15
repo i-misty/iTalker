@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".frags.account.UpdateInfoFragment">
+    tools:context=".frags.user.UpdateInfoFragment">
 
     <com.imist.italker.common.widget.PortraitView
         android:id="@+id/im_portrait"

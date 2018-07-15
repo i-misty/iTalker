@@ -18,9 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LaunchActivity"
-            android:theme="@style/AppTheme"
-            android:label="@string/title_activity_launch">
+        <activity
+            android:name=".LaunchActivity"
+            android:label="@string/title_activity_launch"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,8 +31,7 @@
         <activity
             android:name=".activities.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Main">
-        </activity>
+            android:theme="@style/AppTheme.Main"></activity>
         <activity
             android:name=".activities.AccountActivity"
             android:theme="@style/AppTheme.Account" />
@@ -39,6 +39,7 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity android:name=".activities.UserActivity"></activity>
     </application>
 
 </manifest>

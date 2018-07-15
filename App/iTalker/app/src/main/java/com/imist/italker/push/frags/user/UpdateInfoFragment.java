@@ -1,4 +1,4 @@
-package com.imist.italker.push.frags.account;
+package com.imist.italker.push.frags.user;
 
 
 import android.content.Intent;
