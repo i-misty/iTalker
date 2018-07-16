@@ -5,9 +5,7 @@ import android.text.TextUtils;
 
 import com.imist.italker.factory.R;
 import com.imist.italker.factory.data.DataSource;
-import com.imist.italker.factory.data.helper.AccountHelper;
 import com.imist.italker.factory.model.db.User;
-import com.imist.italker.factory.persistence.Account;
 import com.imist.italker.factory.presenter.BasePresenter;
 
 import net.qiujuer.genius.kit.handler.Run;
@@ -33,8 +31,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.View>
             view.showError(R.string.data_account_login_invalid_parameter);
         } else {
             // 尝试传递PushId
-            LoginModel model = new LoginModel(phone, password, Account.getPushId());
-            AccountHelper.login(model, this);
+           /* LoginModel model = new LoginModel(phone, password, Account.getPushId());
+            AccountHelper.login(model, this);*/
         }
     }
 

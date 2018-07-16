@@ -1,14 +1,10 @@
 package com.imist.italker.push;
 
 
-import android.accounts.Account;
 import android.graphics.drawable.ColorDrawable;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.imist.italker.common.app.Activity;
-import com.imist.italker.push.activities.AccountActivity;
-import com.imist.italker.push.activities.MainActivity;
 import com.imist.italker.push.frags.assist.PermissionsFragment;
 
 import net.qiujuer.genius.ui.compat.UiCompat;
@@ -44,19 +40,19 @@ public class LaunchActivity extends Activity {
         super.initData();
 
         // 动画进入到50%等待PushId获取到
-        startAnim(0.5f, new Runnable() {
+       /* startAnim(0.5f, new Runnable() {
             @Override
             public void run() {
                 // 检查等待状态
                 waitPushReceiverId();
             }
-        });
+        });*/
     }
 
     /**
      * 等待个推框架对我们的PushId设置好值
      */
-    private void waitPushReceiverId() {
+   /* private void waitPushReceiverId() {
         if (Account.isLogin()) {
             // 已经登录情况下，判断是否绑定
             // 如果没有绑定则等待广播接收器进行绑定
@@ -82,20 +78,20 @@ public class LaunchActivity extends Activity {
                         waitPushReceiverId();
                     }
                 }, 500);
-    }
+    }*/
 
 
     /**
      * 在跳转之前需要把剩下的50%进行完成
      */
-    private void skip() {
+ /*   private void skip() {
         startAnim(1f, new Runnable() {
             @Override
             public void run() {
                 reallySkip();
             }
         });
-    }
+    }*/
 
     /**
      * 真实的跳转
@@ -104,11 +100,11 @@ public class LaunchActivity extends Activity {
         // 权限检测，跳转
         if (PermissionsFragment.haveAll(this, getSupportFragmentManager())) {
             // 检查跳转到主页还是登录
-            if (Account.isLogin()) {
+          /*  if (Account.isLogin()) {
                 MainActivity.show(this);
             } else {
                 AccountActivity.show(this);
-            }
+            }*/
             finish();
         }
     }
