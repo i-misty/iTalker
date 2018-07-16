@@ -36,6 +36,11 @@ public class UserCard {
     private LocalDateTime modifyAt = LocalDateTime.now();
 
     public UserCard(User user) {
+        this(user, false);
+    }
+
+    public UserCard(User user, boolean isFollow) {
+        this.isFollow = isFollow;
         this.id = user.getId();
         this.name = user.getName();
         this.phone = user.getPhone();
@@ -47,6 +52,7 @@ public class UserCard {
         //懒加载会报错因为没有session
         //user.getFollowers().size();
     }
+
 
     public String getId() {
         return id;

@@ -1,6 +1,7 @@
 package net.imist.web.italker.push;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import net.imist.web.italker.push.provider.AuthRequestFilter;
 import net.imist.web.italker.push.provider.GsonProvider;
 import net.imist.web.italker.push.service.AccountService;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -15,6 +16,8 @@ public class Application extends ResourceConfig {
         //注册逻辑处理的包名 推荐类名获取更加灵活，防止移动之后无法找到
         //packages("net.imist.web.italker.push.service");
         packages(AccountService.class.getPackage().getName());
+        //注册全局请求拦截器
+        register(AuthRequestFilter.class);
         //注册json解析器
         //register(JacksonJsonProvider.class);
         register(GsonProvider.class);

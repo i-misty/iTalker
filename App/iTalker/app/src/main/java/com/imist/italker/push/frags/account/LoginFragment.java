@@ -1,0 +1,38 @@
+package com.imist.italker.push.frags.account;
+
+
+import android.content.Context;
+
+import com.imist.italker.common.app.Fragment;
+import com.imist.italker.push.R;
+
+/**
+ * 登录界面
+ */
+public class LoginFragment extends Fragment {
+
+    private AccountTrigger mAccountTrigger;
+
+
+    public LoginFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        //拿到activity引用
+        mAccountTrigger = (AccountTrigger) context;
+    }
+
+    @Override
+    protected int getContentLayoutId() {
+        return R.layout.fragment_login;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAccountTrigger.triggerView();
+    }
+}

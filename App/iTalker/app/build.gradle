@@ -42,4 +42,5 @@ dependencies {
     //app --> factory --> common -->lang
     api project(path: ':factory')
     //implementation project(path: ':common')
+    //api = compile 推荐使用api ,implementation编译相当于内部可用而对外部隐藏
 }
