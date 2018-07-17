@@ -7,11 +7,11 @@ import android.text.TextUtils;
 import com.imist.italker.factory.Factory;
 import com.imist.italker.factory.model.api.account.AccountRspModel;
 import com.imist.italker.factory.model.db.User;
+import com.imist.italker.factory.model.db.User_Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 /**
- * @author qiujuer Email:qiujuer@live.cn
- * @version 1.0.0
+ *
  */
 public class Account {
     private static final String KEY_PUSH_ID = "KEY_PUSH_ID";
@@ -39,7 +39,7 @@ public class Account {
         // 获取数据持久化的SP
         SharedPreferences sp = context.getSharedPreferences(Account.class.getName(),
                 Context.MODE_PRIVATE);
-        // 存储数据
+        // 存储数据,apply是异步操作，而commit是同步操作
         sp.edit()
                 .putString(KEY_PUSH_ID, pushId)
                 .putBoolean(KEY_IS_BIND, isBind)
@@ -106,7 +106,7 @@ public class Account {
     /**
      * 是否已经绑定到了服务器
      *
-     * @return True已绑定
+     * @return True 已绑定
      */
     public static boolean isBind() {
         return isBind;
@@ -121,12 +121,12 @@ public class Account {
     }
 
     /**
-     * 保存我自己的信息到持久化XML中
+     * 保存自己的信息持久化xml中
      *
-     * @param model AccountRspModel
+     * @param model
      */
     public static void login(AccountRspModel model) {
-        // 存储当前登录的账户, token, 用户Id，方便从数据库中查询我的信息
+        //储存当前登陆的账户 token ,用户id，方便从数据库中查询出我的信息
         Account.token = model.getToken();
         Account.account = model.getAccount();
         Account.userId = model.getUser().getId();
@@ -144,6 +144,7 @@ public class Account {
                 .from(User.class)
                 .where(User_Table.id.eq(userId))
                 .querySingle();
+
     }
 
     /**

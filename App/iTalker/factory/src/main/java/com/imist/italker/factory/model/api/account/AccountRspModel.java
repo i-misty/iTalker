@@ -59,5 +59,6 @@ public class AccountRspModel {
                 ", isBind=" + isBind +
                 '}';
     }
+
 }
 

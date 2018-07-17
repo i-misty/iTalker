@@ -166,7 +166,7 @@ public class Factory {
      * @param message 消息
      */
     public static void dispatchPush(String message) {
-        // TODO
+        //TODO
     }
 
 }

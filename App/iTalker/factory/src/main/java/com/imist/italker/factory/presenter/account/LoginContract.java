@@ -2,8 +2,8 @@ package com.imist.italker.factory.presenter.account;
 
 import com.imist.italker.factory.presenter.BaseContract;
 
-public class LoginContract {
-    interface View extends BaseContract.View {
+public interface LoginContract {
+    interface View extends BaseContract.View<Presenter> {
         void loginSuccess();
     }
 

@@ -37,6 +37,7 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
 
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
