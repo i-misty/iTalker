@@ -1,25 +1,25 @@
-###½â¾ögitÎÞ·¨pushµÄÎÊÌâ
-* Ìí¼Ósendpack.sidebandÊôÐÔ²¢ÖÃÎªfalse¾Í½â¾öÁË¡£
+### è§£å†³gitæ— æ³•pushçš„é—®é¢˜
+* æ·»åŠ sendpack.sidebandå±žæ€§å¹¶ç½®ä¸ºfalseå°±è§£å†³äº†ã€‚
 
-* È«¾ÖµÄ£ºgit config --global sendpack.sideband false
+* å…¨å±€çš„ï¼šgit config --global sendpack.sideband false
 
-* ²Ö¿âµÄ£ºgit config --local sendpack.sideband false
+* ä»“åº“çš„ï¼šgit config --local sendpack.sideband false
 
-* Í¨¹ýgit config --local -l ²é¿´²Ö¿â¼¶ÅäÖÃ£¬¿ÉÒÔ¿´µ½ÓÐsendpack.sidebandÕâÒ»Ïî²¢ÇÒÊÇÖÃÎªfalseµÄ¡£
+* é€šè¿‡git config --local -l æŸ¥çœ‹ä»“åº“çº§é…ç½®ï¼Œå¯ä»¥çœ‹åˆ°æœ‰sendpack.sidebandè¿™ä¸€é¡¹å¹¶ä¸”æ˜¯ç½®ä¸ºfalseçš„ã€‚
 
-* ÔÙ´ÎpushÌá½»µ½Ô¶³Ì²Ö¿âÒÑ¾­okÁË¡£
+* å†æ¬¡pushæäº¤åˆ°è¿œç¨‹ä»“åº“å·²ç»okäº†ã€‚
 
 
 
 
 -----------------------------------
 
-> Èç¹û×öÍêÒÔÉÏ²Ù×÷»¹ÊÇ²»¿ÉÒÔ
+> å¦‚æžœåšå®Œä»¥ä¸Šæ“ä½œè¿˜æ˜¯ä¸å¯ä»¥
 
-> git help gc Ö´ÐÐgc²Ù×÷£¬È»ºóÔÚÖ´ÐÐgit pull »ñµÃgit push ²Á×ß»¹ÊÇ³öÏÖÉÏÊö¿¨ËÀµÄÏÖÏó£¬¼ÌÐøgoogle£¬ÐÂµÄ·½·¨Ö´ÐÐ git fsck£¬ÔÚÖ´ÐÐ git gc --prune=now£¬»¹ÊÇ³öÏÖÉÏÊöµÄÎÊÌâ£¬
+> git help gc æ‰§è¡Œgcæ“ä½œï¼Œç„¶åŽåœ¨æ‰§è¡Œgit pull èŽ·å¾—git push æ“¦èµ°è¿˜æ˜¯å‡ºçŽ°ä¸Šè¿°å¡æ­»çš„çŽ°è±¡ï¼Œç»§ç»­googleï¼Œæ–°çš„æ–¹æ³•æ‰§è¡Œ git fsckï¼Œåœ¨æ‰§è¡Œ git gc --prune=nowï¼Œè¿˜æ˜¯å‡ºçŽ°ä¸Šè¿°çš„é—®é¢˜ï¼Œ
 
-> ×îÖÕ½â¾ö°ì·¨£¬¹Ø±ÕËùÓÐÕ¼ÓÃÒªÌá½»µÄÏîÄ¿×ÊÔ´£¬Èç¹ûecplise»òÊÇidea£¬ÖØÐÂÖ´ÐÐ git gc£¬ÔÚÖ´ÐÐ£¬pull»òpush,Ò»Æðok
+> æœ€ç»ˆè§£å†³åŠžæ³•ï¼Œå…³é—­æ‰€æœ‰å ç”¨è¦æäº¤çš„é¡¹ç›®èµ„æºï¼Œå¦‚æžœecpliseæˆ–æ˜¯ideaï¼Œé‡æ–°æ‰§è¡Œ git gcï¼Œåœ¨æ‰§è¡Œï¼Œpullæˆ–push,ä¸€èµ·ok
 
 
-> ±¾ÈË×îÖÕ½â¾ö£¬ÉèÖÃsendpack.sideband false Ö®ºóÖ´ÐÐgit gc ²Ù×÷È»ºóÒÀÈ»²»¿ÉÒÔpush£¬¹ØµôËùÓÐÕ¼ÓÃgitµÄ½ø³Ì£¬sourcetree »òÕß
-> githubDesktop È»ºóÖØÆôide£¨¿ÉÒÔ³¢ÊÔÖØÐÂµ¼ÈëÏîÄ¿£©
+> æœ¬äººæœ€ç»ˆè§£å†³ï¼Œè®¾ç½®sendpack.sideband false ä¹‹åŽæ‰§è¡Œgit gc æ“ä½œç„¶åŽä¾ç„¶ä¸å¯ä»¥pushï¼Œå…³æŽ‰æ‰€æœ‰å ç”¨gitçš„è¿›ç¨‹ï¼Œsourcetree æˆ–è€…
+> githubDesktop ç„¶åŽé‡å¯ideï¼ˆå¯ä»¥å°è¯•é‡æ–°å¯¼å…¥é¡¹ç›®ï¼‰
