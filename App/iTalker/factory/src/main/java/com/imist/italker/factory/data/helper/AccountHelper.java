@@ -27,7 +27,8 @@ public class AccountHelper {
 
     /**
      * 注册的接口异步调用
-     * @param model 注册的接口
+     *
+     * @param model    注册的接口
      * @param callback
      */
     public static void register(final RegisterModel model, final DataSource.Callback<User> callback) {
@@ -40,7 +41,8 @@ public class AccountHelper {
 
     /**
      * 登陆的接口，异步调用
-     * @param model 登陆的model
+     *
+     * @param model    登陆的model
      * @param callback
      */
     public static void login(final LoginModel model, final DataSource.Callback<User> callback) {
@@ -49,6 +51,7 @@ public class AccountHelper {
         Call<RspModel<AccountRspModel>> call = service.accountLogin(model);
         call.enqueue(new AccountRspCallback(callback));
     }
+
     /**
      * 对设备的ID进行绑定
      *
@@ -59,11 +62,11 @@ public class AccountHelper {
         String pushId = Account.getPushId();
         if (TextUtils.isEmpty(pushId)) return;
         RemoteService service = Network.remote();
-        //callback.onDataNotAvailable(R.string.app_name);
-        Account.setBind(true);
+        Call<RspModel<AccountRspModel>> call = service.accountBind(pushId);
+        call.enqueue(new AccountRspCallback(callback));
     }
 
-    private static class AccountRspCallback implements Callback<RspModel<AccountRspModel>>{
+    private static class AccountRspCallback implements Callback<RspModel<AccountRspModel>> {
         private DataSource.Callback<User> callback;
 
         public AccountRspCallback(DataSource.Callback<User> callback) {
@@ -96,8 +99,9 @@ public class AccountHelper {
                 //同步到xml持久化中
                 Account.login(accountRspModel);
                 if (accountRspModel.isBind()) {
-                    if (callback !=null)
-                    callback.onDataLoaded(user);
+                    Account.setBind(true);
+                    if (callback != null)
+                        callback.onDataLoaded(user);
                 } else {
                     //进行绑定的唤起
                     bindPush(callback);
@@ -111,7 +115,7 @@ public class AccountHelper {
         public void onFailure(Call<RspModel<AccountRspModel>> call, Throwable t) {
             //请求失败返回
             if (callback != null)
-            callback.onDataNotAvailable(R.string.data_network_error);
+                callback.onDataNotAvailable(R.string.data_network_error);
         }
     }
 }

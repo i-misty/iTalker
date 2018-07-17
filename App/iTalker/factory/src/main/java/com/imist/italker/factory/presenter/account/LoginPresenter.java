@@ -30,7 +30,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.View>
         if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(password)){
             view.showError(R.string.data_rsp_error_parameters);
         }else {
-            LoginModel model = new LoginModel(phone,password);
+            LoginModel model = new LoginModel(phone,password//,Account.getPushId()
+            );
             AccountHelper.login(model,this);
         }
 

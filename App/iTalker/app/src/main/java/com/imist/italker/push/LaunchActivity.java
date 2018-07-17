@@ -71,13 +71,10 @@ public class LaunchActivity extends Activity {
             //如果拿到了PushId,没有登陆是不能绑定PushId的
             if (!TextUtils.isEmpty(Account.getPushId())){
                 skip();
+                return;
             }
         }
-        if (!TextUtils.isEmpty(Account.getPushId())) {
-            //拿到了就进行跳转
-            skip();
-            return;
-        }
+
         getWindow().getDecorView()
                 .postDelayed(new Runnable() {
                     @Override
@@ -92,7 +89,7 @@ public class LaunchActivity extends Activity {
         startAnim(1f, new Runnable() {
             @Override
             public void run() {
-                realSkip();
+                reallySkip();
             }
         });
     }
@@ -100,7 +97,7 @@ public class LaunchActivity extends Activity {
     /**
      * 跳转的逻辑
      */
-    private void realSkip() {
+    private void reallySkip() {
         //权限检测
         if (PermissionsFragment.haveAll(this, getSupportFragmentManager())) {
             //检查跳转到主页还是跳转到登陆
