@@ -19,20 +19,23 @@ import java.security.Principal;
  * 用于所有的请求接口的过滤和拦截
  */
 @Provider
-public class AuthRequestFilter  implements ContainerRequestFilter {
+public class AuthRequestFilter implements ContainerRequestFilter {
 
+    // 实现接口的过滤方法
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
 
-        String relationPath = ((ContainerRequest)requestContext).getPath(false);
+        String relationPath = ((ContainerRequest) requestContext).getPath(false);
         if (relationPath.startsWith("account/login")
-                || relationPath.startsWith("account/register")){
+                || relationPath.startsWith("account/register")) {
             return;
         }
         String token = requestContext.getHeaders().getFirst("token");
-        if (!Strings.isNullOrEmpty(token)){
+        if (!Strings.isNullOrEmpty(token)) {
+
+            // 查询自己的信息
             final User self = UserFactory.findByToken(token);
-            if (self != null){
+            if (self != null) {
                 //给当前请求添加一个上下文
                 requestContext.setSecurityContext(new SecurityContext() {
                     @Override

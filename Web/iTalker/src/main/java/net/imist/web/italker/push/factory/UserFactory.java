@@ -29,10 +29,12 @@ public class UserFactory {
     }
 
     public static User findByName(String name) {
-        return Hib.query(session -> (User) session
-                .createQuery("from User where name =:name")
-                .setParameter("name", name)
-                .uniqueResult());
+        return Hib.query(session -> {
+            return (User) session
+                    .createQuery("from User where name =:name")
+                    .setParameter("name", name)
+                    .uniqueResult();
+        });
     }
     public static User findById(String id) {
         //通过主键查询更方便
@@ -60,6 +62,7 @@ public class UserFactory {
      * @param pushId
      * @return User
      */
+    @SuppressWarnings("unchecked")
     public static User bindPushId(User user, String pushId) {
         if (Strings.isNullOrEmpty(pushId)) {
             return null;
@@ -243,8 +246,28 @@ public class UserFactory {
            return (UserFollow)session.createQuery("from UserFollow where originId =:originId and targetId = :targetId")
                     .setParameter("originId",origin.getId())
                     .setParameter("targetId",target.getId())
+                    .setMaxResults(1)
                     //查询一条数据
                     .uniqueResult();
+        });
+    }
+
+    /**
+     * 搜索联系人额实现
+     * @param name 查询的name,允许为null，如果那么为null,则返回最近的用户
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public static List<User> search(String name) {
+        if (Strings.isNullOrEmpty(name)){
+            name = "";//保证不能为null的情况，减少后面的一些判断和额外的错误
+        }
+        final String searchName = "%" +name+"%";
+        return Hib.query(session -> {
+            return  (List<User>) session.createQuery("from User where lower(name) like :name and portrait is not null and description is not null  ")
+                    .setParameter("name",searchName)
+                    .setMaxResults(20)//至多20条
+                    .list();
         });
     }
 }

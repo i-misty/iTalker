@@ -46,15 +46,16 @@ public class UserServices extends BaseService {
     @Path("/contact")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResponseModel<List<UserCard>> contact(){
+    public ResponseModel<List<UserCard>> contact() {
         User self = getSelf();
         //拿到我的联系人
         List<User> users = UserFactory.contacts(self);
         //转换为usercard
         List<UserCard> userCards = users.stream()
                 //map操作相当于转制操作
-                .map(user -> {return new UserCard(user,true);
-        }).collect(Collectors.toList());
+                .map(user -> {
+                    return new UserCard(user, true);
+                }).collect(Collectors.toList());
         return ResponseModel.buildOk(userCards);
     }
 
@@ -62,27 +63,27 @@ public class UserServices extends BaseService {
     @Path("/follow/{followId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResponseModel<UserCard> follow(@PathParam("followId") String followId){
+    public ResponseModel<UserCard> follow(@PathParam("followId") String followId) {
         User self = getSelf();
         //不能关注自己
-        if (self.getId().equalsIgnoreCase(followId)){
+        if (self.getId().equalsIgnoreCase(followId)) {
             //返回参数异常
             return ResponseModel.buildParameterError();
         }
         //找到我也关注的人
         User followUser = UserFactory.findById(followId);
-        if (followUser == null){
+        if (followUser == null) {
             return ResponseModel.buildNotFoundUserError(null);
         }
         //默认没有备注方便扩展
-        followUser  = UserFactory.follow(self,followUser,null);
-        if (followUser == null){
+        followUser = UserFactory.follow(self, followUser, null);
+        if (followUser == null) {
             return ResponseModel.buildServiceError();
         }
         //TODO 通知我关注的人，我关注了他
 
         //返回关注的人的信息
-        return ResponseModel.buildOk(new UserCard(followUser,true));
+        return ResponseModel.buildOk(new UserCard(followUser, true));
     }
 
     //获取某人的信息
@@ -90,21 +91,47 @@ public class UserServices extends BaseService {
     @Path("{id}") //"http://127.0.0.1/api/user/{id}"
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ResponseModel<UserCard> getUser(@PathParam("id") String id){
-        if (Strings.isNullOrEmpty(id)){
+    public ResponseModel<UserCard> getUser(@PathParam("id") String id) {
+        if (Strings.isNullOrEmpty(id)) {
             ResponseModel.buildParameterError();
         }
         User self = getSelf();
-        if (self.getId().equalsIgnoreCase(id)){
-            return ResponseModel.buildOk(new UserCard(self,true));
+        if (self.getId().equalsIgnoreCase(id)) {
+            return ResponseModel.buildOk(new UserCard(self, true));
         }
         User user = UserFactory.findById(id);
-        if (user == null){
+        if (user == null) {
             //没找到，参数异常
             ResponseModel.buildNotFoundUserError(null);
         }
         //如果我们直接有关注的记录，则我已关注需要查询信息的用户
-        boolean isFollow = UserFactory.getUserFollow(self,user) != null;
-        return ResponseModel.buildOk(new UserCard(user,isFollow));
+        boolean isFollow = UserFactory.getUserFollow(self, user) != null;
+        return ResponseModel.buildOk(new UserCard(user, isFollow));
+    }
+
+    //搜索人的接口实现
+    //为了简化分页，一次返回20条
+    @GET //搜索人，不涉及到数据更改，只是查询，则为get
+    //"http://127.0.0.1/api/user/search/"
+    @Path("/search/{name:(.*)?}")
+    public ResponseModel<List<UserCard>> search(@DefaultValue("") @PathParam("name") String name) {
+        User self = getSelf();
+        List<User> searchUsers = UserFactory.search(name);
+        //将查询的人封装为UserCard；
+        //判断这些人是否有我已经关注的人；
+        //如果有的话，则返回的关注状态中应该有我已经设置好的状态；
+
+        //拿出我的联系人
+        List<User> contacts = UserFactory.contacts(self);
+        //不算太高效，但是联系人比较少，并且只取了20条，最好关联查询；
+        List<UserCard> userCards = searchUsers.stream()
+                .map(user -> {
+                    boolean isFollow = user.getId().equalsIgnoreCase(self.getId())
+                            || contacts.stream().anyMatch(contactUser ->
+                            contactUser.getId().equalsIgnoreCase(user.getId())
+                    );
+                    return new UserCard(user, isFollow);
+                }).collect(Collectors.toList());
+        return ResponseModel.buildOk(userCards);
     }
 }
