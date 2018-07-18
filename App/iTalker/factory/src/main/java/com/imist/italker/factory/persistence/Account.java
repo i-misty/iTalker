@@ -99,8 +99,16 @@ public class Account {
      * @return True 是完成了
      */
     public static boolean isComplete() {
-        // TODO
-        return isLogin();
+        //首先保证登陆成功
+        if (isLogin()){
+            User self = getUser();
+            return !TextUtils.isEmpty(self.getPortrait()) &&
+                    !TextUtils.isEmpty(self.getDesc()) &&
+                    (self.getSex() != 0);
+
+        }
+        //未登录返回用户信息不完全
+        return false;
     }
 
     /**

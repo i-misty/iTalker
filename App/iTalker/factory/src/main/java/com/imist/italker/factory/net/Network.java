@@ -38,10 +38,8 @@ public class Network {
                         Request original = chain.request();
                         //重新进行build
                         Request.Builder builder = original.newBuilder();
-
                         if (!TextUtils.isEmpty(Account.getToken())) {
                             builder.addHeader("token", Account.getToken());
-
                         }
                         //这里可以不写
                         builder.addHeader("Content-Type", "application/json");
