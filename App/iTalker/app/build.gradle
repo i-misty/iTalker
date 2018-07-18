@@ -45,7 +45,7 @@ dependencies {
     implementation "pub.devrel:easypermissions:$rootProject.ext.easyPMVersion"
     // 个推
     implementation "com.getui:sdk:$rootProject.ext.getuiVersion"
-    
+
     implementation "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
 
