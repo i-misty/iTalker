@@ -72,4 +72,36 @@ public class UserHelper {
     }
 
 
+    /**
+     * 关注的网络请求
+     * @param userId
+     * @param callback
+     */
+    public static void follow(String userId, final DataSource.Callback<UserCard> callback) {
+
+        RemoteService service =  Network.remote();
+        Call<RspModel<UserCard>> call  = service.userFollow(userId);
+        call.enqueue(new Callback<RspModel<UserCard>>() {
+            @Override
+            public void onResponse(Call<RspModel<UserCard>> call, Response<RspModel<UserCard>> response) {
+                RspModel<UserCard> rspModel = response.body();
+                if (rspModel.success()){
+                    UserCard card = rspModel.getResult();
+                    User user = card.build();
+                    user.save();
+                    //TODO 通知联系人列表刷新
+
+                    //返回数据
+                    callback.onDataLoaded(rspModel.getResult());
+                }else {
+                    Factory.decodeRspCode(rspModel,callback);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspModel<UserCard>> call, Throwable t) {
+                callback.onDataNotAvailable(R.string.data_network_error);
+            }
+        });
+    }
 }

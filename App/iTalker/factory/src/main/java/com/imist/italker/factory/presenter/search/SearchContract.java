@@ -1,4 +1,4 @@
-package com.imist.italker.factory.presenter.user;
+package com.imist.italker.factory.presenter.search;
 
 import com.imist.italker.factory.model.card.GroupCard;
 import com.imist.italker.factory.model.card.UserCard;

@@ -1,4 +1,4 @@
-package com.imist.italker.factory.presenter.user;
+package com.imist.italker.factory.presenter.search;
 
 import com.imist.italker.factory.data.DataSource;
 import com.imist.italker.factory.data.helper.UserHelper;
