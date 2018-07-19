@@ -1,6 +1,7 @@
 package com.imist.italker.factory.model.card;
 
 
+import com.imist.italker.factory.model.Author;
 import com.imist.italker.factory.model.db.User;
 
 import java.util.Date;
@@ -10,7 +11,7 @@ import java.util.Date;
  * @author qiujuer Email:qiujuer@live.cn
  * @version 1.0.0
  */
-public class UserCard {
+public class UserCard implements Author{
     private String id;
     private String name;
     private String phone;

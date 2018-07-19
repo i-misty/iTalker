@@ -1,6 +1,7 @@
 package com.imist.italker.factory.model.db;
 
 
+import com.imist.italker.factory.model.Author;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
@@ -9,7 +10,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 import java.util.Date;
 
 @Table(database = AppDatabase.class)
-public class User extends BaseModel{
+public class User extends BaseModel implements Author{
     public static final int SEX_MAN= 1;
     public static final int SEX_WOMAN= 2;
     //主键
