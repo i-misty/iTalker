@@ -8,11 +8,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
+import com.imist.italker.common.widget.convention.PlaceHolderView;
+
 import java.util.List;
 
 import butterknife.ButterKnife;
 
 public abstract class Activity extends AppCompatActivity {
+
+    protected PlaceHolderView mPlaceHolderView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -21,6 +25,7 @@ public abstract class Activity extends AppCompatActivity {
         if(initArgs(getIntent().getExtras())){
             int layoutId = getContentLayoutId();
             setContentView(layoutId);
+            initBefore();
             initWidget();
             initData();
         }else {
@@ -28,6 +33,12 @@ public abstract class Activity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 初始化控件调用之前
+     */
+    protected void initBefore(){
+
+    }
     /**
      * 初始化窗口
      */
@@ -91,5 +102,11 @@ public abstract class Activity extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
-
+    /**
+     * 设置占位布局
+     * @param placeHolderView
+     */
+    public void setPlaceHolderView(PlaceHolderView placeHolderView){
+        this.mPlaceHolderView = placeHolderView;
+    }
 }

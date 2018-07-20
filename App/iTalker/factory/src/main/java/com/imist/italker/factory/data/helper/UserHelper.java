@@ -9,9 +9,12 @@ import com.imist.italker.factory.model.api.RspModel;
 import com.imist.italker.factory.model.api.user.UserUpdateModel;
 import com.imist.italker.factory.model.card.UserCard;
 import com.imist.italker.factory.model.db.User;
+import com.imist.italker.factory.model.db.User_Table;
 import com.imist.italker.factory.net.Network;
 import com.imist.italker.factory.net.RemoteService;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -126,5 +129,65 @@ public class UserHelper {
                 callback.onDataNotAvailable(R.string.data_network_error);
             }
         });
+    }
+
+
+    /**
+     * 从本地查询一个用户信息
+     * @param id
+     * @return
+     */
+    public static User findFromLocal(String id){
+        return SQLite.select()
+                .from(User.class)
+                .where(User_Table.id.eq(id))
+                .querySingle();
+    }
+    /**
+     * 从网络查询一个用户信息
+     * @param id
+     * @return
+     */
+    public static User findFromNet(String id){
+        RemoteService service = Network.remote();
+        try {
+            Response<RspModel<UserCard>> rspModel = service.userFind(id).execute();
+            UserCard card = rspModel.body().getResult();
+            if (card != null){
+                //TODO 数据库刷新但是没有通知
+                User user = card.build();
+                user.save();
+                return  user;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     *搜索一个用户，优先本地缓存，没有就从网络拉取
+     * @param id
+     * @return
+     */
+    public static User searchFirstLocal(String id){
+           User user = findFromLocal(id);
+           if (user == null){
+               return findFromNet(id);
+           }
+           return user;
+    }
+
+    /**
+     *搜索一个用户，优先网络拉取，没有就从本地缓存
+     * @param id
+     * @return
+     */
+    public static User searchFirstNet(String id){
+        User user = findFromNet(id);
+        if (user == null){
+            return findFromLocal(id);
+        }
+        return user;
     }
 }
