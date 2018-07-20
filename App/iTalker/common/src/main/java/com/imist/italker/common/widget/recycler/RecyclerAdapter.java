@@ -193,7 +193,9 @@ public abstract class RecyclerAdapter<Data>
     public void onClick(View v) {
         ViewHolder viewHolder = (ViewHolder) v.getTag(R.id.tag_recycler_holder);
         if (this.mListener != null) {
+            // 得到ViewHolder当前对应的适配器中的坐标
             int pos = viewHolder.getAdapterPosition();
+            // 回掉方法
             this.mListener.onItemClick(viewHolder, mDataList.get(pos));
         }
     }
@@ -202,7 +204,9 @@ public abstract class RecyclerAdapter<Data>
     public boolean onLongClick(View v) {
         ViewHolder viewHolder = (ViewHolder) v.getTag(R.id.tag_recycler_holder);
         if (this.mListener != null) {
+            // 得到ViewHolder当前对应的适配器中的坐标
             int pos = viewHolder.getAdapterPosition();
+            // 回掉方法
             this.mListener.onItemLongClick(viewHolder, mDataList.get(pos));
             return true;
         }
@@ -231,6 +235,11 @@ public abstract class RecyclerAdapter<Data>
         void onItemLongClick(RecyclerAdapter.ViewHolder holder, Data data);
     }
 
+    /**
+     * 自定义的ViewHolder
+     *
+     * @param <Data> 范型类型
+     */
     public static abstract class ViewHolder<Data> extends RecyclerView.ViewHolder {
 
         private Unbinder unbinder;
