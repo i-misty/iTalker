@@ -15,8 +15,10 @@ import com.imist.italker.factory.presenter.contact.ContactContract;
 import com.imist.italker.factory.presenter.contact.ContactPresenter;
 import com.imist.italker.push.R;
 import com.imist.italker.push.activities.MessageActivity;
+import com.imist.italker.push.activities.PersonalActivity;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class ContactFragment extends PresenterFragment<ContactContract.Presenter>
         implements ContactContract.View {
@@ -112,6 +114,10 @@ public class ContactFragment extends PresenterFragment<ContactContract.Presenter
         TextView mDesc;
 
 
+        @OnClick(R.id.im_portrait)
+        void onPortraitClick(){
+            PersonalActivity.show(getContext(),mData.getId());
+        }
         public ViewHolder(View itemView) {
             super(itemView);
         }

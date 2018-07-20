@@ -2,17 +2,19 @@ package com.imist.italker.factory.model.db;
 
 
 import com.imist.italker.factory.model.Author;
+import com.imist.italker.factory.utils.DiffUiDataCallback;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Table(database = AppDatabase.class)
-public class User extends BaseModel implements Author{
-    public static final int SEX_MAN= 1;
-    public static final int SEX_WOMAN= 2;
+public class User extends BaseModel implements Author, DiffUiDataCallback.UiDataDiffer<User> {
+    public static final int SEX_MAN = 1;
+    public static final int SEX_WOMAN = 2;
     //主键
     @PrimaryKey
     private String id;
@@ -40,7 +42,7 @@ public class User extends BaseModel implements Author{
     private boolean isFollow;
     //用户信息最后的更新时间
     @Column
-    private Date modifyAt ;
+    private Date modifyAt;
 
     public String getId() {
         return id;
@@ -128,5 +130,24 @@ public class User extends BaseModel implements Author{
 
     public void setModifyAt(Date modifyAt) {
         this.modifyAt = modifyAt;
+    }
+
+
+
+
+    @Override
+    public boolean isSame(User old) {
+        //只要关注id即可
+        return this == old || Objects.equals(id, old.id);
+    }
+
+    @Override
+    public boolean isUiContentSame(User old) {
+        //显示的内容是否一样，主要判断的内容
+        return this == old || (
+                Objects.equals(name, old.name)
+                        && Objects.equals(portrait, old.portrait)
+                        && Objects.equals(sex, old.sex)
+                        && Objects.equals(isFollow, old.isFollow));
     }
 }

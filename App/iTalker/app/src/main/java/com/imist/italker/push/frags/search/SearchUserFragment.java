@@ -18,6 +18,7 @@ import com.imist.italker.factory.presenter.contact.FollowPresenter;
 import com.imist.italker.factory.presenter.search.SearchContract;
 import com.imist.italker.factory.presenter.search.SearchUserPresenter;
 import com.imist.italker.push.R;
+import com.imist.italker.push.activities.PersonalActivity;
 import com.imist.italker.push.activities.SearchActivity;
 
 import net.qiujuer.genius.ui.Ui;
@@ -128,6 +129,10 @@ public class SearchUserFragment extends PresenterFragment<SearchContract.Present
             mFollow.setEnabled(!userCard.isFollow());
         }
 
+        @OnClick(R.id.im_portrait)
+        void onPortraitClick(){
+            PersonalActivity.show(getContext(),mData.getId());
+        }
         @OnClick(R.id.im_follow)
         void onFollowClick() {
             //发起关注
