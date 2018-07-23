@@ -6,7 +6,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.imist.italker.common.app.Application;
 import com.imist.italker.factory.data.DataSource;
+import com.imist.italker.factory.data.group.GroupCenter;
+import com.imist.italker.factory.data.group.GroupDispatcher;
+import com.imist.italker.factory.data.message.MessageCenter;
+import com.imist.italker.factory.data.message.MessageDispatcher;
+import com.imist.italker.factory.data.user.UserCenter;
+import com.imist.italker.factory.data.user.UserDispatcher;
 import com.imist.italker.factory.model.api.RspModel;
+import com.imist.italker.factory.model.db.Message;
 import com.imist.italker.factory.persistence.Account;
 import com.imist.italker.factory.utils.DBFlowExclusionStrategy;
 import com.raizlabs.android.dbflow.config.FlowConfig;
@@ -167,6 +174,28 @@ public class Factory {
      */
     public static void dispatchPush(String message) {
         //TODO
+    }
+
+
+    /**
+     * 获取一个用户中心的实现类规范接口
+     * 对外隐藏实现,提供统一的管理
+     * @return
+     */
+    public static UserCenter getUserCenter(){
+        return UserDispatcher.instance();
+    }
+
+    public static MessageCenter getMessageCenter(){
+        return MessageDispatcher.instance();
+    }
+
+    /**
+     * 获取一个群中心得处理实现类
+     * @return 群中心得规范接口
+     */
+    public GroupCenter getGroupCenter(){
+        return GroupDispatcher.instance();
     }
 
 }

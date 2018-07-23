@@ -82,20 +82,7 @@ public class AccountHelper {
                 AccountRspModel accountRspModel = rspModel.getResult();
                 User user = accountRspModel.getUser();
                 //进行数据库的写入和缓存绑定
-                //第一种，直接保存一列
-                user.save();
-                   /* //2.ModelAdapter 可以保存集合
-                    FlowManager.getModelAdapter(User.class)
-                            .save(user);
-                    //3.事务保存
-                    DatabaseDefinition definition = FlowManager.getDatabase(AppDatabase.class);
-                    definition.beginTransactionAsync(new ITransaction() {
-                        @Override
-                        public void execute(DatabaseWrapper databaseWrapper) {
-                            FlowManager.getModelAdapter(User.class)
-                                    .save(user);
-                        }
-                    }).build().execute();*/
+                DbHelper.save(User.class,user);
                 //同步到xml持久化中
                 Account.login(accountRspModel);
                 if (accountRspModel.isBind()) {
