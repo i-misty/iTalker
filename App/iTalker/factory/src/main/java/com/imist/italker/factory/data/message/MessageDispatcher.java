@@ -95,7 +95,7 @@ public class MessageDispatcher implements MessageCenter{
                         group = GroupHelper.findFromLocal(card.getGroupId());
                     }
                     //接受者总有一个
-                    if (receiver == null && group == null && sender == null)
+                    if (receiver == null && group == null && sender != null)
                         continue;
                     message = card.build(sender,receiver,group);
                 }
