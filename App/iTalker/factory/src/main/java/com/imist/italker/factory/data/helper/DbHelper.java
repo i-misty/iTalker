@@ -42,7 +42,7 @@ public class DbHelper {
      * Class<?> 观察的表
      * Set<ChangedListener> 每一个表对应的观察者有很多
      */
-    private static final Map<Class<?>, Set<ChangedListener>> changedListeners = new HashMap<>();
+    private  final Map<Class<?>, Set<ChangedListener>> changedListeners = new HashMap<>();
 
     /**
      * 从所有的监听器中，获取一个表的所有监听者；
@@ -51,9 +51,9 @@ public class DbHelper {
      * @param <Model>
      * @return
      */
-    public static <Model extends BaseModel> Set<ChangedListener> getListeners(Class<Model> modelClass) {
-        if (changedListeners.containsKey(modelClass)) {
-            return changedListeners.get(modelClass);
+    public  <Model extends BaseModel> Set<ChangedListener> getListeners(Class<Model> modelClass) {
+        if (instance.changedListeners.containsKey(modelClass)) {
+            return instance.changedListeners.get(modelClass);
         }
         return null;
     }
@@ -68,7 +68,9 @@ public class DbHelper {
     public static <Model extends BaseModel> void addChangeListener(Class<Model> tClass, ChangedListener<Model> listener) {
         Set<ChangedListener> changedListeners = instance.getListeners(tClass);
         if (changedListeners == null) {
+            //初始化某一类型的容器
             changedListeners = new HashSet<>();
+            //添加到的Map
             instance.changedListeners.put(tClass, changedListeners);
         }
         changedListeners.add(listener);

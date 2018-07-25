@@ -1,16 +1,21 @@
 package com.imist.italker.factory.presenter.contact;
 
+import android.hardware.usb.UsbRequest;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 
+import com.imist.italker.common.widget.recycler.RecyclerAdapter;
 import com.imist.italker.factory.data.DataSource;
 import com.imist.italker.factory.data.helper.UserHelper;
+import com.imist.italker.factory.data.user.ContactDataSource;
+import com.imist.italker.factory.data.user.ContactRepository;
 import com.imist.italker.factory.model.card.UserCard;
 import com.imist.italker.factory.model.db.AppDatabase;
 import com.imist.italker.factory.model.db.User;
 import com.imist.italker.factory.model.db.User_Table;
 import com.imist.italker.factory.persistence.Account;
 import com.imist.italker.factory.presenter.BasePresenter;
+import com.imist.italker.factory.presenter.BaseRecyclerPresenter;
 import com.imist.italker.factory.utils.DiffUiDataCallback;
 import com.raizlabs.android.dbflow.config.DatabaseDefinition;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -25,11 +30,15 @@ import java.util.List;
 /**
  * 联系人的presenter实现
  */
-public class ContactPresenter extends BasePresenter<ContactContract.View>
-        implements ContactContract.Presenter {
+public class ContactPresenter extends BaseRecyclerPresenter<User,ContactContract.View>
+        implements ContactContract.Presenter ,DataSource.SuccessCallback<List<User>> {
+
+    private ContactDataSource mSource;
     public ContactPresenter(ContactContract.View view) {
         super(view);
+        mSource = new ContactRepository();
     }
+
 
     //实现方法已经在基类实现
 
@@ -37,21 +46,8 @@ public class ContactPresenter extends BasePresenter<ContactContract.View>
     @Override
     public void start() {
         super.start();
-        SQLite.select()
-                .from(User.class)
-                .where(User_Table.isFollow.eq(true))
-                .and(User_Table.id.notEq(Account.getUserId()))
-                .orderBy(User_Table.name, true)
-                .limit(100)
-                .async()
-                .queryListResultCallback(new QueryTransaction.QueryResultListCallback<User>() {
-                    @Override
-                    public void onListQueryResult(QueryTransaction transaction, @NonNull List<User> tResult) {
-                        getView().getRecyclerAdapter().replace(tResult);
-                        getView().onAdapterDataChanged();
-                    }
-                }).execute();
-
+        //进行本地的数据加载，并添加监听
+        mSource.load(this);
         //加载网络数据
         UserHelper.refreshContacts();
 
@@ -99,4 +95,30 @@ public class ContactPresenter extends BasePresenter<ContactContract.View>
     }
 
 
+    /**
+     *  无论是本地还是网络操作，数据都会进入此方法
+     *
+     *  运行到此方法是子线程
+     */
+    @Override
+    public void onDataLoaded(List<User> users) {
+        final ContactContract.View view = getView();
+        if (view == null)
+            return;
+        RecyclerAdapter<User> adapter = view.getRecyclerAdapter();
+        List<User> old = adapter.getItems();
+
+        //进行数据对比
+        DiffUtil.Callback callback = new DiffUiDataCallback<>(old,users);
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
+        //调用基类方法进行界面刷新
+        refreshData(result,users);
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        //当界面销毁的时候，我们应该将数据监听进行销毁操作
+        mSource.dispose();
+    }
 }
