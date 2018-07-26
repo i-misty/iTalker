@@ -53,6 +53,7 @@ public class BaseRecyclerPresenter <ViewModel, View extends BaseContract.Recycle
         });
     }
 
+    @SuppressWarnings("unchecked")
     private void refreshDataOnUiThread(final DiffUtil.DiffResult diffResult, final List<ViewModel> dataList){
          View view = getView();
         if (view == null){

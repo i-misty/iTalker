@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Table(database = AppDatabase.class)
-public class User extends BaseModel implements Author, DiffUiDataCallback.UiDataDiffer<User> {
+public class User extends BaseDbModel<User> implements Author {
     public static final int SEX_MAN = 1;
     public static final int SEX_WOMAN = 2;
     //主键
@@ -133,7 +133,29 @@ public class User extends BaseModel implements Author, DiffUiDataCallback.UiData
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        User user = (User) o;
+        if (sex != user.sex) return false;
+        if (follows != user.follows) return false;
+        if (following != user.following) return false;
+        if (isFollow != user.isFollow) return false;
+        if (!id.equals(user.id)) return false;
+        if (!name.equals(user.name)) return false;
+        if (!phone.equals(user.phone)) return false;
+        if (!portrait.equals(user.portrait)) return false;
+        if (!desc.equals(user.desc)) return false;
+        if (!alias.equals(user.alias)) return false;
+        return modifyAt.equals(user.modifyAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 
     @Override
     public boolean isSame(User old) {
@@ -150,4 +172,5 @@ public class User extends BaseModel implements Author, DiffUiDataCallback.UiData
                         && Objects.equals(sex, old.sex)
                         && Objects.equals(isFollow, old.isFollow));
     }
+
 }

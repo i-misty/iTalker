@@ -16,6 +16,7 @@ import com.imist.italker.factory.model.db.User_Table;
 import com.imist.italker.factory.persistence.Account;
 import com.imist.italker.factory.presenter.BasePresenter;
 import com.imist.italker.factory.presenter.BaseRecyclerPresenter;
+import com.imist.italker.factory.presenter.BaseSourcePresenter;
 import com.imist.italker.factory.utils.DiffUiDataCallback;
 import com.raizlabs.android.dbflow.config.DatabaseDefinition;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -30,13 +31,12 @@ import java.util.List;
 /**
  * 联系人的presenter实现
  */
-public class ContactPresenter extends BaseRecyclerPresenter<User,ContactContract.View>
+public class ContactPresenter extends BaseSourcePresenter<User,User,ContactDataSource,ContactContract.View>
         implements ContactContract.Presenter ,DataSource.SuccessCallback<List<User>> {
 
     private ContactDataSource mSource;
     public ContactPresenter(ContactContract.View view) {
-        super(view);
-        mSource = new ContactRepository();
+        super(new ContactRepository(),view);
     }
 
 
@@ -46,8 +46,6 @@ public class ContactPresenter extends BaseRecyclerPresenter<User,ContactContract
     @Override
     public void start() {
         super.start();
-        //进行本地的数据加载，并添加监听
-        mSource.load(this);
         //加载网络数据
         UserHelper.refreshContacts();
 
@@ -113,12 +111,5 @@ public class ContactPresenter extends BaseRecyclerPresenter<User,ContactContract
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
         //调用基类方法进行界面刷新
         refreshData(result,users);
-    }
-
-    @Override
-    public void destroy() {
-        super.destroy();
-        //当界面销毁的时候，我们应该将数据监听进行销毁操作
-        mSource.dispose();
     }
 }

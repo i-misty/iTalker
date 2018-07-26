@@ -303,7 +303,7 @@ public class DbHelper {
      * @param <Data>
      */
     @SuppressWarnings({"unused", "unchecked"})
-    public interface ChangedListener<Data> {
+    public interface ChangedListener<Data extends BaseModel> {
 
         void onDataSave(Data... list);
 
