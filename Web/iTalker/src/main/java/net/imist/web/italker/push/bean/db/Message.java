@@ -156,4 +156,19 @@ public class Message {
     public void setReceiverId(String receiverId) {
         this.receiverId = receiverId;
     }
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
 }
