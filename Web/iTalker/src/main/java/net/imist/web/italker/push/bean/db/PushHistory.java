@@ -165,5 +165,7 @@ public class PushHistory {
     public void setArrivalAt(LocalDateTime arrivalAt) {
         this.arrivalAt = arrivalAt;
     }
+
+
 }
 

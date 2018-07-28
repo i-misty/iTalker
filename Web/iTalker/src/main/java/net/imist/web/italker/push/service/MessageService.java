@@ -4,8 +4,10 @@ import net.imist.web.italker.push.bean.api.base.ResponseModel;
 import net.imist.web.italker.push.bean.api.message.MessageCreateModel;
 import net.imist.web.italker.push.bean.card.MessageCard;
 
+import net.imist.web.italker.push.bean.db.Group;
 import net.imist.web.italker.push.bean.db.Message;
 import net.imist.web.italker.push.bean.db.User;
+import net.imist.web.italker.push.factory.GroupFactory;
 import net.imist.web.italker.push.factory.MessageFactory;
 import net.imist.web.italker.push.factory.PushFactory;
 import net.imist.web.italker.push.factory.UserFactory;
@@ -60,8 +62,15 @@ public class MessageService extends BaseService {
 
 
     private ResponseModel<MessageCard> pushToGroup(User sender, MessageCreateModel model) {
-        // todo Group group = GroupFactory.findById;
-        return null;
+        Group group = GroupFactory.findById(sender,model.getReceiverId());
+        if (group == null){
+            return ResponseModel.buildNotFoundUserError("can't find receiver group");
+        }
+        //添加到数据库
+        Message message = MessageFactory.add(sender,group,model);
+
+        //走通用的推送逻辑
+        return buildAndPushResponse(sender,message);
     }
 
     //推送并构建返回信息

@@ -87,9 +87,8 @@ public class MessageCreateModel {
     }
 
     public static boolean check(MessageCreateModel model) {
-        return model != null &&
-
-                !(Strings.isNullOrEmpty(model.id)
+        return model != null
+                && !(Strings.isNullOrEmpty(model.id)
                 ||Strings.isNullOrEmpty(model.content)
                 || Strings.isNullOrEmpty(model.receiverId))//以上都不能为null
 
