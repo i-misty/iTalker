@@ -36,9 +36,10 @@ public class UserFactory {
                     .uniqueResult();
         });
     }
+
     public static User findById(String id) {
         //通过主键查询更方便
-        return Hib.query(session -> session.get(User.class,id));
+        return Hib.query(session -> session.get(User.class, id));
     }
 
     /**
@@ -187,14 +188,15 @@ public class UserFactory {
 
     /**
      * 获取联系人列表
+     *
      * @param self
      * @return List<User>
      */
-    public static List<User> contacts(User self){
+    public static List<User> contacts(User self) {
         //self.getFollowers();因为是懒加载，当事务中session加载完毕之后就会销毁，这样无法拿到数据
         return Hib.query(session -> {
             //重新加载一次用户信息到session中，和当前的session绑定
-            session.load(self,self.getId());
+            session.load(self, self.getId());
             Set<UserFollow> flows = self.getFollowing();
             return flows.stream()
                     .map(UserFollow::getTarget)
@@ -204,21 +206,22 @@ public class UserFactory {
 
     /**
      * 关注人的操作
+     *
      * @param origin 发起者
      * @param target 被关注人
      * @param alias  备注名
-     * @return  被关注的人的信息
+     * @return 被关注的人的信息
      */
-    public static User follow(final User origin,final User target,String alias){
-        UserFollow follow = getUserFollow(origin,target);
-        if (follow != null){
+    public static User follow(final User origin, final User target, String alias) {
+        UserFollow follow = getUserFollow(origin, target);
+        if (follow != null) {
             //已关注，直接返回
             return follow.getTarget();
         }
         return Hib.query(session -> {
             //操作懒加载的数据需要重新load一次
-            session.load(origin,origin.getId());
-            session.load(target,target.getId());
+            session.load(origin, origin.getId());
+            session.load(target, target.getId());
             //我关注人的时候同时他也关注我； 所以需要添加两条userfollow数据
             UserFollow originFollow = new UserFollow();
             originFollow.setOrigin(origin);
@@ -237,15 +240,16 @@ public class UserFactory {
 
     /**
      * 查询两个人是否已经关注
+     *
      * @param origin 发起者
-     * @param target  被关注人
+     * @param target 被关注人
      * @return 返回中间类 UserFollow
      */
-    public static UserFollow getUserFollow(final User origin , final User target){
+    public static UserFollow getUserFollow(final User origin, final User target) {
         return Hib.query(session -> {
-           return (UserFollow)session.createQuery("from UserFollow where originId =:originId and targetId = :targetId")
-                    .setParameter("originId",origin.getId())
-                    .setParameter("targetId",target.getId())
+            return (UserFollow) session.createQuery("from UserFollow where originId =:originId and targetId = :targetId")
+                    .setParameter("originId", origin.getId())
+                    .setParameter("targetId", target.getId())
                     .setMaxResults(1)
                     //查询一条数据
                     .uniqueResult();
@@ -254,18 +258,19 @@ public class UserFactory {
 
     /**
      * 搜索联系人额实现
+     *
      * @param name 查询的name,允许为null，如果那么为null,则返回最近的用户
      * @return
      */
     @SuppressWarnings("unchecked")
     public static List<User> search(String name) {
-        if (Strings.isNullOrEmpty(name)){
+        if (Strings.isNullOrEmpty(name)) {
             name = "";//保证不能为null的情况，减少后面的一些判断和额外的错误
         }
-        final String searchName = "%" +name+"%";
+        final String searchName = "%" + name + "%";
         return Hib.query(session -> {
-            return  (List<User>) session.createQuery("from User where lower(name) like :name and portrait is not null and description is not null  ")
-                    .setParameter("name",searchName)
+            return (List<User>) session.createQuery("from User where lower(name) like :name and portrait is not null and description is not null  ")
+                    .setParameter("name", searchName)
                     .setMaxResults(20)//至多20条
                     .list();
         });

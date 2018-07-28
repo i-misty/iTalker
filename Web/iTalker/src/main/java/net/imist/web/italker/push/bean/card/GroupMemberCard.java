@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 /**
  * 群成员Model
+ *
  * @author qiujuer Email:qiujuer.live.cn
  */
 public class GroupMemberCard {

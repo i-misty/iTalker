@@ -13,9 +13,10 @@ public class BaseService {
 
     /**
      * 上下文中直接获取自己的信息
+     *
      * @return
      */
-    protected User getSelf(){
+    protected User getSelf() {
         return (User) securityContext.getUserPrincipal();
     }
 }

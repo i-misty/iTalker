@@ -6,7 +6,6 @@ import net.imist.web.italker.push.bean.db.User;
 
 /**
  * 用户更新信息，完善信息的Model
-
  */
 public class UpdateInfoModel {
     @Expose

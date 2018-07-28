@@ -9,7 +9,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import java.util.logging.Logger;
 
 /**
- @author iMist
+ * @author iMist
  */
 public class Application extends ResourceConfig {
     public Application() {

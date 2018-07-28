@@ -35,8 +35,9 @@ public class PushDispatcher {
 
     /**
      * 添加一条消息
+     *
      * @param receiver 接收者
-     * @param model  发送的消息
+     * @param model    发送的消息
      * @return
      */
     public boolean add(User receiver, PushModel model) {
