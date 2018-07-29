@@ -124,15 +124,16 @@ public class SearchUserFragment extends PresenterFragment<SearchContract.Present
 
         @Override
         protected void onBind(UserCard userCard) {
-            mPortraitView.setup( Glide.with(SearchUserFragment.this),userCard);
+            mPortraitView.setup(Glide.with(SearchUserFragment.this), userCard);
             mName.setText(userCard.getName());
             mFollow.setEnabled(!userCard.isFollow());
         }
 
         @OnClick(R.id.im_portrait)
-        void onPortraitClick(){
-            PersonalActivity.show(getContext(),mData.getId());
+        void onPortraitClick() {
+            PersonalActivity.show(getContext(), mData.getId());
         }
+
         @OnClick(R.id.im_follow)
         void onFollowClick() {
             //发起关注

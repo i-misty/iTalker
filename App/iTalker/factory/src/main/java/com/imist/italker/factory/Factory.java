@@ -92,6 +92,7 @@ public class Factory {
 
     /**
      * 拿到gson的全局初始化
+     *
      * @return
      */
     public static Gson getGson() {
@@ -185,41 +186,43 @@ public class Factory {
      */
     public static void dispatchPush(String str) {
         //首先检查登录状态
-        if(!Account.isLogin()) return;
+        if (!Account.isLogin()) return;
         PushModel model = PushModel.decode(str);
         if (model == null) return;
-        Log.d(TAG,model.toString());
+
         //对推送集合进行遍历
         for (PushModel.Entity entity : model.getEntities()) {
-            switch (entity.type){
+            Log.d(TAG, model.toString());
+            switch (entity.type) {
                 case PushModel.ENTITY_TYPE_LOGOUT:
                     instance.logout();
                     //退出的情况直接返回，并且不可以继续
                     return;
-                case PushModel.ENTITY_TYPE_MESSAGE:{
-                    MessageCard card = getGson().fromJson(entity.content,MessageCard.class);
+                case PushModel.ENTITY_TYPE_MESSAGE: {
+                    MessageCard card = getGson().fromJson(entity.content, MessageCard.class);
                     getMessageCenter().dispatch(card);
                     break;
                 }
-                case PushModel.ENTITY_TYPE_ADD_FRIEND:{
-                    UserCard card = getGson().fromJson(entity.content,UserCard.class);
+                case PushModel.ENTITY_TYPE_ADD_FRIEND: {
+                    UserCard card = getGson().fromJson(entity.content, UserCard.class);
                     getUserCenter().dispatch(card);
                     break;
                 }
-                case PushModel.ENTITY_TYPE_ADD_GROUP:{
-                    GroupCard card = getGson().fromJson(entity.content,GroupCard.class);
+                case PushModel.ENTITY_TYPE_ADD_GROUP: {
+                    GroupCard card = getGson().fromJson(entity.content, GroupCard.class);
                     getGroupCenter().dispatch(card);
                     break;
                 }
                 case PushModel.ENTITY_TYPE_ADD_GROUP_MEMBERS:
-                case PushModel.ENTITY_TYPE_MODIFY_GROUP_MEMBERS:{
+                case PushModel.ENTITY_TYPE_MODIFY_GROUP_MEMBERS: {
                     //群成员变更，回来的是一个群成员列表
-                    Type type = new TypeToken< List<GroupMemberCard>>(){}.getType();
-                    List<GroupMemberCard> card = getGson().fromJson(entity.content,type);
+                    Type type = new TypeToken<List<GroupMemberCard>>() {
+                    }.getType();
+                    List<GroupMemberCard> card = getGson().fromJson(entity.content, type);
                     getGroupCenter().dispatch(card.toArray(new GroupMemberCard[0]));
                     break;
                 }
-                case PushModel.ENTITY_TYPE_EXIT_GROUP_MEMBERS:{
+                case PushModel.ENTITY_TYPE_EXIT_GROUP_MEMBERS: {
                     //todo 成员退出的推送
                 }
 
@@ -231,21 +234,23 @@ public class Factory {
     /**
      * 获取一个用户中心的实现类规范接口
      * 对外隐藏实现,提供统一的管理
+     *
      * @return
      */
-    public static UserCenter getUserCenter(){
+    public static UserCenter getUserCenter() {
         return UserDispatcher.instance();
     }
 
-    public static MessageCenter getMessageCenter(){
+    public static MessageCenter getMessageCenter() {
         return MessageDispatcher.instance();
     }
 
     /**
      * 获取一个群中心得处理实现类
+     *
      * @return 群中心得规范接口
      */
-    public static GroupCenter getGroupCenter(){
+    public static GroupCenter getGroupCenter() {
         return GroupDispatcher.instance();
     }
 

@@ -16,7 +16,7 @@ import net.qiujuer.genius.kit.handler.Run;
 import net.qiujuer.genius.kit.handler.runable.Action;
 
 public class UpdateInfoPresenter extends BasePresenter<UpdateInfoContract.View>
-        implements UpdateInfoContract.Presenter ,DataSource.Callback<UserCard>{
+        implements UpdateInfoContract.Presenter, DataSource.Callback<UserCard> {
 
     public UpdateInfoPresenter(UpdateInfoContract.View view) {
         super(view);
@@ -26,18 +26,18 @@ public class UpdateInfoPresenter extends BasePresenter<UpdateInfoContract.View>
     public void update(final String photeFilePath, final String desc, final boolean isMan) {
         start();
         final UpdateInfoContract.View view = getView();
-        if (TextUtils.isEmpty(photeFilePath) || TextUtils.isEmpty(desc)){
+        if (TextUtils.isEmpty(photeFilePath) || TextUtils.isEmpty(desc)) {
             view.showError(R.string.data_account_update_invalid_parameter);
-        }else {
+        } else {
             Factory.runOnAsync(new Runnable() {
                 @Override
                 public void run() {
                     String url = UploadHelper.uploadPortrait(photeFilePath);
-                    if (TextUtils.isEmpty(url)){
+                    if (TextUtils.isEmpty(url)) {
                         view.showError(R.string.data_upload_error);
-                    }else {
-                        UserUpdateModel model  = new UserUpdateModel("",url,desc,isMan ? User.SEX_MAN : User.SEX_WOMAN);
-                        UserHelper.update(model,UpdateInfoPresenter.this);
+                    } else {
+                        UserUpdateModel model = new UserUpdateModel("", url, desc, isMan ? User.SEX_MAN : User.SEX_WOMAN);
+                        UserHelper.update(model, UpdateInfoPresenter.this);
                     }
                 }
             });
@@ -47,7 +47,7 @@ public class UpdateInfoPresenter extends BasePresenter<UpdateInfoContract.View>
     @Override
     public void onDataLoaded(UserCard data) {
         final UpdateInfoContract.View view = getView();
-        if (view == null){
+        if (view == null) {
             return;
         }
         Run.onUiAsync(new Action() {
@@ -61,13 +61,13 @@ public class UpdateInfoPresenter extends BasePresenter<UpdateInfoContract.View>
     @Override
     public void onDataNotAvailable(final int strRes) {
         final UpdateInfoContract.View view = getView();
-        if (view == null){
+        if (view == null) {
             return;
         }
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
-            view.showError(strRes);
+                view.showError(strRes);
             }
         });
     }

@@ -55,16 +55,16 @@ public class MainActivity extends Activity
 
     private NavHelper<Integer> mNavhelper;
 
-    public static void show(Context context){
-        context.startActivity(new Intent(context,MainActivity.class));
+    public static void show(Context context) {
+        context.startActivity(new Intent(context, MainActivity.class));
     }
 
     @Override
     protected boolean initArgs(Bundle bundle) {
-        if (Account.isComplete()){
+        if (Account.isComplete()) {
             //用户信息完全则走正常的流程
             return super.initArgs(bundle);
-        }else{
+        } else {
             //
             UserActivity.show(this);
             return false;
@@ -95,7 +95,7 @@ public class MainActivity extends Activity
                         this.view.setBackground(resource.getCurrent());
                     }
                 });
-        PermissionsFragment.haveAll(this,getSupportFragmentManager());
+        PermissionsFragment.haveAll(this, getSupportFragmentManager());
     }
 
     @Override
@@ -103,32 +103,32 @@ public class MainActivity extends Activity
         super.initData();
         Menu menu = mNavigationView.getMenu();
         // 触发首次点击
-        menu.performIdentifierAction(R.id.action_home,0);
+        menu.performIdentifierAction(R.id.action_home, 0);
 
         //初始化头像加载
-        mPortrait.setup(Glide.with(this),Account.getUser());
+        mPortrait.setup(Glide.with(this), Account.getUser());
     }
 
     @OnClick(R.id.im_portrait)
-    void OnPortraitClick(){
-        PersonalActivity.show(this,Account.getUserId());
+    void OnPortraitClick() {
+        PersonalActivity.show(this, Account.getUserId());
     }
 
     @OnClick(R.id.im_search)
     void onSearchMenuClick() {
-        int type = Objects.equals(mNavhelper.getCurrentTab().extra,R.string.title_group)?
-                SearchActivity.TYPE_GROUP:SearchActivity.TYPE_USER;
-        SearchActivity.show(this,type);
+        int type = Objects.equals(mNavhelper.getCurrentTab().extra, R.string.title_group) ?
+                SearchActivity.TYPE_GROUP : SearchActivity.TYPE_USER;
+        SearchActivity.show(this, type);
     }
 
     @OnClick(R.id.btn_action)
     void onActionClick() {
         //浮动按钮点击时，判断当前界面时群还是联系人的界面
         //如果是群，这打开创建群的界面
-        if (Objects.equals(mNavhelper.getCurrentTab().extra,R.string.title_group)){
+        if (Objects.equals(mNavhelper.getCurrentTab().extra, R.string.title_group)) {
             //TODO 打开群创建界面
-        }else {
-            SearchActivity.show(this,SearchActivity.TYPE_USER);
+        } else {
+            SearchActivity.show(this, SearchActivity.TYPE_USER);
         }
 
     }

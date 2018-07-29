@@ -119,7 +119,7 @@ public class GroupMember extends BaseDbModel<GroupMember> {
 
     @Override
     public boolean isSame(GroupMember old) {
-        return Objects.equals(id,old.id);
+        return Objects.equals(id, old.id);
     }
 
     @Override

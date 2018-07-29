@@ -14,16 +14,16 @@ public abstract class ToolbarActivity extends Activity {
         initToolbar((Toolbar) findViewById(R.id.toolbar));
     }
 
-    public void initToolbar(Toolbar toolbar){
+    public void initToolbar(Toolbar toolbar) {
         mToolbar = toolbar;
-        if (mToolbar != null){
+        if (mToolbar != null) {
             setSupportActionBar(toolbar);
         }
     }
 
-    protected void initTitleNeedBack(){
+    protected void initTitleNeedBack() {
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null){
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
         }

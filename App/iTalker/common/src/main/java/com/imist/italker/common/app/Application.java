@@ -20,7 +20,8 @@ public class Application extends android.app.Application {
     }
 
     /**
-     *  外部获取单例
+     * 外部获取单例
+     *
      * @return
      */
     public static Application getInstance() {
@@ -62,17 +63,17 @@ public class Application extends android.app.Application {
         return path.getAbsoluteFile();
     }
 
-    public static void showToast(final String msg){
+    public static void showToast(final String msg) {
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
                 // 这里进行回调的时候就一定是主线程
-                Toast.makeText(instance,msg,Toast.LENGTH_SHORT).show();
+                Toast.makeText(instance, msg, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    public static void showToast(@StringRes int msgId){
+    public static void showToast(@StringRes int msgId) {
         showToast(instance.getString(msgId));
     }
 }

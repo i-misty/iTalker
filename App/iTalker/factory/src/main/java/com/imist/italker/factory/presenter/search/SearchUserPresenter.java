@@ -16,9 +16,10 @@ import retrofit2.Call;
  * 搜索人的实现
  */
 public class SearchUserPresenter extends BasePresenter<SearchContract.UserView>
-        implements SearchContract.Presenter,DataSource.Callback<List<UserCard>>{
+        implements SearchContract.Presenter, DataSource.Callback<List<UserCard>> {
 
     private Call searchCall;
+
     public SearchUserPresenter(SearchContract.UserView view) {
         super(view);
     }
@@ -33,7 +34,7 @@ public class SearchUserPresenter extends BasePresenter<SearchContract.UserView>
         }
         //这里的请求肯定是要执行的，但是执行之前需要判断之前的请求有没有取消，之前这里犯错直接else
         // ,导致搜索的时候直接取消了，没有发起请求，迟迟没有回调结果，界面也没有刷新
-        searchCall = UserHelper.search(content,this);
+        searchCall = UserHelper.search(content, this);
 
     }
 
@@ -41,11 +42,11 @@ public class SearchUserPresenter extends BasePresenter<SearchContract.UserView>
     public void onDataLoaded(final List<UserCard> userCards) {
         //搜索成功
         final SearchContract.UserView view = getView();
-        if (view != null){
+        if (view != null) {
             Run.onUiAsync(new Action() {
                 @Override
                 public void call() {
-                    view.onSearchDone(userCards );
+                    view.onSearchDone(userCards);
                 }
             });
         }

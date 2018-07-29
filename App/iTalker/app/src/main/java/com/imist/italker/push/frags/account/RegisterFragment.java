@@ -37,6 +37,7 @@ public class RegisterFragment extends PresenterFragment<RegisterContract.Present
     public RegisterFragment() {
         // Required empty public constructor
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -56,16 +57,17 @@ public class RegisterFragment extends PresenterFragment<RegisterContract.Present
     }
 
     @OnClick(R.id.btn_submit)
-    void onSubmitClick(){
+    void onSubmitClick() {
         String phone = mPhone.getText().toString();
         String name = mName.getText().toString();
         String password = mPassword.getText().toString();
 
-        mPresenter.register(phone,name,password);
+        mPresenter.register(phone, name, password);
 
     }
+
     @OnClick(R.id.txt_go_login)
-    void onShowLoginClick(){
+    void onShowLoginClick() {
         //让AccountActivity进行界面切换
         mAccountTrigger.triggerView();
     }

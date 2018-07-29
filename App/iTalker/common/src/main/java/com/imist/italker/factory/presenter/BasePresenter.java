@@ -1,6 +1,6 @@
 package com.imist.italker.factory.presenter;
 
-public class BasePresenter <T extends BaseContract.View> implements BaseContract.Presenter{
+public class BasePresenter<T extends BaseContract.View> implements BaseContract.Presenter {
     private T mView;
 
     public BasePresenter(T view) {

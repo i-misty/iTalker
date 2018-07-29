@@ -5,7 +5,7 @@ import android.content.Context;
 import com.imist.italker.factory.presenter.BaseContract;
 
 public abstract class PresenterFragment<Presenter extends BaseContract.Presenter> extends Fragment
-        implements BaseContract.View<Presenter>{
+        implements BaseContract.View<Presenter> {
 
     protected Presenter mPresenter;
 
@@ -21,16 +21,16 @@ public abstract class PresenterFragment<Presenter extends BaseContract.Presenter
     @Override
     public void showError(int str) {
         // 显示错误
-        if (mPlaceHolderView != null){
+        if (mPlaceHolderView != null) {
             mPlaceHolderView.triggerError(str);
-        }else {
+        } else {
             Application.showToast(str);
         }
     }
 
     @Override
     public void showLoading() {
-        if (mPlaceHolderView != null){
+        if (mPlaceHolderView != null) {
             mPlaceHolderView.triggerLoading();
         }
     }

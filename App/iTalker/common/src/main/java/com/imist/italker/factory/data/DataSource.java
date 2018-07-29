@@ -8,6 +8,7 @@ import android.support.annotation.StringRes;
 public interface DataSource<T> {
     /**
      * 同时包括了成功与失败的回调接口
+     *
      * @param <T>
      */
     interface Callback<T> extends SuccessCallback<T>, FailedCallback {

@@ -42,7 +42,7 @@ public class DbHelper {
      * Class<?> 观察的表
      * Set<ChangedListener> 每一个表对应的观察者有很多
      */
-    private  final Map<Class<?>, Set<ChangedListener>> changedListeners = new HashMap<>();
+    private final Map<Class<?>, Set<ChangedListener>> changedListeners = new HashMap<>();
 
     /**
      * 从所有的监听器中，获取一个表的所有监听者；
@@ -51,7 +51,7 @@ public class DbHelper {
      * @param <Model>
      * @return
      */
-    public  <Model extends BaseModel> Set<ChangedListener> getListeners(Class<Model> modelClass) {
+    public <Model extends BaseModel> Set<ChangedListener> getListeners(Class<Model> modelClass) {
         if (instance.changedListeners.containsKey(modelClass)) {
             return instance.changedListeners.get(modelClass);
         }
@@ -201,10 +201,10 @@ public class DbHelper {
         //列外情况；
         //群成员变更，需要通知对应群信息更新
         //消息变化。应该通知会话列表跟新
-        if (GroupMember.class.equals(tClass)){
+        if (GroupMember.class.equals(tClass)) {
             //群成员更新，需要通知对应的群信息更新
             updateGroup((GroupMember[]) models);
-        }else if (Message.class.equals(tClass)){
+        } else if (Message.class.equals(tClass)) {
             //消息变化，应该通知会话列表更新
             updateSession((Message[]) models);
         }
@@ -230,10 +230,10 @@ public class DbHelper {
         //列外情况；
         //群成员变更，需要通知对应群信息更新
         //消息变化。应该通知会话列表跟新
-        if (GroupMember.class.equals(tClass)){
+        if (GroupMember.class.equals(tClass)) {
             //群成员更新，需要通知对应的群信息更新
             updateGroup((GroupMember[]) models);
-        }else if (Message.class.equals(tClass)){
+        } else if (Message.class.equals(tClass)) {
             //消息变化，应该通知会话列表更新
             updateSession((Message[]) models);
         }
@@ -241,12 +241,13 @@ public class DbHelper {
 
     /**
      * 從成員中找出对应的群，并对群进行更新
+     *
      * @param members
      */
-    private void updateGroup(final GroupMember ...members){
+    private void updateGroup(final GroupMember... members) {
         //不重复集合
         final Set<String> groupIds = new HashSet<>();
-        for (GroupMember member : members){
+        for (GroupMember member : members) {
             //添加群id
             groupIds.add(member.getGroup().getId());
         }
@@ -260,12 +261,13 @@ public class DbHelper {
                         .where(Group_Table.id.in(groupIds))
                         .queryList();
                 //调用直接进行一次消息分发
-               instance.notifySave(Group.class,groups.toArray(new Group[0]));
+                instance.notifySave(Group.class, groups.toArray(new Group[0]));
             }
         }).build().execute();
 
     }
-    private void updateSession(Message ...messages){
+
+    private void updateSession(Message... messages) {
         //标识一个session的唯一性
         final Set<Session.Identify> identifies = new HashSet<>();
         for (Message message : messages) {
@@ -281,7 +283,7 @@ public class DbHelper {
                 int index = 0;
                 for (Session.Identify identify : identifies) {
                     Session session = SessionHelper.findFromLocal(identify.id);
-                    if (session == null){
+                    if (session == null) {
                         //第一次聊天，创建一个和对方的会话
                         session = new Session(identify);
                     }
@@ -293,13 +295,14 @@ public class DbHelper {
                     sessions[index++] = session;
                 }
                 //调用直接进行一次消息分发
-                instance.notifySave(Session.class,sessions);
+                instance.notifySave(Session.class, sessions);
             }
         }).build().execute();
     }
 
     /**
      * 从消息列表中筛选出对应的会话，并且对会话进行更新
+     *
      * @param <Data>
      */
     @SuppressWarnings({"unused", "unchecked"})

@@ -20,7 +20,7 @@ import java.util.Objects;
  * @version 1.0.0
  */
 @Table(database = AppDatabase.class)
-public class Message extends BaseDbModel<Message> implements  Serializable {
+public class Message extends BaseDbModel<Message> implements Serializable {
     // 接收者类型
     public static final int RECEIVER_TYPE_NONE = 1;
     public static final int RECEIVER_TYPE_GROUP = 2;
@@ -52,6 +52,7 @@ public class Message extends BaseDbModel<Message> implements  Serializable {
     @ForeignKey(tableClass = Group.class, stubbedRelationship = true)
     private Group group;// 接收者群外键
 
+    //类似于懒加载，在加载message的时候，user并没有
     @ForeignKey(tableClass = User.class, stubbedRelationship = true)
     private User sender;// 发送者 外键
 

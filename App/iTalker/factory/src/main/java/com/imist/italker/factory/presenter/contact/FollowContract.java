@@ -9,7 +9,7 @@ public interface FollowContract {
         void follow(String userId);
     }
 
-    interface View extends BaseContract.View<Presenter>{
+    interface View extends BaseContract.View<Presenter> {
         //关注成功的情况下返回一个用户信息
         void onFollowSucceed(UserCard card);
     }

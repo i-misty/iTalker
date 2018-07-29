@@ -22,7 +22,7 @@ public class RegisterModel {
         this.password = password;
     }
 
-    public RegisterModel(String account, String password,String name ,String pushId) {
+    public RegisterModel(String account, String password, String name, String pushId) {
         this.account = account;
         this.name = name;
         this.password = password;

@@ -22,7 +22,7 @@ import net.qiujuer.genius.ui.compat.UiCompat;
 
 import butterknife.BindView;
 
-public class AccountActivity extends Activity implements AccountTrigger{
+public class AccountActivity extends Activity implements AccountTrigger {
 
     private Fragment mCurFragment;
     private Fragment mLoginFragment;
@@ -52,13 +52,13 @@ public class AccountActivity extends Activity implements AccountTrigger{
         Glide.with(this)
                 .load(R.drawable.bg_src_tianjin)
                 .centerCrop()
-                .into(new ViewTarget<ImageView ,GlideDrawable>(mBg) {
+                .into(new ViewTarget<ImageView, GlideDrawable>(mBg) {
                     @Override
                     public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
 
                         Drawable drawable = resource.getCurrent();
                         drawable = DrawableCompat.wrap(drawable);
-                        drawable.setColorFilter(UiCompat.getColor(getResources(),R.color.colorAccent),
+                        drawable.setColorFilter(UiCompat.getColor(getResources(), R.color.colorAccent),
                                 PorterDuff.Mode.SCREEN);//设置着色效果和颜色，蒙版模式
                         this.view.setImageDrawable(drawable);
                     }
@@ -73,19 +73,19 @@ public class AccountActivity extends Activity implements AccountTrigger{
     @Override
     public void triggerView() {
         Fragment fragment;
-        if (mCurFragment == mLoginFragment){
-            if (mRegisterFragment == null){
+        if (mCurFragment == mLoginFragment) {
+            if (mRegisterFragment == null) {
                 mRegisterFragment = new RegisterFragment();
             }
             fragment = mRegisterFragment;
-        }else {
+        } else {
             fragment = mLoginFragment;
         }
         //重新复制当前正在显示的fragment
         mCurFragment = fragment;
         //切换显示
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.lay_container,fragment)
+                .replace(R.id.lay_container, fragment)
                 .commit();
     }
 }

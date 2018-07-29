@@ -23,6 +23,7 @@ public class Network {
     static {
         instance = new Network();
     }
+
     private Network() {
     }
 

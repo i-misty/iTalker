@@ -35,6 +35,7 @@ public class UserActivity extends Activity {
     protected int getContentLayoutId() {
         return R.layout.activity_user;
     }
+
     @Override
     protected void initWidget() {
         super.initWidget();
@@ -47,13 +48,13 @@ public class UserActivity extends Activity {
         Glide.with(this)
                 .load(R.drawable.bg_src_tianjin)
                 .centerCrop()
-                .into(new ViewTarget<ImageView ,GlideDrawable>(mBg) {
+                .into(new ViewTarget<ImageView, GlideDrawable>(mBg) {
                     @Override
                     public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
 
                         Drawable drawable = resource.getCurrent();
                         drawable = DrawableCompat.wrap(drawable);
-                        drawable.setColorFilter(UiCompat.getColor(getResources(),R.color.colorAccent),
+                        drawable.setColorFilter(UiCompat.getColor(getResources(), R.color.colorAccent),
                                 PorterDuff.Mode.SCREEN);//设置着色效果和颜色，蒙版模式
                         this.view.setImageDrawable(drawable);
                     }

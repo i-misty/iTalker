@@ -31,15 +31,15 @@ public abstract class Fragment extends android.support.v4.app.Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if(mRoot == null){
+        if (mRoot == null) {
             int layId = getContentLayoutId();
             //初始化当前的根布局,但是不在创建时添加到 container里面
-            View root = inflater.inflate(layId,container,false);
+            View root = inflater.inflate(layId, container, false);
             initWidget(root);
             mRoot = root;
-        }else {
-            if (mRoot.getParent() != null){
-                ((ViewGroup)mRoot.getParent()).removeView(mRoot);
+        } else {
+            if (mRoot.getParent() != null) {
+                ((ViewGroup) mRoot.getParent()).removeView(mRoot);
             }
         }
         //return super.onCreateView(inflater, container, savedInstanceState);
@@ -49,7 +49,7 @@ public abstract class Fragment extends android.support.v4.app.Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (mIsFirstInitData){
+        if (mIsFirstInitData) {
             mIsFirstInitData = false;
             onFirstInit();
         }
@@ -59,51 +59,58 @@ public abstract class Fragment extends android.support.v4.app.Fragment {
 
     /**
      * 得到当前界面资源文件的id
+     *
      * @return
      */
     protected abstract int getContentLayoutId();
 
     /**
      * 初始化参数
+     *
      * @param bundle 参数bundle
      */
-    protected void initArgs(Bundle bundle){
+    protected void initArgs(Bundle bundle) {
 
     }
+
     /**
      * 初始化控件
+     *
      * @param root
      */
-    protected void initWidget(View root){
-        mRootUnBinder = ButterKnife.bind(this,root);
+    protected void initWidget(View root) {
+        mRootUnBinder = ButterKnife.bind(this, root);
     }
 
     /**
      * 初始化数据
      */
-    protected void initData(){
+    protected void initData() {
 
     }
+
     /**
      * 初始化首次数据
      */
-    protected void onFirstInit(){
+    protected void onFirstInit() {
 
     }
 
     /**
      * 返回按键出发时调用
+     *
      * @return 返回true 代表我已经处理，activity不用自己finish
      */
-    public boolean onBackPressed(){
+    public boolean onBackPressed() {
         return false;
     }
 
     /**
      * 设置占位布局
+     *
      * @param placeHolderView
      */
-    public void setPlaceHolderView(PlaceHolderView placeHolderView){
+    public void setPlaceHolderView(PlaceHolderView placeHolderView) {
         this.mPlaceHolderView = placeHolderView;
     }
 }

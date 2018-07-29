@@ -31,12 +31,13 @@ import java.util.List;
 /**
  * 联系人的presenter实现
  */
-public class ContactPresenter extends BaseSourcePresenter<User,User,ContactDataSource,ContactContract.View>
-        implements ContactContract.Presenter ,DataSource.SuccessCallback<List<User>> {
+public class ContactPresenter extends BaseSourcePresenter<User, User, ContactDataSource, ContactContract.View>
+        implements ContactContract.Presenter, DataSource.SuccessCallback<List<User>> {
 
     private ContactDataSource mSource;
+
     public ContactPresenter(ContactContract.View view) {
-        super(new ContactRepository(),view);
+        super(new ContactRepository(), view);
     }
 
 
@@ -94,9 +95,9 @@ public class ContactPresenter extends BaseSourcePresenter<User,User,ContactDataS
 
 
     /**
-     *  无论是本地还是网络操作，数据都会进入此方法
-     *
-     *  运行到此方法是子线程
+     * 无论是本地还是网络操作，数据都会进入此方法
+     * <p>
+     * 运行到此方法是子线程
      */
     @Override
     public void onDataLoaded(List<User> users) {
@@ -107,9 +108,9 @@ public class ContactPresenter extends BaseSourcePresenter<User,User,ContactDataS
         List<User> old = adapter.getItems();
 
         //进行数据对比
-        DiffUtil.Callback callback = new DiffUiDataCallback<>(old,users);
+        DiffUtil.Callback callback = new DiffUiDataCallback<>(old, users);
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
         //调用基类方法进行界面刷新
-        refreshData(result,users);
+        refreshData(result, users);
     }
 }

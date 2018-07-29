@@ -1,21 +1,76 @@
 package com.imist.italker.push.activities;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
+import com.imist.italker.common.app.Activity;
+import com.imist.italker.common.app.Fragment;
 import com.imist.italker.factory.model.Author;
+import com.imist.italker.factory.model.db.Group;
 import com.imist.italker.push.R;
+import com.imist.italker.push.frags.message.ChatGroupFragment;
+import com.imist.italker.push.frags.message.ChatUserFragment;
 
 public class MessageActivity extends Activity {
 
-    public static void show(Context context, Author author){
+
+    public static final String KEY_RECEIVER_ID = "KEY_RECEIVER_ID";
+    private static final String KEY_RECEIVER_IS_GROUP = "KEY_RECEIVER_IS_GROUP";
+
+    private String mReceiverId;
+    private boolean mIsGroup;
+
+    public static void show(Context context, Author author) {
+        if (author == null || context == null)
+            return;
+        Intent intent = new Intent(context, MessageActivity.class);
+        intent.putExtra(KEY_RECEIVER_ID, author.getId());
+        intent.putExtra(KEY_RECEIVER_IS_GROUP, false);
+
+        context.startActivity(intent);
+    }
+
+    public static void show(Context context, Group group) {
+        if (group == null || context == null)
+            return;
+        Intent intent = new Intent(context, MessageActivity.class);
+        intent.putExtra(KEY_RECEIVER_ID, group.getId());
+        intent.putExtra(KEY_RECEIVER_IS_GROUP, false);
+
+        context.startActivity(intent);
+    }
+
+
+    @Override
+    protected int getContentLayoutId() {
+        return R.layout.activity_message;
+    }
+
+    @Override
+    protected boolean initArgs(Bundle bundle) {
+        mReceiverId = bundle.getString(KEY_RECEIVER_ID);
+        mIsGroup = bundle.getBoolean(KEY_RECEIVER_IS_GROUP);
+        return !TextUtils.isEmpty(mReceiverId);
 
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_message);
+    protected void initWidget() {
+        super.initWidget();
+        setTitle("");
+        Fragment fragment;
+        if (mIsGroup) {
+            fragment = new ChatGroupFragment();
+        } else {
+            fragment = new ChatUserFragment();
+        }
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_RECEIVER_ID, mReceiverId);
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.lay_container, fragment)
+                .commit();
     }
 }

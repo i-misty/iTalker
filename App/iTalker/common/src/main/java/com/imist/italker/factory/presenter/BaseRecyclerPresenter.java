@@ -11,25 +11,27 @@ import java.util.List;
 
 /**
  * 对recyclerView 进行的一个简单的recycler封装
+ *
  * @param <ViewModel>
  * @param <View>
  */
-public class BaseRecyclerPresenter <ViewModel, View extends BaseContract.RecyclerView>
-        extends BasePresenter<View>{
+public class BaseRecyclerPresenter<ViewModel, View extends BaseContract.RecyclerView>
+        extends BasePresenter<View> {
     public BaseRecyclerPresenter(View view) {
         super(view);
     }
 
     /**
      * 刷新一堆新数据在主线城中；
+     *
      * @param dataList
      */
-    protected void refreshData(final List<ViewModel> dataList){
+    protected void refreshData(final List<ViewModel> dataList) {
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
                 View view = getView();
-                if (view == null){
+                if (view == null) {
                     return;
                 }
                 RecyclerAdapter<ViewModel> adapter = view.getRecyclerAdapter();
@@ -41,22 +43,23 @@ public class BaseRecyclerPresenter <ViewModel, View extends BaseContract.Recycle
 
     /**
      * 刷新界面操作，该操作可以保证界面的结果在主线程完成
+     *
      * @param diffResult
      * @param dataList
      */
-    protected void refreshData(final DiffUtil.DiffResult diffResult, final List<ViewModel> dataList){
+    protected void refreshData(final DiffUtil.DiffResult diffResult, final List<ViewModel> dataList) {
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
-                refreshDataOnUiThread(diffResult,dataList);
+                refreshDataOnUiThread(diffResult, dataList);
             }
         });
     }
 
     @SuppressWarnings("unchecked")
-    private void refreshDataOnUiThread(final DiffUtil.DiffResult diffResult, final List<ViewModel> dataList){
-         View view = getView();
-        if (view == null){
+    private void refreshDataOnUiThread(final DiffUtil.DiffResult diffResult, final List<ViewModel> dataList) {
+        View view = getView();
+        if (view == null) {
             return;
         }
         //基本的更新数据并且刷新页面

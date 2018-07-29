@@ -108,13 +108,13 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
     /**
      * 更改关注菜单的状态
      */
-    private void changeFollowItemStatus(){
-        if (mFollowItem == null){
+    private void changeFollowItemStatus() {
+        if (mFollowItem == null) {
             return;
         }
         //根据状态设置颜色
         Drawable drawable = mIsFollowUser ?
-                getResources().getDrawable(R.drawable.ic_favorite):
+                getResources().getDrawable(R.drawable.ic_favorite) :
                 getResources().getDrawable(R.drawable.ic_favorite_border);
         drawable = DrawableCompat.wrap(drawable);
         DrawableCompat.setTint(drawable, Resource.Color.WHITE);
@@ -135,17 +135,17 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
     @Override
     public void onLoadDone(User user) {
         if (user == null) return;
-        mPortrait.setup(Glide.with(this),user);
+        mPortrait.setup(Glide.with(this), user);
         mName.setText(user.getName());
         mDesc.setText(user.getDesc());
-        mFollows.setText(String.format(getString(R.string.label_following),""+user.getFollows()));
-        mFollowing.setText(String.format(getString(R.string.label_following),""+user.getFollowing()));
+        mFollows.setText(String.format(getString(R.string.label_following), "" + user.getFollows()));
+        mFollowing.setText(String.format(getString(R.string.label_following), "" + user.getFollowing()));
         hideLoading();
     }
 
     @Override
     public void allowSayHello(boolean isAllow) {
-        mSayHello.setVisibility(isAllow ? View.VISIBLE:View.GONE);
+        mSayHello.setVisibility(isAllow ? View.VISIBLE : View.GONE);
     }
 
     @Override

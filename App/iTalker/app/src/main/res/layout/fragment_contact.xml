@@ -16,7 +16,7 @@
         android:paddingBottom="@dimen/len_12"
         android:paddingTop="@dimen/len_12"
         android:visibility="gone"
-        tools:targetApi="lollipop"/>
+        tools:targetApi="lollipop" />
 
     <com.imist.italker.common.widget.EmptyView
         android:id="@+id/empty"

@@ -121,9 +121,10 @@ public abstract class RecyclerAdapter<Data>
 
     /**
      * 返回整个集合
+     *
      * @return
      */
-    public List<Data> getItems(){
+    public List<Data> getItems() {
         return mDataList;
     }
 

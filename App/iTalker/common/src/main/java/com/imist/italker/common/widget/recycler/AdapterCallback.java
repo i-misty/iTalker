@@ -1,6 +1,6 @@
 package com.imist.italker.common.widget.recycler;
 
-public interface AdapterCallback <Data>{
+public interface AdapterCallback<Data> {
     void update(Data data, RecyclerAdapter.ViewHolder<Data> holder);
 
 }

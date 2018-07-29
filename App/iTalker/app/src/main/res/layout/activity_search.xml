@@ -12,12 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/actionBarWithStatusBarSize"
         android:background="@color/colorPrimary"
-        android:paddingTop="@dimen/statusBarSize">
-    </android.support.v7.widget.Toolbar>
+        android:paddingTop="@dimen/statusBarSize"></android.support.v7.widget.Toolbar>
 
     <FrameLayout
         android:id="@+id/lay_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 </LinearLayout>

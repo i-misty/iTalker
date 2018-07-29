@@ -46,18 +46,18 @@ public class SearchActivity extends ToolbarActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        Fragment fragment ;
-        if (type == TYPE_USER){
+        Fragment fragment;
+        if (type == TYPE_USER) {
             SearchUserFragment searchUserFragment = new SearchUserFragment();
             fragment = searchUserFragment;
             mSearchFragment = searchUserFragment;
-        }else{
+        } else {
             SearchGroupFragment searchGroupFragment = new SearchGroupFragment();
             fragment = searchGroupFragment;
             mSearchFragment = searchGroupFragment;
         }
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.lay_container,fragment)
+                .add(R.id.lay_container, fragment)
                 .commit();
     }
 
@@ -99,6 +99,7 @@ public class SearchActivity extends ToolbarActivity {
 
     /**
      * 搜索的发起点，
+     *
      * @param query
      */
     private void search(String query) {
@@ -110,7 +111,7 @@ public class SearchActivity extends ToolbarActivity {
      * search 搜索的fragment必须继承的接口,这样在调度的时候直接用接口定义的方法
      * 从而隐藏子类的实现
      */
-    public interface SearchFragment{
+    public interface SearchFragment {
         void search(String content);
     }
 }

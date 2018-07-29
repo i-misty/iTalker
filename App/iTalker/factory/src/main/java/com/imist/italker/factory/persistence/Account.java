@@ -100,7 +100,7 @@ public class Account {
      */
     public static boolean isComplete() {
         //首先保证登陆成功
-        if (isLogin()){
+        if (isLogin()) {
             User self = getUser();
             return !TextUtils.isEmpty(self.getPortrait()) &&
                     !TextUtils.isEmpty(self.getDesc()) &&
@@ -157,9 +157,10 @@ public class Account {
 
     /**
      * 获取UserId
+     *
      * @return
      */
-    public static String getUserId(){
+    public static String getUserId() {
         return getUser().getId();
     }
 

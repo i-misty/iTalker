@@ -59,12 +59,12 @@ public class GroupDispatcher implements GroupCenter {
                 User user = UserHelper.searchFirstLocal(model.getUserId());
                 //成员对于的群信息
                 Group group = GroupHelper.find(model.getGroupId());
-                if (user != null && group != null){
-                    GroupMember member = model.build(group,user);
+                if (user != null && group != null) {
+                    GroupMember member = model.build(group, user);
                     members.add(member);
                 }
-                if (members.size() > 0){
-                    DbHelper.save(GroupMember.class,members.toArray(new GroupMember[0]));
+                if (members.size() > 0) {
+                    DbHelper.save(GroupMember.class, members.toArray(new GroupMember[0]));
                 }
             }
         }

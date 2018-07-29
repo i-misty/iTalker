@@ -14,8 +14,8 @@ import java.io.OutputStream;
 /**
  * @author qiujuer Email:qiujuer@live.cn
  * @version 1.0.0
- *          <p>
- *          对文件流的操作工具类
+ * <p>
+ * 对文件流的操作工具类
  */
 
 @SuppressWarnings("WeakerAccess")

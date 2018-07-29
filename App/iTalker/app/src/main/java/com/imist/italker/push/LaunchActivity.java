@@ -60,16 +60,16 @@ public class LaunchActivity extends Activity {
      * 等待个推框架对我们的PushId设置好值
      */
     private void waitPushReceiverId() {
-        if (Account.isLogin()){
+        if (Account.isLogin()) {
             //已经登陆的情况下，判断是否绑定
-            if (Account.isBind()){
+            if (Account.isBind()) {
                 skip();
                 return;
             }
-        }else {
+        } else {
             //没有登陆,
             //如果拿到了PushId,没有登陆是不能绑定PushId的
-            if (!TextUtils.isEmpty(Account.getPushId())){
+            if (!TextUtils.isEmpty(Account.getPushId())) {
                 skip();
                 return;
             }
@@ -101,9 +101,9 @@ public class LaunchActivity extends Activity {
         //权限检测
         if (PermissionsFragment.haveAll(this, getSupportFragmentManager())) {
             //检查跳转到主页还是跳转到登陆
-            if (Account.isLogin()){
+            if (Account.isLogin()) {
                 MainActivity.show(this);
-            }else {
+            } else {
                 AccountActivity.show(this);
             }
             finish();

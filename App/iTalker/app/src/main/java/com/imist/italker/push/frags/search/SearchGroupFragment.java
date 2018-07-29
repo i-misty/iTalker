@@ -14,7 +14,7 @@ import com.imist.italker.push.activities.SearchActivity;
 /**
  * 搜索群的界面
  */
-public class SearchGroupFragment extends Fragment implements SearchActivity.SearchFragment{
+public class SearchGroupFragment extends Fragment implements SearchActivity.SearchFragment {
 
 
     public SearchGroupFragment() {

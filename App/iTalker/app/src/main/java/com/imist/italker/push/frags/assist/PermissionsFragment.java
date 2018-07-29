@@ -148,7 +148,7 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
             refreshState(getView());
         } else {
             //请求权限
-            EasyPermissions.requestPermissions(this, getString(R.string.title_assist_permissions), RC,perms);
+            EasyPermissions.requestPermissions(this, getString(R.string.title_assist_permissions), RC, perms);
         }
     }
 

@@ -17,32 +17,33 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class MessageDispatcher implements MessageCenter{
+public class MessageDispatcher implements MessageCenter {
 
     private static MessageCenter instance;
     //单线程池，处理卡片一个一个消息进行处理
     private final Executor executor = Executors.newSingleThreadExecutor();
 
-    public static MessageCenter instance(){
-        if (instance == null){
-            synchronized (MessageDispatcher.class){
-                if (instance == null){
+    public static MessageCenter instance() {
+        if (instance == null) {
+            synchronized (MessageDispatcher.class) {
+                if (instance == null) {
                     instance = new MessageDispatcher();
                 }
             }
         }
         return instance;
     }
+
     @Override
     public void dispatch(MessageCard... cards) {
 
-        if (cards == null || cards.length == 0){
+        if (cards == null || cards.length == 0) {
             return;
         }
         executor.execute(new MessageCardHandler(cards));
     }
 
-    private class MessageCardHandler implements Runnable{
+    private class MessageCardHandler implements Runnable {
 
         private final MessageCard[] cards;
 
@@ -54,11 +55,11 @@ public class MessageDispatcher implements MessageCenter{
         public void run() {
             List<Message> messages = new ArrayList<>();
             //遍历card
-            for (MessageCard card : cards){
+            for (MessageCard card : cards) {
                 //卡片基础信息过滤，错误卡片直接过滤
                 if (card == null || TextUtils.isEmpty(card.getSenderId())
-                        ||TextUtils.isEmpty(card.getId())
-                        ||TextUtils.isEmpty(card.getReceiverId())
+                        || TextUtils.isEmpty(card.getId())
+                        || TextUtils.isEmpty(card.getReceiverId())
                         && TextUtils.isEmpty(card.getGroupId()))
                     continue;
                 //消息卡片可能是推送来的，也有可能是自己造的；
@@ -67,14 +68,14 @@ public class MessageDispatcher implements MessageCenter{
                 //发送流程 写消息 --> 存储本地->发送网络->网络返回->刷新本地状态
 
                 Message message = MessageHelper.findFromLocal(card.getId());
-                if (message != null){
+                if (message != null) {
                     //消息本身字段从发送之后就不变化了，如果收到了消息
                     //本地有，同时本地显示消息状态为完成状态，则不必处理；因为此时回来的消息和本地一模一样
                     //如果本地消息显示已经完成则不作处理
                     if (message.getStatus() == Message.STATUS_DONE)
                         continue;
                     //新状态为完成才更新服务器时间，不然不做更新
-                    if (card.getStatus()== Message.STATUS_DONE){
+                    if (card.getStatus() == Message.STATUS_DONE) {
                         //代表网络发送成功，此时需要修改时间为服务器时间
                         message.setCreateAt(card.getCreateAt());
                         //如果没有进入判断，则代表这个消息发送失败了
@@ -84,20 +85,20 @@ public class MessageDispatcher implements MessageCenter{
                     message.setContent(card.getContent());
                     message.setAttach(card.getAttach());
                     message.setStatus(card.getStatus());
-                }else {
+                } else {
                     //没有找到本地消息，初次在数据库存储
                     User sender = UserHelper.searchFirstLocal(card.getSenderId());
                     User receiver = null;
                     Group group = null;
-                    if (!TextUtils.isEmpty(card.getReceiverId())){
+                    if (!TextUtils.isEmpty(card.getReceiverId())) {
                         receiver = UserHelper.searchFirstLocal(card.getReceiverId());
-                    }else if (!TextUtils.isEmpty(card.getGroupId())){
+                    } else if (!TextUtils.isEmpty(card.getGroupId())) {
                         group = GroupHelper.findFromLocal(card.getGroupId());
                     }
                     //接受者总有一个
                     if (receiver == null && group == null && sender != null)
                         continue;
-                    message = card.build(sender,receiver,group);
+                    message = card.build(sender, receiver, group);
                 }
                 messages.add(message);
             }

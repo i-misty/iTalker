@@ -5,8 +5,7 @@ import android.support.v7.util.DiffUtil;
 import java.util.List;
 
 /**
- *数据库数据于网络数据比较
- *
+ * 数据库数据于网络数据比较
  */
 
 /**
@@ -14,7 +13,7 @@ import java.util.List;
  * 而比较是比较耗时的操作，取决于数据量和比较的逻辑
  */
 public class DiffUiDataCallback<T extends DiffUiDataCallback.UiDataDiffer<T>> extends DiffUtil.Callback {
-    private List<T> mOldList,mNewList;
+    private List<T> mOldList, mNewList;
 
     public DiffUiDataCallback(List<T> mOldList, List<T> mNewList) {
         this.mOldList = mOldList;
@@ -41,6 +40,7 @@ public class DiffUiDataCallback<T extends DiffUiDataCallback.UiDataDiffer<T>> ex
 
         return beanNew.isSame(beanOld);
     }
+
     //在经过相等判断后，进一步判断是否有数据更改；
     //比如，同一个用户的两个不同实例，其中name字段不同;
     @Override

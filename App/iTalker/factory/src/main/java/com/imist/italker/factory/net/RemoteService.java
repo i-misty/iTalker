@@ -4,7 +4,9 @@ import com.imist.italker.factory.model.api.RspModel;
 import com.imist.italker.factory.model.api.account.AccountRspModel;
 import com.imist.italker.factory.model.api.account.LoginModel;
 import com.imist.italker.factory.model.api.account.RegisterModel;
+import com.imist.italker.factory.model.api.message.MsgCreateModel;
 import com.imist.italker.factory.model.api.user.UserUpdateModel;
+import com.imist.italker.factory.model.card.MessageCard;
 import com.imist.italker.factory.model.card.UserCard;
 
 import java.util.List;
@@ -23,6 +25,7 @@ public interface RemoteService {
 
     /**
      * 注册接口
+     *
      * @param model RegisterModel
      * @return AccountRspModel
      */
@@ -31,6 +34,7 @@ public interface RemoteService {
 
     /**
      * 登陆接口
+     *
      * @param model LoginModel
      * @return AccountRspModel
      */
@@ -39,14 +43,16 @@ public interface RemoteService {
 
     /**
      * 绑定接口
+     *
      * @param pushId
      * @return
      */
     @POST("account/bind/{pushId}")
-    Call<RspModel<AccountRspModel>> accountBind(@Path(encoded = true ,value = "pushId") String pushId);
+    Call<RspModel<AccountRspModel>> accountBind(@Path(encoded = true, value = "pushId") String pushId);
 
     /**
      * 用户更新的接口
+     *
      * @param model
      * @return
      */
@@ -55,32 +61,44 @@ public interface RemoteService {
 
     /**
      * 用户搜索的接口
+     *
      * @param name
      * @return
      */
-    @GET ("user/search/{name}")
+    @GET("user/search/{name}")
     Call<RspModel<List<UserCard>>> userSearch(@Path("name") String name);
 
     /**
      * 用户关注的接口
+     *
      * @param followId
      * @return
      */
-    @PUT ("user/follow/{userId}")
+    @PUT("user/follow/{userId}")
     Call<RspModel<UserCard>> userFollow(@Path("userId") String followId);
 
     /**
      * 获取联系人列表
+     *
      * @return
      */
-    @GET ("user/contact")
+    @GET("user/contact")
     Call<RspModel<List<UserCard>>> userContacts();
 
     /**
-     * 获取联系人列表
+     * 获取某人的信息
+     *
      * @return
      */
-    @GET ("user/{userId}")
+    @GET("user/{userId}")
     Call<RspModel<UserCard>> userFind(@Path("userId") String userId);
+
+    /**
+     * 发送消息的接口
+     *
+     * @return
+     */
+    @POST("msg")
+    Call<RspModel<MessageCard>> msgPush(@Body MsgCreateModel moel);
 
 }

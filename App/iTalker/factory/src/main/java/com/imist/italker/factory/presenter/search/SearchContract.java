@@ -8,16 +8,16 @@ import java.util.List;
 
 
 public interface SearchContract {
-    interface Presenter extends BaseContract.Presenter{
+    interface Presenter extends BaseContract.Presenter {
         //搜索内容
         void search(String content);
     }
 
-    interface UserView extends BaseContract.View<Presenter>{
+    interface UserView extends BaseContract.View<Presenter> {
         void onSearchDone(List<UserCard> userCards);
     }
 
-    interface GroupView extends BaseContract.View<Presenter>{
+    interface GroupView extends BaseContract.View<Presenter> {
         void onSearchDone(List<GroupCard> userCards);
     }
 

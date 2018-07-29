@@ -6,7 +6,8 @@ import com.imist.italker.factory.model.card.GroupMemberCard;
 public interface GroupCenter {
 
     //群卡片的处理
-    void dispatch(GroupCard...cards);
+    void dispatch(GroupCard... cards);
+
     //群成员的处理
-    void dispatch(GroupMemberCard ...cards);
+    void dispatch(GroupMemberCard... cards);
 }

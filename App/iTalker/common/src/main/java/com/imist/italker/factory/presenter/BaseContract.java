@@ -6,9 +6,10 @@ import com.imist.italker.common.widget.recycler.RecyclerAdapter;
 
 /**
  * MVP 模式中公共的基本契约
+ *
  * @param
  */
-public interface BaseContract{
+public interface BaseContract {
     //基本的界面职责
     interface View<T extends BaseContract.Presenter> {
         // 公共的：显示一个字符串错误
@@ -30,7 +31,7 @@ public interface BaseContract{
         void destroy();
     }
 
-    interface RecyclerView<T extends Presenter,ViewMode>  extends View<T>{
+    interface RecyclerView<T extends Presenter, ViewMode> extends View<T> {
 
         //这样拿到整个用户列表，刷新整条列表会导致界面卡顿，闪烁，不适用于界面长期驻留的情况
         //void  onDone(List<User> users);

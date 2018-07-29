@@ -16,6 +16,7 @@ public class UiTool {
 
     /**
      * 得到我们的状态栏的高度
+     *
      * @param activity Activity
      * @return 状态栏的高度
      */

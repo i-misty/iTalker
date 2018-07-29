@@ -9,13 +9,14 @@ import java.util.List;
 /**
  * 基础仓库源的presenter
  */
-public abstract class BaseSourcePresenter<Data,ViewModel ,
+public abstract class BaseSourcePresenter<Data, ViewModel,
         Source extends DbDataSource<Data>,
         View extends BaseContract.RecyclerView>
-        extends BaseRecyclerPresenter<ViewModel ,View>
-implements DataSource.SuccessCallback<List<Data>>{
+        extends BaseRecyclerPresenter<ViewModel, View>
+        implements DataSource.SuccessCallback<List<Data>> {
     protected Source mSource;
-    public BaseSourcePresenter(Source source ,View view) {
+
+    public BaseSourcePresenter(Source source, View view) {
         super(view);
         this.mSource = source;
     }

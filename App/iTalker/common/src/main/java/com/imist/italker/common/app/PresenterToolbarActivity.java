@@ -18,7 +18,7 @@ public abstract class PresenterToolbarActivity<Presenter extends BaseContract.Pr
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.destroy();
         }
     }
@@ -28,16 +28,16 @@ public abstract class PresenterToolbarActivity<Presenter extends BaseContract.Pr
     @Override
     public void showError(int str) {
         // 显示错误
-        if (mPlaceHolderView != null){
+        if (mPlaceHolderView != null) {
             mPlaceHolderView.triggerError(str);
-        }else {
+        } else {
             Application.showToast(str);
         }
     }
 
     @Override
     public void showLoading() {
-        if (mPlaceHolderView != null){
+        if (mPlaceHolderView != null) {
             mPlaceHolderView.triggerLoading();
         }
     }
@@ -45,8 +45,8 @@ public abstract class PresenterToolbarActivity<Presenter extends BaseContract.Pr
     /**
      * 隐藏loading
      */
-    protected void hideLoading(){
-        if (mPlaceHolderView != null){
+    protected void hideLoading() {
+        if (mPlaceHolderView != null) {
             mPlaceHolderView.triggerOk();
         }
     }

@@ -21,7 +21,7 @@ import butterknife.OnClick;
  * 登录界面
  */
 public class LoginFragment extends PresenterFragment<LoginContract.Presenter>
-        implements LoginContract.View{
+        implements LoginContract.View {
 
 
     @BindView(R.id.edit_phone)
@@ -33,6 +33,7 @@ public class LoginFragment extends PresenterFragment<LoginContract.Presenter>
     @BindView(R.id.btn_submit)
     Button mSubmit;
     private AccountTrigger mAccountTrigger;
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -51,16 +52,17 @@ public class LoginFragment extends PresenterFragment<LoginContract.Presenter>
 
 
     @OnClick(R.id.btn_submit)
-    void onSubmitClick(){
+    void onSubmitClick() {
         String phone = mPhone.getText().toString();
 
         String password = mPassword.getText().toString();
 
-        mPresenter.login(phone,password);
+        mPresenter.login(phone, password);
 
     }
+
     @OnClick(R.id.txt_go_register)
-    void onShowRegisterClick(){
+    void onShowRegisterClick() {
         //让AccountActivity进行界面切换
         mAccountTrigger.triggerView();
     }
@@ -92,6 +94,7 @@ public class LoginFragment extends PresenterFragment<LoginContract.Presenter>
         mPassword.setEnabled(false);
         mSubmit.setEnabled(false);
     }
+
     @Override
     public void loginSuccess() {
         MainActivity.show(getContext());

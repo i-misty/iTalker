@@ -68,7 +68,7 @@ public class ContactFragment extends PresenterFragment<ContactContract.Presenter
         mAdapter.setListener(new RecyclerAdapter.AdapterListenerImpl<User>() {
             @Override
             public void onItemClick(RecyclerAdapter.ViewHolder holder, User user) {
-                MessageActivity.show(getContext(),user);
+                MessageActivity.show(getContext(), user);
             }
         });
         // 初始化占位布局
@@ -115,9 +115,10 @@ public class ContactFragment extends PresenterFragment<ContactContract.Presenter
 
 
         @OnClick(R.id.im_portrait)
-        void onPortraitClick(){
-            PersonalActivity.show(getContext(),mData.getId());
+        void onPortraitClick() {
+            PersonalActivity.show(getContext(), mData.getId());
         }
+
         public ViewHolder(View itemView) {
             super(itemView);
         }
@@ -125,7 +126,7 @@ public class ContactFragment extends PresenterFragment<ContactContract.Presenter
         @Override
         protected void onBind(User user) {
             //Glide.with(ContactFragment.this)绑定Fragment,随生命周期影响优化加载
-            mPortraitView.setup(Glide.with(ContactFragment.this),user.getPortrait());
+            mPortraitView.setup(Glide.with(ContactFragment.this), user.getPortrait());
             mName.setText(user.getName());
             mDesc.setText(user.getDesc());
         }
