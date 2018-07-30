@@ -2,6 +2,7 @@ package com.imist.italker.factory.data.message;
 
 import android.text.TextUtils;
 
+import com.imist.italker.factory.data.helper.DbHelper;
 import com.imist.italker.factory.data.helper.GroupHelper;
 import com.imist.italker.factory.data.helper.MessageHelper;
 import com.imist.italker.factory.data.helper.UserHelper;
@@ -102,6 +103,7 @@ public class MessageDispatcher implements MessageCenter {
                 }
                 messages.add(message);
             }
+            DbHelper.save(Message.class,messages.toArray(new Message[0]));
         }
     }
 }
