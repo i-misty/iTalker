@@ -24,7 +24,7 @@ public abstract class BaseDbRepository<Data extends BaseDbModel<Data>> implement
     //和presenter交互的回调
     private SuccessCallback<List<Data>> callback;
 
-    private final List<Data> dataList = new LinkedList<>();//当前缓存的数据
+    protected final LinkedList<Data> dataList = new LinkedList<>();//当前缓存的数据
 
     private Class<Data> dataClass; //当前泛型对应的真实Class信息
 
@@ -100,7 +100,7 @@ public abstract class BaseDbRepository<Data extends BaseDbModel<Data>> implement
     }
 
     //插入或者更新
-    private void insertOrUpdate(Data data) {
+    protected void insertOrUpdate(Data data) {
         int index = indexOf(data);
         if (index >= 0) {
             replace(index, data);
@@ -110,16 +110,16 @@ public abstract class BaseDbRepository<Data extends BaseDbModel<Data>> implement
     }
 
     //更新操作，更新某个坐标下的数据
-    private void replace(int index, Data data) {
+    protected void replace(int index, Data data) {
         dataList.remove(index);
         dataList.add(index, data);
     }
 
-    private void insert(Data data) {
+    protected void insert(Data data) {
         dataList.add(data);
     }
 
-    private int indexOf(Data newData) {
+    protected int indexOf(Data newData) {
         int index = -1;
         for (Data data : dataList) {
             index++;

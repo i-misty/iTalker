@@ -8,6 +8,8 @@ import com.imist.italker.factory.model.db.Message;
 import com.imist.italker.factory.model.db.Message_Table;
 import com.imist.italker.factory.net.Network;
 import com.imist.italker.factory.net.RemoteService;
+import com.raizlabs.android.dbflow.sql.language.Operator;
+import com.raizlabs.android.dbflow.sql.language.OperatorGroup;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import retrofit2.Call;
@@ -67,5 +69,35 @@ public class MessageHelper {
                 });
             }
         });
+    }
+
+    /**
+     * 查询一个消息，这个消息是一个群中的最后一条消息；
+     * @param groupId
+     * @return 群中聊天的最后一条消息；
+     */
+    public static Message findLastWithGroup(String groupId) {
+
+        return SQLite.select()
+                .from(Message.class)
+                .where(Message_Table.group_id.eq(groupId))
+                .orderBy(Message_Table.createAt,false)
+                .querySingle();
+    }
+
+    /**
+     * 和一个人的最后一条聊天消息s
+     * @param userId
+     * @return
+     */
+    public static Message findLastWithUser(String userId) {
+        return SQLite.select()
+                .from(Message.class)
+                .where(OperatorGroup.clause()
+                        .and(Message_Table.sender_id.eq(userId))
+                        .and(Message_Table.group_id.isNull()))
+                .or(Message_Table.receiver_id.eq(userId))
+                .orderBy(Message_Table.createAt,false)//倒序查询
+                .querySingle();
     }
 }
