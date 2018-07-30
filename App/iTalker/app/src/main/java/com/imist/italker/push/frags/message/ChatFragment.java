@@ -3,6 +3,7 @@ package com.imist.italker.push.frags.message;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -47,6 +48,9 @@ public abstract class ChatFragment<InitModel>
 
     @BindView(R.id.appbar)
     AppBarLayout mAppBarLayout;
+
+    @BindView(R.id.collapsingToolbarLayout)
+    CollapsingToolbarLayout mCollapsingLayout;
 
     @BindView(R.id.edit_content)
     EditText mContent;
@@ -262,9 +266,10 @@ public abstract class ChatFragment<InitModel>
 
         @OnClick(R.id.im_portrait)
         void OnRePushClick() {
-            if (mLoading != null) {
+            if (mLoading != null && mPresenter.rePush(mData)) {
                 //必须是右边才有可能需要重新发送
-                //todo 重新发送
+                //状态改变刷新界面
+                updateData(mData);
             }
         }
     }

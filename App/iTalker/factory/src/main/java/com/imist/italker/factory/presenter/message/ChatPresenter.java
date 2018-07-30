@@ -6,6 +6,7 @@ import com.imist.italker.factory.data.helper.MessageHelper;
 import com.imist.italker.factory.data.message.MessageDataSource;
 import com.imist.italker.factory.model.api.message.MsgCreateModel;
 import com.imist.italker.factory.model.db.Message;
+import com.imist.italker.factory.persistence.Account;
 import com.imist.italker.factory.presenter.BaseSourcePresenter;
 import com.imist.italker.factory.utils.DiffUiDataCallback;
 
@@ -47,8 +48,15 @@ public class ChatPresenter<View extends ChatContact.View>
     }
 
     @Override
-    public void rePush() {
-
+    public boolean rePush(Message message) {
+        if (Account.getUserId().equalsIgnoreCase(message.getSender().getId())
+                && message.getStatus() == Message.STATUS_FAILED) {
+            message.setStatus(Message.STATUS_CREATED);
+            MsgCreateModel model = MsgCreateModel.buildWithMessage(message);
+            MessageHelper.push(model);
+            return true;
+        }
+        return false;
     }
 
     @SuppressWarnings("unchecked")

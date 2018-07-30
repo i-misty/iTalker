@@ -15,7 +15,7 @@ public interface ChatContact {
         void pushImage(String[] paths);
 
         //重新发送
-        void rePush();
+        boolean rePush(Message message);
     }
 
     //抽象一个View

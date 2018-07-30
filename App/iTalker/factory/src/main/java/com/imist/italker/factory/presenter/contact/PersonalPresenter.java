@@ -12,7 +12,6 @@ import net.qiujuer.genius.kit.handler.runable.Action;
 public class PersonalPresenter extends BasePresenter<PersonalContract.View>
         implements PersonalContract.Presenter {
 
-    private String id;
     private User user;
 
     public PersonalPresenter(PersonalContract.View view) {
@@ -22,21 +21,21 @@ public class PersonalPresenter extends BasePresenter<PersonalContract.View>
     @Override
     public void start() {
         super.start();
-        final String id = getView().getUserId();
-        //个人用户数据优先从网络拉取
+
+        // 个人界面用户数据优先从网络拉取
         Factory.runOnAsync(new Runnable() {
             @Override
             public void run() {
                 PersonalContract.View view = getView();
                 if (view == null) return;
                 String id = view.getUserId();
-                User user = UserHelper.findFromNet(id);
-                onLoaded(view, user);
+                User user = UserHelper.searchFirstNet(id);
+                onLoaded(user);
             }
         });
     }
 
-    private void onLoaded(final PersonalContract.View view, final User user) {
+    private void onLoaded(final User user) {
         this.user = user;
         //是否自己
         final boolean isSelf = user.getId().equalsIgnoreCase(Account.getUserId());
@@ -47,6 +46,9 @@ public class PersonalPresenter extends BasePresenter<PersonalContract.View>
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
+                final PersonalContract.View view = getView();
+                if (view == null)
+                    return;
                 view.onLoadDone(user);
                 view.setFollowStatus(isFollow);
                 view.allowSayHello(allowSayHello);

@@ -103,7 +103,7 @@ public class MessageDispatcher implements MessageCenter {
                 }
                 messages.add(message);
             }
-            DbHelper.save(Message.class,messages.toArray(new Message[0]));
+            DbHelper.save(Message.class, messages.toArray(new Message[0]));
         }
     }
 }

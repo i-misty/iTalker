@@ -18,7 +18,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class BaseDbRepository<Data extends BaseDbModel<Data>> implements DbDataSource<Data>,
-        DbHelper.ChangedListener<Data>, QueryTransaction.QueryResultListCallback<Data> {
+        DbHelper.ChangedListener<Data>,
+        QueryTransaction.QueryResultListCallback<Data> {
 
     //和presenter交互的回调
     private SuccessCallback<List<Data>> callback;

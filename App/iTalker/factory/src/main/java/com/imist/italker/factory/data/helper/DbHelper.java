@@ -52,8 +52,8 @@ public class DbHelper {
      * @return
      */
     public <Model extends BaseModel> Set<ChangedListener> getListeners(Class<Model> modelClass) {
-        if (instance.changedListeners.containsKey(modelClass)) {
-            return instance.changedListeners.get(modelClass);
+        if (changedListeners.containsKey(modelClass)) {
+            return changedListeners.get(modelClass);
         }
         return null;
     }
@@ -83,7 +83,7 @@ public class DbHelper {
      * @param listener 监听者
      * @param <Model>  表的 泛型
      */
-    public static <Model extends BaseModel> void removeChangeListener(Class<Model> tClass, ChangedListener<Model> listener) {
+    public static <Model extends BaseModel> void removeChangeListener(final Class<Model> tClass, ChangedListener<Model> listener) {
         Set<ChangedListener> changedListeners = instance.getListeners(tClass);
         if (changedListeners == null) {
             //容器本身为null代表本身就没有

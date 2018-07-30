@@ -114,4 +114,28 @@ public class MsgCreateModel {
         }
         return this.card;
     }
+
+    /**
+     * 把一个message消息转换为一个创建状态的CreateModel
+     *
+     * @param message
+     * @return
+     */
+    public static MsgCreateModel buildWithMessage(Message message) {
+        MsgCreateModel model = new MsgCreateModel();
+        model.id = message.getId();//因为没有set方法；重发（更新）消息就需要内部设置，
+        model.content = message.getContent();
+        model.type = message.getType();
+        model.attach = message.getAttach();
+
+        if (message.getReceiver() != null) {
+            model.receiverId = message.getReceiver().getId();
+            model.receiverType = Message.RECEIVER_TYPE_NONE;
+        } else {
+            model.receiverId = message.getGroup().getId();
+            model.receiverType = Message.RECEIVER_TYPE_GROUP;
+        }
+        return model;
+    }
+
 }

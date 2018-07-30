@@ -1,10 +1,15 @@
 package com.imist.italker.push.frags.message;
 
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.ViewTarget;
 import com.imist.italker.common.widget.PortraitView;
 import com.imist.italker.factory.model.db.User;
 import com.imist.italker.factory.presenter.message.ChatContact;
@@ -33,6 +38,20 @@ public class ChatUserFragment extends ChatFragment<User> implements ChatContact.
     @Override
     protected int getContentLayoutId() {
         return R.layout.fragment_chat_user;
+    }
+
+    @Override
+    protected void initWidget(View root) {
+        super.initWidget(root);
+        Glide.with(this)
+                .load(R.drawable.default_banner_chat)
+                .centerCrop()
+                .into(new ViewTarget<CollapsingToolbarLayout, GlideDrawable>(mCollapsingLayout) {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        this.view.setContentScrim(resource.getCurrent());
+                    }
+                });
     }
 
     @Override
@@ -113,5 +132,7 @@ public class ChatUserFragment extends ChatFragment<User> implements ChatContact.
     @Override
     public void onInit(User user) {
         //对和你聊天的朋友信息进行初始化操作
+        mPortraitView.setup(Glide.with(this), user.getPortrait());
+        mCollapsingLayout.setTitle(user.getName());
     }
 }
