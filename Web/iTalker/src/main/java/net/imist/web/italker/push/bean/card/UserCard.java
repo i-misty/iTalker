@@ -2,6 +2,8 @@ package net.imist.web.italker.push.bean.card;
 
 import com.google.gson.annotations.Expose;
 import net.imist.web.italker.push.bean.db.User;
+import net.imist.web.italker.push.utils.Hib;
+import org.hibernate.Hibernate;
 
 import java.time.LocalDateTime;
 
@@ -48,7 +50,15 @@ public class UserCard {
         this.desc = user.getDescription();
         this.sex = user.getSex();
         this.modifyAt = user.getUpdateAt();
-        //TODO 得到关注人和粉丝数量
+        //得到关注人和粉丝数量
+        Hib.queryOnly(session -> {
+            session.load(user,user.getId());
+            //这个时候仅仅只是进行了数量查询，并没有查询这集合
+            //要查询集合必须在session存在的情况下进行遍历
+            //或者使用 Hibernate.initialize(user.getFollowers());
+            follows = user.getFollowers().size();
+            following = user.getFollowing().size();
+        });
         //懒加载会报错因为没有session
         //user.getFollowers().size();
     }

@@ -2,7 +2,10 @@ package net.imist.web.italker.push.factory;
 
 import com.google.common.base.Strings;
 import net.imist.web.italker.push.bean.api.base.PushModel;
+import net.imist.web.italker.push.bean.card.GroupCard;
+import net.imist.web.italker.push.bean.card.GroupMemberCard;
 import net.imist.web.italker.push.bean.card.MessageCard;
+import net.imist.web.italker.push.bean.card.UserCard;
 import net.imist.web.italker.push.bean.db.*;
 import net.imist.web.italker.push.utils.Hib;
 import net.imist.web.italker.push.utils.PushDispatcher;
@@ -75,10 +78,10 @@ public class PushFactory {
                     entity,
                     PushModel.ENTITY_TYPE_MESSAGE);
             Hib.queryOnly(session -> {
-                for (PushHistory history : histories) {
-                    session.saveOrUpdate(history);
-                }
-            }
+                        for (PushHistory history : histories) {
+                            session.saveOrUpdate(history);
+                        }
+                    }
             );
 
         }
@@ -117,7 +120,117 @@ public class PushFactory {
 
     }
 
-    public static void pushGroupAdd(Set<GroupMember> members) {
-        //给群成员发送已经被添加的消息
+    /**
+     * 给群成员发送已经被添加的消息
+     *
+     * @param members
+     */
+    public static void pushJoinGroup(Set<GroupMember> members) {
+        //发送者
+        PushDispatcher dispatcher = new PushDispatcher();
+        //一个历史记录列表
+        List<PushHistory> histories = new ArrayList<>();
+        for (GroupMember member : members) {
+            User receiver = member.getUser();
+            if (receiver == null)
+                return;//?continue
+            //每个成员的信息卡片
+            GroupMemberCard memberCard = new GroupMemberCard(member);
+            String entity = TextUtil.toJson(memberCard);
+
+            //历史记录表字段建立
+            PushHistory history = new PushHistory();
+            history.setEntity(entity);
+            history.setEntityType(PushModel.ENTITY_TYPE_ADD_GROUP);
+            history.setReceiver(receiver);
+            history.setReceiverPushId(receiver.getPushId());
+            histories.add(history);
+            //构建一个消息model
+            PushModel pushModel = new PushModel();
+            pushModel.add(history.getEntityType(), history.getEntity());
+            //添加到发送者的数据集中
+            dispatcher.add(receiver, pushModel);
+        }
+        Hib.queryOnly(session -> {
+            for (PushHistory history : histories) {
+                session.saveOrUpdate(history);
+            }
+        });
+        dispatcher.submit();
+    }
+
+    /**
+     * 通知老成员有一系列新成员加入
+     *
+     * @param oldMembers
+     * @param insertCards
+     */
+    public static void pushGroupMemberAdd(Set<GroupMember> oldMembers, List<GroupMemberCard> insertCards) {
+        PushDispatcher dispatcher = new PushDispatcher();
+        List<PushHistory> histories = new ArrayList<>();
+        //当前新增的用户的集合的json字符串
+        String entity = TextUtil.toJson(insertCards);
+        //给每个人发送的消息都是一样的
+        //进行循环添加给每一个老用户构建一条消息，消息的内容为新增的用户集合
+        addGroupMemberPushMoel(dispatcher, histories, oldMembers, entity, PushModel.ENTITY_TYPE_ADD_GROUP_MEMBERS);
+        //保存数据库
+        Hib.queryOnly(session -> {
+            for (PushHistory history : histories) {
+                session.saveOrUpdate(history);
+            }
+        });
+        //提交发送
+        dispatcher.submit();
+    }
+
+    /**
+     * 推送退出消息，
+     *
+     * @param receiver 接收者
+     * @param pushId   这时刻接收者的pushid
+     */
+    public static void pushLogout(User receiver, String pushId) {
+        PushHistory history = new PushHistory();
+        history.setEntityType(PushModel.ENTITY_TYPE_LOGOUT);
+        history.setEntity("Account Logout !");
+        history.setReceiver(receiver);
+        history.setReceiverPushId(pushId);//防止此时pushId已经改变，使用传入的参数
+
+        //保存
+        Hib.queryOnly(session -> session.save(history));
+        //发送者
+        PushDispatcher dispatcher = new PushDispatcher();
+        PushModel pushModel = new PushModel()
+                .add(history.getEntityType(), history.getEntity());
+        //添加并且提交到第三方推送
+        dispatcher.add(receiver, pushModel);
+        dispatcher.submit();
+    }
+
+    /**
+     * 给一个朋友推送一个我的信息过去，
+     * 类型是我关注了他
+     *
+     * @param receiver
+     * @param userCard
+     */
+    public static void pushFollow(User receiver, UserCard userCard) {
+        //一定是相互关注了;
+        userCard.setFollow(true);
+        TextUtil.toJson(userCard);
+        PushHistory history = new PushHistory();
+        String entity = TextUtil.toJson(userCard);
+        history.setEntityType(PushModel.ENTITY_TYPE_ADD_FRIEND);
+        history.setEntity(entity);
+        history.setReceiver(receiver);
+        history.setReceiverPushId(receiver.getPushId());
+        //保存到记录表
+        Hib.queryOnly(session -> session.save(history));
+
+        PushDispatcher dispatcher = new PushDispatcher();
+        PushModel pushModel = new PushModel()
+                .add(history.getEntityType(), history.getEntity());
+        dispatcher.add(receiver, pushModel);
+        dispatcher.submit();
     }
 }

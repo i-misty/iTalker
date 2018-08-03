@@ -1,5 +1,6 @@
 package net.imist.web.italker.push.service;
 
+import com.google.common.base.Strings;
 import net.imist.web.italker.push.bean.api.base.ResponseModel;
 import net.imist.web.italker.push.bean.api.group.GroupCreateModel;
 import net.imist.web.italker.push.bean.api.group.GroupMemberAddModel;
@@ -13,9 +14,11 @@ import net.imist.web.italker.push.bean.db.User;
 import net.imist.web.italker.push.factory.GroupFactory;
 import net.imist.web.italker.push.factory.PushFactory;
 import net.imist.web.italker.push.factory.UserFactory;
+import net.imist.web.italker.push.provider.LocalDateTimeConverter;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -76,7 +79,7 @@ public class GroupServices extends BaseService{
                 .filter(groupMember -> !groupMember.getUserId().equalsIgnoreCase(createMember.getUserId()))
                 .collect(Collectors.toSet());
         //开始发起推送
-        PushFactory.pushGroupAdd(members);
+        PushFactory.pushJoinGroup(members);
 
         return ResponseModel.buildOk(new GroupCard(createMember));
 
@@ -116,12 +119,26 @@ public class GroupServices extends BaseService{
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseModel<List<GroupCard>> list(@DefaultValue("") @PathParam("date") String dataStr){
-
-        return null;
+        User self = getSelf();
+        LocalDateTime dateTime = null;
+        if (!Strings.isNullOrEmpty(dataStr)){
+            dateTime = LocalDateTime.parse(dataStr,LocalDateTimeConverter.FORMATTER);
+        }
+        Set<GroupMember> members = GroupFactory.getMembers(self);
+        if (members == null || members.size() == 0){
+            return ResponseModel.buildOk();
+        }
+        final LocalDateTime finalDatatime = dateTime;
+        List<GroupCard> groupCards = members.stream()
+                //时间如果为null则不做限制，否则拉取最后时间之后的
+                .filter(groupMember -> finalDatatime == null || groupMember.getUpdateAt().isAfter(finalDatatime))
+                .map(GroupCard::new)
+                .collect(Collectors.toList());
+        return ResponseModel.buildOk(groupCards);
     }
 
     /**
-     * 获取一个群的信息
+     * 获取一个群的信息,你必须是这群的成员
      * @param groupId
      * @return
      */
@@ -130,8 +147,14 @@ public class GroupServices extends BaseService{
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseModel<GroupCard> getGroup(@PathParam("groupId") String groupId) {
-
-        return null;
+        if (Strings.isNullOrEmpty(groupId))
+            return ResponseModel.buildParameterError();
+        User user = getSelf();
+        GroupMember member = GroupFactory.getMember(user.getId(),groupId);
+        if (member == null){
+            return ResponseModel.buildNotFoundGroupError(null);
+        }
+        return ResponseModel.buildOk(new GroupCard(member));
     }
 
     /**
@@ -144,7 +167,26 @@ public class GroupServices extends BaseService{
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseModel<List<GroupMemberCard>> members(@PathParam("groupId" )String groupId){
-        return null;
+        if (Strings.isNullOrEmpty(groupId))
+            return ResponseModel.buildParameterError();
+        Group group = GroupFactory.findById(groupId);
+        if (group == null){
+            return ResponseModel.buildNotFoundGroupError(null);
+        }
+        User user = getSelf();
+        GroupMember selfMember = GroupFactory.getMember(user.getId(),groupId);
+        if (selfMember == null)
+            //有这个群但是不在里面
+            ResponseModel.buildNoPermissionError();
+        //所有的成员
+        Set<GroupMember> members = GroupFactory.getMembers(group);
+        //至少有个管理员，一旦为null就是服务器错误
+        if (members == null)
+            return ResponseModel.buildServiceError();
+        List<GroupMemberCard> memberCards = members.stream()
+                .map(GroupMemberCard::new)
+                .collect(Collectors.toList());
+        return ResponseModel.buildOk(memberCards);
     }
 
     /**
@@ -158,12 +200,60 @@ public class GroupServices extends BaseService{
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseModel<List<GroupMemberCard>> memberAdd(@PathParam("groupId") String groupId, GroupMemberAddModel model){
+        if (!GroupMemberAddModel.check(model)){
+            return ResponseModel.buildParameterError();
+        }
+        User self = getSelf();
+        model.getUsers().remove(self.getId());
+        if (model.getUsers().size() == 0)
+            return ResponseModel.buildParameterError();
+        Group group = GroupFactory.findById(groupId);
+        if (group == null)
+            return ResponseModel.buildNotFoundGroupMemberError(null);
+        //我必须是成员
+        GroupMember selfMember = GroupFactory.getMember(self.getId(),groupId);
+        if (selfMember == null || selfMember.getPermissionType() == GroupMember.PERMISSION_TYPE_NONE)
+            //普通成员返回权限错误；
+            return ResponseModel.buildNoPermissionError();
 
+        //拿到已有的群成员
+        Set<GroupMember> oldMembers = GroupFactory.getMembers(group);
+        Set<String> oldMemberUserIds = oldMembers.stream()
+                .map(GroupMember::getUserId)//懒加载直接获取不了用户信息，但是可以获取id
+                .collect(Collectors.toSet());
+
+        List<User> insertUsers = new ArrayList<>();
+        for (String userId : model.getUsers()) {
+            //一定要有这用户
+            User user = UserFactory.findById(userId);
+            if (user == null)
+                continue;
+            //已经在群里了
+            if (oldMemberUserIds.contains(user.getId()))
+                continue;
+            insertUsers.add(user);
+        }
+        //没有一个新增的成员
+        if (insertUsers.size() == 0)
+            return ResponseModel.buildParameterError();
+        //进行添加操作
+        Set<GroupMember> insertMembers = GroupFactory.addMembers(group,insertUsers);
+
+        if (insertMembers == null || insertMembers.size() == 0)
+            return ResponseModel.buildServiceError();
+        List<GroupMemberCard> insertCards  = insertMembers.stream()
+                .map(GroupMemberCard::new)
+                .collect(Collectors.toList());
+        //通知，两部曲
+        //通知新增的成员，你被加入了XXX群；
+        PushFactory.pushJoinGroup(insertMembers);
+        //通知群中的老成员，XXX被加入了群
+        PushFactory.pushGroupMemberAdd(oldMembers,insertCards);
         return null;
     }
 
     /**
-     * 更改成员信息 ,请求的要么是群成员，要么是群管理
+     * 更改成员信息 ,请求的要么是群成员自己，要么是群管理，更改之后通知所有群成员
      * @param groupId 成员ID，可以查絮到对应的群
      * @param model 修改的model
      * @return

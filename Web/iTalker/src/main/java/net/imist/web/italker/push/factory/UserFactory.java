@@ -88,7 +88,8 @@ public class UserFactory {
             //如果当前的账户之前的设备id和需要绑定的不同
             //呢么需要单点登陆 ，让之前的设备推出账户，给之前的账户推送一条推出消息
             if (Strings.isNullOrEmpty(user.getPushId())) {
-                //TODO 推送一条退出消息
+                // 推送一条退出消息 ，传入当前的pushId
+                PushFactory.pushLogout(user,user.getPushId());
             }
             //更新新的设备id
             user.setPushId(pushId);

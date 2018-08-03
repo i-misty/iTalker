@@ -7,6 +7,7 @@ import net.imist.web.italker.push.bean.api.user.UpdateInfoModel;
 import net.imist.web.italker.push.bean.card.UserCard;
 import net.imist.web.italker.push.bean.db.User;
 
+import net.imist.web.italker.push.factory.PushFactory;
 import net.imist.web.italker.push.factory.UserFactory;
 
 import javax.ws.rs.*;
@@ -80,8 +81,9 @@ public class UserServices extends BaseService {
         if (followUser == null) {
             return ResponseModel.buildServiceError();
         }
-        //TODO 通知我关注的人，我关注了他
-
+        //通知我关注的人，我关注了他
+        //给他发送一个我的信息过去
+        PushFactory.pushFollow(followUser,new UserCard(self));
         //返回关注的人的信息
         return ResponseModel.buildOk(new UserCard(followUser, true));
     }

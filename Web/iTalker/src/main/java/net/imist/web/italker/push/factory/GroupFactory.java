@@ -54,6 +54,21 @@ public class GroupFactory {
         });
     }
 
+    /**
+     * 获取一个人加入的所有群；
+     * @param user
+     * @return
+     */
+    public static Set<GroupMember> getMembers(User user) {
+
+        return Hib.query(session -> {
+            @SuppressWarnings("unchecked")
+            List<GroupMember> members = session.createQuery("from GroupMember where userId =:userId")
+                    .setParameter("userId",user.getId())
+                    .list();
+            return new HashSet<>(members);
+        });
+    }
 
     //创建群；
     public static Group create(User creator, GroupCreateModel model, List<User> users) {
@@ -104,5 +119,19 @@ public class GroupFactory {
                 .setMaxResults(20)
                 .list();
 
+    }
+
+    //给群添加用户
+    public static Set<GroupMember> addMembers(Group group, List<User> insertUsers) {
+        return Hib.query(session -> {
+            Set<GroupMember> members = new HashSet<>();
+            for (User user : insertUsers) {
+                GroupMember groupMember = new GroupMember(user,group);
+                //保存，没有提交到数据库
+                session.save(groupMember);
+                members.add(groupMember);
+            }
+            return members;
+        });
     }
 }
