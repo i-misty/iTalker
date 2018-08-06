@@ -34,7 +34,7 @@ public class GroupFactory {
      * @return
      */
     public static Group findByName(String name) {
-        return Hib.query(session -> (Group) session.createQuery("from Group where lower(name) =:name)")
+        return Hib.query(session -> (Group) session.createQuery("from Group where lower(name) =:name")
                     .setParameter("name", name.toLowerCase())
                     .uniqueResult());
     }
@@ -72,7 +72,7 @@ public class GroupFactory {
 
     //创建群；
     public static Group create(User creator, GroupCreateModel model, List<User> users) {
-        Hib.query(session -> {
+        return Hib.query(session -> {
             Group group = new Group(creator,model);
             session.save(group);
             GroupMember ownerMember = new GroupMember(creator,group);
@@ -88,7 +88,6 @@ public class GroupFactory {
             return group;
 
         });
-        return null;
     }
 
     public static GroupMember getMember(String userId, String groupId) {
