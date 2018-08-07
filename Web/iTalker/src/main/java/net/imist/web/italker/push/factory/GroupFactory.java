@@ -130,7 +130,12 @@ public class GroupFactory {
                 //保存，没有提交到数据库
                 session.save(groupMember);
                 members.add(groupMember);
-            }
+            }//这里只是进行保存，没有进行关联查询那么外键为null，添加的内容没有外键
+
+            //进行数据刷新，会进行关联查询，在循环中消耗过高
+            /*for (GroupMember member : members) {
+                session.refresh(member);
+            }*/
             return members;
         });
     }

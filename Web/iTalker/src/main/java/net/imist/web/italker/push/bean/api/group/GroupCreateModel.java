@@ -1,16 +1,19 @@
 package net.imist.web.italker.push.bean.api.group;
 
 import com.google.common.base.Strings;
+import com.google.gson.annotations.Expose;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class GroupCreateModel {
+    @Expose
     private String name;
+    @Expose
     private String desc;
-
+    @Expose
     private String picture;
-
+    @Expose
     private Set<String> users = new HashSet<>();
 
     public String getName() {

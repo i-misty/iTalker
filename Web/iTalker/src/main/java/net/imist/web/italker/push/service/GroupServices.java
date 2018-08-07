@@ -249,7 +249,7 @@ public class GroupServices extends BaseService{
         PushFactory.pushJoinGroup(insertMembers);
         //通知群中的老成员，XXX被加入了群
         PushFactory.pushGroupMemberAdd(oldMembers,insertCards);
-        return null;
+        return ResponseModel.buildOk(insertCards);
     }
 
     /**
