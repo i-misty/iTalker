@@ -113,10 +113,11 @@ public class GroupFactory {
         }
         final String searchName = "%" + name+"%";
 
-        return (List<Group>)Hib.query(session -> session.createQuery("from Group where lower(name) like :name"))
+        //这里报过错，查询的返回值在session强转，否则session关闭外部强转报错（(List<Group>)）Hib.query（...）
+        return Hib.query(session -> (List<Group>)session.createQuery("from Group where lower(name) like :name")
                 .setParameter("name",searchName)
                 .setMaxResults(20)
-                .list();
+                .list());
 
     }
 
