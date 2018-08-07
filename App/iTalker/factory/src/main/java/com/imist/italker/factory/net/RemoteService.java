@@ -4,8 +4,10 @@ import com.imist.italker.factory.model.api.RspModel;
 import com.imist.italker.factory.model.api.account.AccountRspModel;
 import com.imist.italker.factory.model.api.account.LoginModel;
 import com.imist.italker.factory.model.api.account.RegisterModel;
+import com.imist.italker.factory.model.api.group.GroupCreateModel;
 import com.imist.italker.factory.model.api.message.MsgCreateModel;
 import com.imist.italker.factory.model.api.user.UserUpdateModel;
+import com.imist.italker.factory.model.card.GroupCard;
 import com.imist.italker.factory.model.card.MessageCard;
 import com.imist.italker.factory.model.card.UserCard;
 
@@ -100,5 +102,25 @@ public interface RemoteService {
      */
     @POST("msg")
     Call<RspModel<MessageCard>> msgPush(@Body MsgCreateModel moel);
+
+    /**
+     *创建群
+     *
+     * @return
+     */
+    @POST("group")
+    Call<RspModel<GroupCard>> groupCreate(@Body GroupCreateModel model);
+
+    /**
+     *创建群
+     *
+     * @return
+     */
+    @GET("group/groupId")
+    Call<RspModel<GroupCard>> groupFind(@Path("groupId") String groupId);
+
+
+
+
 
 }

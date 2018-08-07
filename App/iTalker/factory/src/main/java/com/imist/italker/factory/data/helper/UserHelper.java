@@ -10,8 +10,10 @@ import com.imist.italker.factory.model.api.user.UserUpdateModel;
 import com.imist.italker.factory.model.card.UserCard;
 import com.imist.italker.factory.model.db.User;
 import com.imist.italker.factory.model.db.User_Table;
+import com.imist.italker.factory.model.db.view.UserSampleModel;
 import com.imist.italker.factory.net.Network;
 import com.imist.italker.factory.net.RemoteService;
+import com.imist.italker.factory.persistence.Account;
 import com.imist.italker.utils.CollectionUtil;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -204,5 +206,34 @@ public class UserHelper {
             return findFromLocal(id);
         }
         return user;
+    }
+
+    /**
+     * 获取联系人
+     * @return
+     */
+    public static List<User> getContacts(){
+        return SQLite.select()
+                .from(User.class)
+                .where(User_Table.isFollow.eq(true))
+                .and(User_Table.id.notEq(Account.getUserId()))
+                .orderBy(User_Table.name,true)
+                .limit(100)
+                .queryList();
+    }
+    /**
+     * 获取联系人
+     * 但是是一个简单的数据的
+     * @return
+     */
+    public static List<UserSampleModel> getSampleContacts(){
+        return SQLite.select(User_Table.id.withTable().as("id"),
+                User_Table.name.withTable().as("name"),
+                User_Table.portrait.withTable().as("portrait"))
+                .from(User.class)
+                .where(User_Table.isFollow.eq(true))
+                .and(User_Table.id.notEq(Account.getUserId()))
+                .orderBy(User_Table.name,true)
+                .queryCustomList(UserSampleModel.class);
     }
 }

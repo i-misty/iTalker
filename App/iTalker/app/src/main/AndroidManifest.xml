@@ -63,14 +63,19 @@
             android:theme="@style/AppTheme.TransStatusBar" />
         <activity
             android:name=".activities.MessageActivity"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_message"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TransStatusBar" />
         <activity
             android:name=".activities.PersonalActivity"
             android:label="@string/title_activity_personal"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TransStatusBar" />
+        <activity
+            android:name=".activities.GroupCreateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Group.Create"
+            />
     </application>
 
 </manifest>
