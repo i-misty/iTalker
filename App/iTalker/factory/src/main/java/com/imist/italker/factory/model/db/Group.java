@@ -1,5 +1,7 @@
 package com.imist.italker.factory.model.db;
 
+import com.imist.italker.factory.data.helper.GroupHelper;
+import com.imist.italker.factory.model.db.view.MemberUserModel;
 import com.imist.italker.factory.utils.DiffUiDataCallback;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
@@ -9,6 +11,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -40,6 +43,7 @@ public class Group extends BaseDbModel<Group> implements Serializable {
 
 
     public Object holder; // 预留字段，用于界面显示
+
 
     public String getId() {
         return id;
@@ -142,5 +146,25 @@ public class Group extends BaseDbModel<Group> implements Serializable {
                 && Objects.equals(this.desc, oldT.desc)
                 && Objects.equals(this.picture, oldT.picture)
                 && Objects.equals(this.holder, oldT.holder);
+    }
+
+    private long groupMemberCount = -1;
+    //获取当前群的成员数量，使用内存缓存
+    public long getGroupMemberCount() {
+        if (groupMemberCount == -1){
+            //没有初始化
+            groupMemberCount = GroupHelper.getMemberCount(id);
+        }
+        return groupMemberCount;
+    }
+    private List<MemberUserModel> groupLatelyMembers;
+    //获取当前对应的群成员的信息，最多加载四条
+    public  List<MemberUserModel> getLatelyGroupMembers() {
+        if (groupLatelyMembers == null || groupLatelyMembers.isEmpty()){
+            //加载简单的用户信息，最多返回四条
+            groupLatelyMembers = GroupHelper.getMemberUsers(id,4);
+        }
+
+        return groupLatelyMembers;
     }
 }

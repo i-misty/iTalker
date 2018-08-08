@@ -145,7 +145,7 @@ public interface RemoteService {
      * @param groupId
      * @return
      */
-    @GET("group/{groupId}/{member}")
+    @GET("group/{groupId}/member")
     Call<RspModel<List<GroupMemberCard>>> groupMembers(@Path(value = "groupId")  String groupId);
 
     /**
@@ -154,7 +154,7 @@ public interface RemoteService {
      * @param groupId
      * @return
      */
-    @POST("group/{groupId}/{member}")
+    @POST("group/{groupId}/member")
     Call<RspModel<List<GroupMemberCard>>> groupMemberAdd(@Path(value = "groupId")  String groupId,
                                                          @Body GroupMemberAddModel model);
 
