@@ -22,13 +22,20 @@ import net.qiujuer.genius.ui.compat.UiCompat;
 public class LaunchActivity extends Activity {
     // Drawable
     private ColorDrawable mBgDrawable;
-
+    private boolean mNeedRequirePermission = false;
 
     @Override
     protected int getContentLayoutId() {
         return R.layout.activity_launch;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mNeedRequirePermission && !PermissionsFragment.haveAll(this,getSupportFragmentManager())){
+            mNeedRequirePermission = true;
+        }
+    }
     @Override
     protected void initWidget() {
         super.initWidget();
@@ -107,13 +114,12 @@ public class LaunchActivity extends Activity {
                 AccountActivity.show(this);
             }
             finish();
+        }else {
+            mNeedRequirePermission = true;
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
+
 
     private void startAnim(float endProgress, final Runnable endCallback) {
         //获取一个最终的颜色
