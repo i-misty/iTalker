@@ -11,9 +11,11 @@ import com.imist.italker.factory.model.db.Group_Table;
 import com.imist.italker.factory.model.db.User;
 import com.imist.italker.factory.net.Network;
 import com.imist.italker.factory.net.RemoteService;
+import com.imist.italker.factory.presenter.search.SeachGroupPresenter;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.io.IOException;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -79,5 +81,27 @@ public class GroupHelper {
             }
         });
 
+    }
+
+    public static Call search(String name, final DataSource.Callback<List<GroupCard>> callback) {
+        RemoteService service = Network.remote();
+        Call<RspModel<List<GroupCard>>> call = service.groupSearch(name);
+        call.enqueue(new Callback<RspModel<List<GroupCard>>>() {
+            @Override
+            public void onResponse(Call<RspModel<List<GroupCard>>> call, Response<RspModel<List<GroupCard>>> response) {
+                RspModel<List<GroupCard>> rspModel = response.body();
+                if (rspModel.success()){
+                    callback.onDataLoaded(rspModel.getResult());
+                }else {
+                    Factory.decodeRspCode(rspModel,callback);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RspModel<List<GroupCard>>> call, Throwable t) {
+                callback.onDataNotAvailable(R.string.data_network_error);
+            }
+        });
+        return call;
     }
 }

@@ -5,9 +5,11 @@ import com.imist.italker.factory.model.api.account.AccountRspModel;
 import com.imist.italker.factory.model.api.account.LoginModel;
 import com.imist.italker.factory.model.api.account.RegisterModel;
 import com.imist.italker.factory.model.api.group.GroupCreateModel;
+import com.imist.italker.factory.model.api.group.GroupMemberAddModel;
 import com.imist.italker.factory.model.api.message.MsgCreateModel;
 import com.imist.italker.factory.model.api.user.UserUpdateModel;
 import com.imist.italker.factory.model.card.GroupCard;
+import com.imist.italker.factory.model.card.GroupMemberCard;
 import com.imist.italker.factory.model.card.MessageCard;
 import com.imist.italker.factory.model.card.UserCard;
 
@@ -119,6 +121,42 @@ public interface RemoteService {
     @GET("group/groupId")
     Call<RspModel<GroupCard>> groupFind(@Path("groupId") String groupId);
 
+    /**
+     * 群搜索的接口
+     *
+     * @param name
+     * @return
+     */
+    @GET("group/search/{name}")
+    Call<RspModel<List<GroupCard>>> groupSearch(@Path(value ="name" ,encoded = true) String name);
+
+    /**
+     * 我的群列表
+     *
+     * @param date
+     * @return
+     */
+    @GET("group/list/{date}")
+    Call<RspModel<List<GroupCard>>> groups(@Path(value = "date",encoded = true)  String date);
+
+    /**
+     * 群的成员
+     *
+     * @param groupId
+     * @return
+     */
+    @GET("group/{groupId}/{member}")
+    Call<RspModel<List<GroupMemberCard>>> groupMembers(@Path(value = "groupId")  String groupId);
+
+    /**
+     * 群的成员添加
+     *
+     * @param groupId
+     * @return
+     */
+    @POST("group/{groupId}/{member}")
+    Call<RspModel<List<GroupMemberCard>>> groupMemberAdd(@Path(value = "groupId")  String groupId,
+                                                         @Body GroupMemberAddModel model);
 
 
 
