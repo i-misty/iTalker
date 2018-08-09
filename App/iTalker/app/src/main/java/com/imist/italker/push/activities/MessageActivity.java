@@ -53,7 +53,7 @@ public class MessageActivity extends Activity {
             return;
         Intent intent = new Intent(context, MessageActivity.class);
         intent.putExtra(KEY_RECEIVER_ID, group.getId());
-        intent.putExtra(KEY_RECEIVER_IS_GROUP, false);
+        intent.putExtra(KEY_RECEIVER_IS_GROUP, true);
 
         context.startActivity(intent);
     }
