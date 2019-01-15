@@ -11,7 +11,11 @@
         <!--<property name="connection.url">jdbc:mysql://127.0.0.1:3306/DB_I_T_PUSH_TEST?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</property>
         <property name="connection.username">root</property>
         <property name="connection.password">123456</property>-->
-        <property name="connection.url">jdbc:mysql://imisty.cn:3306/DB_I_T_PUSH_TEST?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</property>
+
+        <!--<property name="connection.url">jdbc:mysql://imisty.cn:3306/DB_I_T_PUSH_TEST?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</property>
+        <property name="connection.username">misty</property>
+        <property name="connection.password">iMisty6!</property>-->
+        <property name="connection.url">jdbc:mysql://localhost:3306/DB_I_T_PUSH_TEST?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</property>
         <property name="connection.username">misty</property>
         <property name="connection.password">iMisty6!</property>
 
