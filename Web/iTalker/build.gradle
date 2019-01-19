@@ -43,5 +43,5 @@ dependencies {
 
     //MySql 数据库驱动
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.11'
 }
