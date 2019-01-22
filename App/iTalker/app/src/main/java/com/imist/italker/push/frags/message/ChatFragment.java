@@ -1,6 +1,7 @@
 package com.imist.italker.push.frags.message;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -60,6 +62,10 @@ public abstract class ChatFragment<InitModel>
 
     protected Adapter mAdapter;
 
+    @Override
+    protected final int getContentLayoutId() {
+        return R.layout.fragment_chat_common;
+    }
 
     @Override
     protected void initArgs(Bundle bundle) {
@@ -67,8 +73,17 @@ public abstract class ChatFragment<InitModel>
         mReceiverId = bundle.getString(MessageActivity.KEY_RECEIVER_ID);
     }
 
+    //得到顶部布局的id资源
+    @LayoutRes
+    protected abstract int getHeaderLayoutId();
+
     @Override
     protected void initWidget(View root) {
+        //拿到占位布局，
+        //替换顶部布局，必须在绑定之前调用 防止绑定异常，发生在super之前，
+        ViewStub stub = (ViewStub) root.findViewById(R.id.view_stub_header);
+        stub.setLayoutResource(getHeaderLayoutId());
+        stub.inflate();
         super.initWidget(root);
         initToolbar();
         initAppbar();

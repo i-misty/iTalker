@@ -3,7 +3,10 @@ package com.imist.italker.factory.presenter.message;
 import com.imist.italker.factory.model.db.Group;
 import com.imist.italker.factory.model.db.Message;
 import com.imist.italker.factory.model.db.User;
+import com.imist.italker.factory.model.db.view.MemberUserModel;
 import com.imist.italker.factory.presenter.BaseContract;
+
+import java.util.List;
 
 public interface ChatContact {
     interface Presenter extends BaseContract.Presenter {
@@ -32,6 +35,11 @@ public interface ChatContact {
 
     //群聊天的界面
     interface GroupView extends View<Group> {
+        //是否是管理员
+        void showAdminOption(boolean isAdmin);
+        //初始化成员
+        void onInitGroupMembers(List<MemberUserModel> members ,int moreCount );
+
 
     }
 }
