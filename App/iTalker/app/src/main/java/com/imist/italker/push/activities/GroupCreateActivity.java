@@ -191,11 +191,12 @@ public class GroupCreateActivity extends PresenterToolbarActivity<GroupCreateCon
 
         @Override
         protected ViewHolder<GroupCreateContact.ViewModel> onCreateViewHolder(View root, int viewType) {
-            return new ViewHodel(root);
+            //创建一个内部类的ViewHolder实例
+            return new GroupCreateActivity.ViewHolder(root);
         }
     }
 
-    class ViewHodel extends RecyclerAdapter.ViewHolder<GroupCreateContact.ViewModel> {
+    class ViewHolder extends RecyclerAdapter.ViewHolder<GroupCreateContact.ViewModel> {
         @BindView(R.id.im_portrait)
         PortraitView mPprtrait;
         @BindView(R.id.txt_name)
@@ -203,7 +204,7 @@ public class GroupCreateActivity extends PresenterToolbarActivity<GroupCreateCon
         @BindView(R.id.cb_select)
         CheckBox mSelect;
 
-        ViewHodel(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
         }
 

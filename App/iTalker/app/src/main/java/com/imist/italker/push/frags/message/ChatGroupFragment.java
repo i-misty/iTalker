@@ -21,6 +21,7 @@ import com.imist.italker.factory.model.db.view.MemberUserModel;
 import com.imist.italker.factory.presenter.message.ChatContact;
 import com.imist.italker.factory.presenter.message.ChatGroupPresenter;
 import com.imist.italker.push.R;
+import com.imist.italker.push.activities.GroupMemberActivity;
 import com.imist.italker.push.activities.PersonalActivity;
 
 import java.util.List;
@@ -145,6 +146,7 @@ public class ChatGroupFragment extends ChatFragment<Group>
                 @Override
                 public void onClick(View view) {
                     //显示成员列表
+                    GroupMemberActivity.show(getContext(),mReceiverId);
                 }
             });
         }else {
@@ -160,7 +162,8 @@ public class ChatGroupFragment extends ChatFragment<Group>
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     if (item.getItemId() == R.id.action_add){
-                        //todo 进行添加群成员操作
+                        //接收者ID就是群的ID
+                        GroupMemberActivity.showAdmin(getContext(),mReceiverId);
                         return true;
                     }
                     return false;
