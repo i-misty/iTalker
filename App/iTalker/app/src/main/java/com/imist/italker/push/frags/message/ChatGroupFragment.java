@@ -2,6 +2,8 @@ package com.imist.italker.push.frags.message;
 
 
 import android.app.Fragment;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -11,6 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.ViewTarget;
 import com.imist.italker.factory.model.db.Group;
 import com.imist.italker.factory.model.db.view.MemberUserModel;
 import com.imist.italker.factory.presenter.message.ChatContact;
@@ -45,6 +50,53 @@ public class ChatGroupFragment extends ChatFragment<Group>
     @Override
     protected int getHeaderLayoutId() {
         return R.layout.lay_chat_header_group;
+    }
+
+    @Override
+    protected void initWidget(View root) {
+        super.initWidget(root);
+        Glide.with(this)
+                .load(R.drawable.default_banner_group)
+                .centerCrop()
+                .into(new ViewTarget<CollapsingToolbarLayout, GlideDrawable>(mCollapsingLayout) {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        this.view.setContentScrim(resource.getCurrent());
+                    }
+                });
+    }
+
+    //这里控制头像的显示和隐藏逻辑,菜单有管理员权限的情况下默认是常显示的，所以不需要
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        super.onOffsetChanged(appBarLayout, verticalOffset);
+        View view = mLayMembers;
+        if (view == null)
+            return;
+        if (verticalOffset == 0) {
+            //完全展开
+            view.setVisibility(View.VISIBLE);
+            view.setScaleX(1);
+            view.setScaleY(1);
+            view.setAlpha(1);
+        } else {
+            //abs运算
+            verticalOffset = Math.abs(verticalOffset);
+            final int totalScrollRange = appBarLayout.getTotalScrollRange();
+            if (verticalOffset >= totalScrollRange) {
+                //关闭状态
+                view.setVisibility(View.INVISIBLE);
+                view.setScaleX(0);
+                view.setScaleY(0);
+                view.setAlpha(0);
+            } else {
+                //中间状态
+                float progress = 1 - verticalOffset / (float) totalScrollRange;
+                view.setScaleX(progress);
+                view.setScaleY(progress);
+                view.setAlpha(progress);
+            }
+        }
     }
 
     @Override

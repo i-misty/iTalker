@@ -25,7 +25,7 @@ public class ChatGroupPresenter  extends ChatPresenter<ChatContact.GroupView>
         //从本地拿到群的信息
         Group group = GroupHelper.findFromLocal( mReceiverId);
         if (group != null){
-            //初始化操作，这里的view不可能为null，因为刚刚start
+            //初始化操作，这里的view不可能为null，因为刚刚start,但是异步操作需要判断一下
             ChatContact.GroupView view = getView();
             boolean isAdmin = Account.getUserId().equalsIgnoreCase(group.getOwner().getId());
 
