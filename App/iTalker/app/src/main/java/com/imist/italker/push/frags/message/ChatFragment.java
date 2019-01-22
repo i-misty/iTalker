@@ -84,6 +84,7 @@ public abstract class ChatFragment<InitModel>
         ViewStub stub = (ViewStub) root.findViewById(R.id.view_stub_header);
         stub.setLayoutResource(getHeaderLayoutId());
         stub.inflate();
+        //这里进行了控件绑定
         super.initWidget(root);
         initToolbar();
         initAppbar();
