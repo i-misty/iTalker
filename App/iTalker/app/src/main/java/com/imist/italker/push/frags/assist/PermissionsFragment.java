@@ -32,6 +32,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class PermissionsFragment extends BottomSheetDialogFragment implements EasyPermissions.PermissionCallbacks {
 
     private static final int RC = 0x0100;
+    private PermissionListen listen;
 
     public PermissionsFragment() {
 
@@ -40,7 +41,7 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
+        listen = (PermissionListen) getContext();
         return new BottomSheetDialog(getContext());
     }
 
@@ -146,6 +147,9 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
             Application.showToast(R.string.label_permission_ok);
             //Fragment 中调用getView拿到根布局，前提是onCreateView
             refreshState(getView());
+
+            listen.permissionRequestSuccess();
+
         } else {
             //请求权限
             EasyPermissions.requestPermissions(this, getString(R.string.title_assist_permissions), RC, perms);
@@ -180,4 +184,10 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
         //传递对应的参数，并且告知权限的处理者是我自己
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
+
+    public interface PermissionListen {
+        void permissionRequestSuccess();
+    }
 }
+
+

@@ -19,7 +19,8 @@ import com.imist.italker.push.frags.assist.PermissionsFragment;
 
 import net.qiujuer.genius.ui.compat.UiCompat;
 
-public class LaunchActivity extends Activity {
+public class LaunchActivity extends Activity
+        implements PermissionsFragment.PermissionListen{
     // Drawable
     private ColorDrawable mBgDrawable;
     private boolean mNeedRequirePermission = false;
@@ -155,4 +156,8 @@ public class LaunchActivity extends Activity {
         }
     };
 
+    @Override
+    public void permissionRequestSuccess() {
+        reallySkip();
+    }
 }
