@@ -7,7 +7,7 @@ import java.util.Locale;
 
 public class DateTimeUtil {
     private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yy-MM-dd",Locale.ENGLISH);
-    public static String getSimpleData(Date date){
+    public static String getSimpleDate(Date date){
         return FORMAT.format(date);
     }
 }

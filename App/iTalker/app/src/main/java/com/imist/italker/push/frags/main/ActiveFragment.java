@@ -3,6 +3,8 @@ package com.imist.italker.push.frags.main;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -14,6 +16,7 @@ import com.imist.italker.common.widget.EmptyView;
 import com.imist.italker.common.widget.GalleryView;
 import com.imist.italker.common.widget.PortraitView;
 import com.imist.italker.common.widget.recycler.RecyclerAdapter;
+import com.imist.italker.face.Face;
 import com.imist.italker.factory.model.db.Session;
 import com.imist.italker.factory.model.db.User;
 import com.imist.italker.factory.presenter.message.SessionContract;
@@ -131,8 +134,15 @@ public class ActiveFragment extends PresenterFragment<SessionContract.Presenter>
             //Glide.with(ContactFragment.this)绑定Fragment,随生命周期影响优化加载
             mPortraitView.setup(Glide.with(ActiveFragment.this), session.getPicture());
             mName.setText(session.getTitle());
-            mContent.setText(TextUtils.isEmpty(session.getContent()) ? "" : session.getContent());
-            mTime.setText(DateTimeUtil.getSimpleData(session.getModifyAt()));
+
+            String str = TextUtils.isEmpty(session.getContent()) ? "" : session.getContent();
+            Spannable spannable = new SpannableString(str);
+            // 解析表情
+            Face.decode(mContent, spannable, (int) mContent.getTextSize());
+            // 把内容设置到布局上
+            mContent.setText(spannable);
+
+            mTime.setText(DateTimeUtil.getSimpleDate(session.getModifyAt()));
         }
     }
 }

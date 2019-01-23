@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewStub;
@@ -20,6 +22,7 @@ import com.imist.italker.common.app.PresenterFragment;
 import com.imist.italker.common.widget.PortraitView;
 import com.imist.italker.common.widget.adapter.TextWatcherAdapter;
 import com.imist.italker.common.widget.recycler.RecyclerAdapter;
+import com.imist.italker.face.Face;
 import com.imist.italker.factory.model.db.Message;
 import com.imist.italker.factory.model.db.User;
 import com.imist.italker.factory.persistence.Account;
@@ -29,6 +32,7 @@ import com.imist.italker.push.activities.MessageActivity;
 import com.imist.italker.push.frags.panel.PanelFragment;
 
 
+import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.widget.Loading;
 import net.qiujuer.widget.airpanel.AirPanel;
@@ -43,7 +47,7 @@ import butterknife.OnClick;
 public abstract class ChatFragment<InitModel>
         extends PresenterFragment<ChatContact.Presenter>
         implements AppBarLayout.OnOffsetChangedListener,
-        ChatContact.View<InitModel> {
+        ChatContact.View<InitModel> , PanelFragment.PanelCallback{
 
     protected String mReceiverId;
 
@@ -104,6 +108,8 @@ public abstract class ChatFragment<InitModel>
             }
         });
         mPanelFragment = (PanelFragment) getChildFragmentManager().findFragmentById(R.id.frag_panel);
+        mPanelFragment.setup(this);
+
         initToolbar();
         initAppbar();
         initEditContent();
@@ -201,6 +207,12 @@ public abstract class ChatFragment<InitModel>
     @Override
     public void onAdapterDataChanged() {
         mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
+    }
+
+    @Override
+    public EditText getInputEditText() {
+        // 返回输入框
+        return mContent;
     }
 
     /**
@@ -331,7 +343,12 @@ public abstract class ChatFragment<InitModel>
         protected void onBind(Message message) {
             super.onBind(message);
             //将内容设置到布局上
-            mContent.setText(message.getContent());
+            //mContent.setText(message.getContent());
+            Spannable spannable = new SpannableString(message.getContent());
+            // 解析表情
+            Face.decode(mContent, spannable, (int) Ui.dipToPx(getResources(), 20));
+            // 把内容设置到布局上
+            mContent.setText(spannable);
         }
     }
 

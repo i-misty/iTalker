@@ -17,6 +17,8 @@ import com.imist.italker.factory.presenter.message.ChatUserPresenter;
 import com.imist.italker.push.R;
 import com.imist.italker.push.activities.PersonalActivity;
 
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -136,4 +138,5 @@ public class ChatUserFragment extends ChatFragment<User> implements ChatContact.
         mPortraitView.setup(Glide.with(this), user.getPortrait());
         mCollapsingLayout.setTitle(user.getName());
     }
+
 }
