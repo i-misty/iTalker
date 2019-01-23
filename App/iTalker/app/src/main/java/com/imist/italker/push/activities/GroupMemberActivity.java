@@ -1,6 +1,5 @@
 package com.imist.italker.push.activities;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,16 +17,16 @@ import com.imist.italker.factory.model.db.view.MemberUserModel;
 import com.imist.italker.factory.presenter.group.GroupMemberContract;
 import com.imist.italker.factory.presenter.group.GroupMemberPresenter;
 import com.imist.italker.push.R;
+import com.imist.italker.push.frags.group.GroupMemberAddFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class GroupMemberActivity extends PresenterToolbarActivity<GroupMemberContract.Presenter>
-        implements GroupMemberContract.View {
-
-
+        implements GroupMemberContract.View ,GroupMemberAddFragment.Callback {
     private static final String KEY_GROUP_ID = "KEY_GROUP_ID";
     private static final String KEY_GROUP_ADMIN = "KEY_GROUP_ADMIN";
+
 
     @BindView(R.id.recycler)
     RecyclerView mRecycler;
@@ -61,12 +60,8 @@ public class GroupMemberActivity extends PresenterToolbarActivity<GroupMemberCon
     }
 
     @Override
-    protected void initData() {
-        super.initData();
-        //开始数据刷新
-        mPresenter.refresh();
-        // 显示管理员界面，添加成员
-
+    public String getGroupId() {
+        return mGroupID;
     }
 
     @Override
@@ -96,8 +91,16 @@ public class GroupMemberActivity extends PresenterToolbarActivity<GroupMemberCon
     }
 
     @Override
-    protected GroupMemberContract.Presenter initPresenter() {
-        return new GroupMemberPresenter(this);
+    protected void initData() {
+        super.initData();
+        // 开始数据刷新
+        mPresenter.refresh();
+
+        // 显示管理员界面，添加成员
+        if (isAdmin) {
+            new GroupMemberAddFragment()
+                    .show(getSupportFragmentManager(), GroupMemberAddFragment.class.getName());
+        }
     }
 
     @Override
@@ -107,13 +110,26 @@ public class GroupMemberActivity extends PresenterToolbarActivity<GroupMemberCon
 
     @Override
     public void onAdapterDataChanged() {
-        //隐藏loading就好
-        hideDialogLoading();
+        // 隐藏Loading就好
+        hideLoading();
     }
 
     @Override
-    public String getGroupId() {
-        return mGroupID;
+    protected GroupMemberContract.Presenter initPresenter() {
+        return new GroupMemberPresenter(this);
+    }
+
+
+    @Override
+    public void hideLoading() {
+        super.hideLoading();
+    }
+
+    @Override
+    public void refreshMembers() {
+        // 重新加载成员信息
+        if (mPresenter != null)
+            mPresenter.refresh();
     }
 
     class ViewHolder extends RecyclerAdapter.ViewHolder<MemberUserModel> {

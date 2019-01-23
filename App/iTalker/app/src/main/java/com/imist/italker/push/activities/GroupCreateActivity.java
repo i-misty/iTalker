@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.support.constraint.Group;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -21,12 +18,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.imist.italker.common.app.Application;
 import com.imist.italker.common.app.PresenterToolbarActivity;
-import com.imist.italker.common.app.ToolbarActivity;
 import com.imist.italker.common.widget.PortraitView;
 import com.imist.italker.common.widget.recycler.RecyclerAdapter;
-import com.imist.italker.factory.presenter.BaseContract;
-import com.imist.italker.factory.presenter.BaseRecyclerPresenter;
-import com.imist.italker.factory.presenter.group.GroupCreateContact;
+import com.imist.italker.factory.presenter.group.GroupCreateContract;
 import com.imist.italker.factory.presenter.group.GroupCreatePresenter;
 import com.imist.italker.push.R;
 import com.imist.italker.push.frags.media.GalleryFragment;
@@ -38,8 +32,8 @@ import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class GroupCreateActivity extends PresenterToolbarActivity<GroupCreateContact.Presenter>
-        implements GroupCreateContact.View {
+public class GroupCreateActivity extends PresenterToolbarActivity<GroupCreateContract.Presenter>
+        implements GroupCreateContract.View {
 
     @BindView(R.id.recycler)
     RecyclerView mRecycler;
@@ -146,7 +140,7 @@ public class GroupCreateActivity extends PresenterToolbarActivity<GroupCreateCon
     }
 
     @Override
-    protected GroupCreateContact.Presenter initPresenter() {
+    protected GroupCreateContract.Presenter initPresenter() {
         return new GroupCreatePresenter(this);
     }
 
@@ -159,7 +153,7 @@ public class GroupCreateActivity extends PresenterToolbarActivity<GroupCreateCon
     }
 
     @Override
-    public RecyclerAdapter<GroupCreateContact.ViewModel> getRecyclerAdapter() {
+    public RecyclerAdapter<GroupCreateContract.ViewModel> getRecyclerAdapter() {
         return mAdapter;
     }
 
@@ -181,22 +175,22 @@ public class GroupCreateActivity extends PresenterToolbarActivity<GroupCreateCon
         }
     }
 
-    private class Adapter extends RecyclerAdapter<GroupCreateContact.ViewModel> {
+    private class Adapter extends RecyclerAdapter<GroupCreateContract.ViewModel> {
 
 
         @Override
-        protected int getItemViewType(int position, GroupCreateContact.ViewModel viewModel) {
+        protected int getItemViewType(int position, GroupCreateContract.ViewModel viewModel) {
             return R.layout.cell_group_create_contact;
         }
 
         @Override
-        protected ViewHolder<GroupCreateContact.ViewModel> onCreateViewHolder(View root, int viewType) {
+        protected ViewHolder<GroupCreateContract.ViewModel> onCreateViewHolder(View root, int viewType) {
             //创建一个内部类的ViewHolder实例
             return new GroupCreateActivity.ViewHolder(root);
         }
     }
 
-    class ViewHolder extends RecyclerAdapter.ViewHolder<GroupCreateContact.ViewModel> {
+    class ViewHolder extends RecyclerAdapter.ViewHolder<GroupCreateContract.ViewModel> {
         @BindView(R.id.im_portrait)
         PortraitView mPprtrait;
         @BindView(R.id.txt_name)
@@ -214,7 +208,7 @@ public class GroupCreateActivity extends PresenterToolbarActivity<GroupCreateCon
             mPresenter.changeSelect(mData,checked);
         }
         @Override
-        protected void onBind(GroupCreateContact.ViewModel viewModel) {
+        protected void onBind(GroupCreateContract.ViewModel viewModel) {
 
             mPortrait.setup(Glide.with(GroupCreateActivity.this),viewModel.author);
             mName.setText(viewModel.author.getName());

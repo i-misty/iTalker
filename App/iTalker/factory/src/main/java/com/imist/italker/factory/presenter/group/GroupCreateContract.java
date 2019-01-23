@@ -3,7 +3,7 @@ package com.imist.italker.factory.presenter.group;
 import com.imist.italker.factory.model.Author;
 import com.imist.italker.factory.presenter.BaseContract;
 
-public interface GroupCreateContact {
+public interface GroupCreateContract {
     interface Presenter extends BaseContract.Presenter{
         //创建
         void create(String name ,String desc,String picture);

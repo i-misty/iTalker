@@ -36,7 +36,6 @@ public class GroupMemberPresenter extends BaseRecyclerPresenter<MemberUserModel,
             // -1 代表查询所有
             List<MemberUserModel> models = GroupHelper.getMemberUsers(groupId,-1);
             refreshData(models);
-
         }
     };
 }

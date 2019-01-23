@@ -22,11 +22,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class GroupCreatePresenter extends BaseRecyclerPresenter<GroupCreateContact.ViewModel, GroupCreateContact.View>
-        implements GroupCreateContact.Presenter ,DataSource.Callback<GroupCard>{
+public class GroupCreatePresenter extends BaseRecyclerPresenter<GroupCreateContract.ViewModel, GroupCreateContract.View>
+        implements GroupCreateContract.Presenter ,DataSource.Callback<GroupCard>{
     private Set<String> users = new HashSet<>();
 
-    public GroupCreatePresenter(GroupCreateContact.View view) {
+    public GroupCreatePresenter(GroupCreateContract.View view) {
         super(view);
     }
 
@@ -38,7 +38,7 @@ public class GroupCreatePresenter extends BaseRecyclerPresenter<GroupCreateConta
 
     @Override
     public void create(final String name, final String desc, final String picture) {
-        GroupCreateContact.View view = getView();
+        GroupCreateContract.View view = getView();
         view.showLoading();
         //判断参数
         if (TextUtils.isEmpty(name ) || TextUtils.isEmpty(desc)
@@ -63,7 +63,7 @@ public class GroupCreatePresenter extends BaseRecyclerPresenter<GroupCreateConta
     }
 
     @Override
-    public void changeSelect(GroupCreateContact.ViewModel model, boolean isSelect) {
+    public void changeSelect(GroupCreateContract.ViewModel model, boolean isSelect) {
         if (isSelect){
             users.add(model.author.getId());
         }else {
@@ -78,7 +78,7 @@ public class GroupCreatePresenter extends BaseRecyclerPresenter<GroupCreateConta
             Run.onUiAsync(new Action() {
                 @Override
                 public void call() {
-                    GroupCreateContact.View view = getView();
+                    GroupCreateContract.View view = getView();
                     if (view != null){
                         view.showError(R.string.data_upload_error);
                     }
@@ -92,9 +92,9 @@ public class GroupCreatePresenter extends BaseRecyclerPresenter<GroupCreateConta
         @Override
         public void run() {
             List<UserSampleModel> sampleModels = UserHelper.getSampleContacts();
-            List<GroupCreateContact.ViewModel> models = new ArrayList<>();
+            List<GroupCreateContract.ViewModel> models = new ArrayList<>();
             for (UserSampleModel sampleModel : sampleModels) {
-                GroupCreateContact.ViewModel viewModel = new GroupCreateContact.ViewModel();
+                GroupCreateContract.ViewModel viewModel = new GroupCreateContract.ViewModel();
                 viewModel.author = sampleModel;
                 models.add(viewModel);
             }
@@ -108,7 +108,7 @@ public class GroupCreatePresenter extends BaseRecyclerPresenter<GroupCreateConta
         Run.onUiAsync(new Action() {
             @Override
             public void call() {
-                GroupCreateContact.View view = getView();
+                GroupCreateContract.View view = getView();
                 if (view != null){
                    view.onCreateSuccessed();
                 }
@@ -119,7 +119,7 @@ public class GroupCreatePresenter extends BaseRecyclerPresenter<GroupCreateConta
 
     @Override
     public void onDataNotAvailable(int strRes) {
-        GroupCreateContact.View view = getView();
+        GroupCreateContract.View view = getView();
         if (view != null){
             view.showError(strRes);
         }
