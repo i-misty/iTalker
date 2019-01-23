@@ -172,8 +172,9 @@ public class GroupHelper {
 
     //关联查询一个用户和群成员的表，返回一个MemberUserModel集合
     public static List<MemberUserModel> getMemberUsers(String groupId, int size) {
-        return SQLite.select(GroupMember_Table.alias.withTable().as("alias"),
-                User_Table.id.withTable().as("id"),
+
+        return SQLite.select(GroupMember_Table.alias.withTable().as("alias"),//查询到的结果赋值给对应的字段
+                User_Table.id.withTable().as("userId"),
                 User_Table.name.withTable().as("name"),
                 User_Table.portrait.withTable().as("portrait")
                 ).from(GroupMember.class)

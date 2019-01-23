@@ -69,6 +69,7 @@ public class ChatUserFragment extends ChatFragment<User> implements ChatContact.
             }
         });
 
+        //获取菜单里面的某一项
         mUserInfoMenuItem = toolbar.getMenu().findItem(R.id.action_person);
     }
 

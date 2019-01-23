@@ -35,11 +35,11 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+//将所有公共的部分提取出来（包括布局）
 public abstract class ChatFragment<InitModel>
         extends PresenterFragment<ChatContact.Presenter>
         implements AppBarLayout.OnOffsetChangedListener,
         ChatContact.View<InitModel> {
-
 
     protected String mReceiverId;
 
