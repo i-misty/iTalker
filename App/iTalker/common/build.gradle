@@ -39,4 +39,6 @@ dependencies {
     api "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
 
+    implementation "net.qiujuer.widget:airpanel:$rootProject.ext.airpanelVersion"
+
 }

@@ -26,9 +26,13 @@ import com.imist.italker.factory.persistence.Account;
 import com.imist.italker.factory.presenter.message.ChatContact;
 import com.imist.italker.push.R;
 import com.imist.italker.push.activities.MessageActivity;
+import com.imist.italker.push.frags.panel.PanelFragment;
+
 
 import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.widget.Loading;
+import net.qiujuer.widget.airpanel.AirPanel;
+import net.qiujuer.widget.airpanel.Util;
 
 import java.util.Objects;
 
@@ -62,6 +66,10 @@ public abstract class ChatFragment<InitModel>
 
     protected Adapter mAdapter;
 
+    //控制顶部面板与软键盘过度的Boss控件
+    private  AirPanel.Boss mPanelBoss;
+    private PanelFragment mPanelFragment;
+
     @Override
     protected final int getContentLayoutId() {
         return R.layout.fragment_chat_common;
@@ -86,6 +94,16 @@ public abstract class ChatFragment<InitModel>
         stub.inflate();
         //这里进行了控件绑定
         super.initWidget(root);
+        //初始化面板操作
+        mPanelBoss = (AirPanel.Boss) root.findViewById(R.id.lay_content);
+        mPanelBoss.setup(new AirPanel.PanelListener() {
+            @Override
+            public void requestHideSoftKeyboard() {
+                //请求隐藏软键盘
+                Util.hideKeyboard(mContent);
+            }
+        });
+        mPanelFragment = (PanelFragment) getChildFragmentManager().findFragmentById(R.id.frag_panel);
         initToolbar();
         initAppbar();
         initEditContent();
@@ -145,14 +163,22 @@ public abstract class ChatFragment<InitModel>
 
     @OnClick(R.id.btn_face)
     void onFaceClick() {
-
+        //打开空气面板自动隐藏软键盘
+        mPanelBoss.openPanel();
+        //Util.hideKeyboard(mContent);
+        mPanelFragment.showFace();
     }
 
     @OnClick(R.id.btn_record)
     void onRecordClick() {
-
+        mPanelBoss.openPanel();
+        mPanelFragment.showRecord();
     }
 
+    private void onMoreClick() {
+        mPanelBoss.openPanel();
+        mPanelFragment.showGallery();
+    }
     @OnClick(R.id.btn_submit)
     void onSubmitClick() {
         if (mSubmit.isActivated()) {
@@ -165,9 +191,7 @@ public abstract class ChatFragment<InitModel>
         }
     }
 
-    private void onMoreClick() {
 
-    }
 
     @Override
     public RecyclerAdapter<Message> getRecyclerAdapter() {

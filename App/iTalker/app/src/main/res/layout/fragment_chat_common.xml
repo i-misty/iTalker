@@ -2,6 +2,7 @@
 <com.imist.italker.common.widget.MessageLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lay_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -98,4 +99,20 @@
             android:src="@drawable/ic_submit"
             android:tint="@color/textPrimary" />
     </LinearLayout>
+
+    <!--id是固定的airPanelSubLayout-->
+    <net.qiujuer.widget.airpanel.AirPanelFrameLayout
+        android:id="@id/airPanelSubLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grey_300"
+        android:visibility="gone">
+
+        <fragment
+            android:id="@+id/frag_panel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.imist.italker.push.frags.panel.PanelFragment"
+            tools:layout="@layout/fragment_panel"/>
+    </net.qiujuer.widget.airpanel.AirPanelFrameLayout>
 </com.imist.italker.common.widget.MessageLayout>
