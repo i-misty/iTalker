@@ -12,6 +12,8 @@ out/
 
 .idea/caches/
 
+gradle/
+
 
 */local.properties
 
