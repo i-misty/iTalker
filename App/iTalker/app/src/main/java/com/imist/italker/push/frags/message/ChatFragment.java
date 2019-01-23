@@ -89,7 +89,9 @@ public abstract class ChatFragment<InitModel>
         initToolbar();
         initAppbar();
         initEditContent();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(manager);
+        manager.setStackFromEnd(true);
         mAdapter = new Adapter();
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -174,7 +176,7 @@ public abstract class ChatFragment<InitModel>
 
     @Override
     public void onAdapterDataChanged() {
-
+        mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
     }
 
     /**
