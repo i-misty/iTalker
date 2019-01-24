@@ -203,14 +203,15 @@ public class GroupCreateActivity extends PresenterToolbarActivity<GroupCreateCon
         }
 
         @OnCheckedChanged(R.id.cb_select)
-        void onCheckedChanged(boolean checked){
+        void onCheckedChanged(boolean checked) {
             //对状态进行更改
-            mPresenter.changeSelect(mData,checked);
+            mPresenter.changeSelect(mData, checked);
         }
+
         @Override
         protected void onBind(GroupCreateContract.ViewModel viewModel) {
 
-            mPortrait.setup(Glide.with(GroupCreateActivity.this),viewModel.author);
+            mPortrait.setup(Glide.with(GroupCreateActivity.this), viewModel.author);
             mName.setText(viewModel.author.getName());
             mSelect.setChecked(viewModel.isSelect);
 

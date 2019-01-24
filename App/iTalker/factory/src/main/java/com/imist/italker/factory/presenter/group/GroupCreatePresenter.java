@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 public class GroupCreatePresenter extends BaseRecyclerPresenter<GroupCreateContract.ViewModel, GroupCreateContract.View>
-        implements GroupCreateContract.Presenter ,DataSource.Callback<GroupCard>{
+        implements GroupCreateContract.Presenter, DataSource.Callback<GroupCard> {
     private Set<String> users = new HashSet<>();
 
     public GroupCreatePresenter(GroupCreateContract.View view) {
@@ -41,8 +41,8 @@ public class GroupCreatePresenter extends BaseRecyclerPresenter<GroupCreateContr
         GroupCreateContract.View view = getView();
         view.showLoading();
         //判断参数
-        if (TextUtils.isEmpty(name ) || TextUtils.isEmpty(desc)
-                ||TextUtils.isEmpty(picture)|| users.size() == 0){
+        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(desc)
+                || TextUtils.isEmpty(picture) || users.size() == 0) {
             view.showError(R.string.label_group_create_invalid);
             return;
         }
@@ -52,34 +52,34 @@ public class GroupCreatePresenter extends BaseRecyclerPresenter<GroupCreateContr
             @Override
             public void run() {
                 String url = uploadPicture(picture);
-                if (TextUtils.isEmpty(url)){
+                if (TextUtils.isEmpty(url)) {
                     return;
                 }
                 //进行网络的请求
-                GroupCreateModel model = new GroupCreateModel(name,desc,url,users);
-                GroupHelper.create(model,GroupCreatePresenter.this);
+                GroupCreateModel model = new GroupCreateModel(name, desc, url, users);
+                GroupHelper.create(model, GroupCreatePresenter.this);
             }
         });
     }
 
     @Override
     public void changeSelect(GroupCreateContract.ViewModel model, boolean isSelect) {
-        if (isSelect){
+        if (isSelect) {
             users.add(model.author.getId());
-        }else {
+        } else {
             users.remove(model.author.getId());
         }
     }
 
     //同步上传操作
-    private String uploadPicture(String path){
+    private String uploadPicture(String path) {
         String url = UploadHelper.uploadPortrait(path);
-        if (TextUtils.isEmpty(url)){
+        if (TextUtils.isEmpty(url)) {
             Run.onUiAsync(new Action() {
                 @Override
                 public void call() {
                     GroupCreateContract.View view = getView();
-                    if (view != null){
+                    if (view != null) {
                         view.showError(R.string.data_upload_error);
                     }
                 }
@@ -109,8 +109,8 @@ public class GroupCreatePresenter extends BaseRecyclerPresenter<GroupCreateContr
             @Override
             public void call() {
                 GroupCreateContract.View view = getView();
-                if (view != null){
-                   view.onCreateSuccessed();
+                if (view != null) {
+                    view.onCreateSuccessed();
                 }
             }
         });
@@ -120,7 +120,7 @@ public class GroupCreatePresenter extends BaseRecyclerPresenter<GroupCreateContr
     @Override
     public void onDataNotAvailable(int strRes) {
         GroupCreateContract.View view = getView();
-        if (view != null){
+        if (view != null) {
             view.showError(strRes);
         }
     }

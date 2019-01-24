@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
-<FrameLayout
-    tools:context="com.imist.italker.push.frags.panel.PanelFragment"
+<FrameLayout tools:context="com.imist.italker.push.frags.panel.PanelFragment"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,10 +9,11 @@
     <include
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        layout="@layout/lay_panel_face"/>
+        layout="@layout/lay_panel_face" />
+
     <include
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        layout="@layout/lay_panel_gallery"/>
+        layout="@layout/lay_panel_gallery" />
 
 </FrameLayout>

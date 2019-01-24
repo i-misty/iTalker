@@ -11,8 +11,8 @@ import com.imist.italker.factory.utils.DiffUiDataCallback;
 
 import java.util.List;
 
-public class GroupsPresenter extends BaseSourcePresenter<Group,Group,
-        GroupsDataSource,GroupContract.View> implements GroupContract.Presenter{
+public class GroupsPresenter extends BaseSourcePresenter<Group, Group,
+        GroupsDataSource, GroupContract.View> implements GroupContract.Presenter {
 
     public GroupsPresenter(GroupContract.View view) {
         super(new GroupsRespository(), view);
@@ -33,10 +33,10 @@ public class GroupsPresenter extends BaseSourcePresenter<Group,Group,
             return;
         //对比差异
         List<Group> old = view.getRecyclerAdapter().getItems();
-        DiffUiDataCallback<Group> callback = new DiffUiDataCallback<>(old,groups);
+        DiffUiDataCallback<Group> callback = new DiffUiDataCallback<>(old, groups);
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
         //界面刷新
-        refreshData(result,groups);
+        refreshData(result, groups);
 
     }
 }

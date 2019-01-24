@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import net.qiujuer.genius.ui.compat.UiCompat;
+
 import com.imist.italker.common.widget.PortraitView;
 import com.imist.italker.common.widget.recycler.RecyclerAdapter;
 import com.imist.italker.factory.presenter.group.GroupCreateContract;

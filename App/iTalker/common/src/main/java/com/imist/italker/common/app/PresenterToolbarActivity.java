@@ -45,10 +45,10 @@ public abstract class PresenterToolbarActivity<Presenter extends BaseContract.Pr
     public void showLoading() {
         if (mPlaceHolderView != null) {
             mPlaceHolderView.triggerLoading();
-        }else {
+        } else {
             ProgressDialog dialog = mLoadingDialog;
-            if (dialog == null){
-                dialog = new ProgressDialog(this,R.style.AppTheme_Dialog_Alert_Light);
+            if (dialog == null) {
+                dialog = new ProgressDialog(this, R.style.AppTheme_Dialog_Alert_Light);
                 dialog.setCanceledOnTouchOutside(false);
                 //强制取消关闭界面
                 dialog.setCancelable(true);
@@ -65,19 +65,20 @@ public abstract class PresenterToolbarActivity<Presenter extends BaseContract.Pr
         }
     }
 
-    protected void hideDialogLoading(){
+    protected void hideDialogLoading() {
         ProgressDialog dialog = mLoadingDialog;
-        if (dialog != null){
+        if (dialog != null) {
             mLoadingDialog = null;
             dialog.dismiss();
         }
     }
+
     /**
      * 隐藏loading
      */
     protected void hideLoading() {
         //无论是否有占位布局都隐藏
-       hideDialogLoading();
+        hideDialogLoading();
         if (mPlaceHolderView != null) {
             mPlaceHolderView.triggerOk();
         }

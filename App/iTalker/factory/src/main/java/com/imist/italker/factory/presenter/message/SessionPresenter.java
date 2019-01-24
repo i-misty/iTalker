@@ -15,8 +15,8 @@ import java.util.List;
  */
 
 //第一个session,第二个界面显示的数据
-public class SessionPresenter extends BaseSourcePresenter<Session,Session,
-        SessionDataSource,SessionContract.View> implements SessionContract.Presenter{
+public class SessionPresenter extends BaseSourcePresenter<Session, Session,
+        SessionDataSource, SessionContract.View> implements SessionContract.Presenter {
     public SessionPresenter(SessionContract.View view) {
 
         super(new SessionRepository(), view);
@@ -25,14 +25,14 @@ public class SessionPresenter extends BaseSourcePresenter<Session,Session,
     @Override
     public void onDataLoaded(List<Session> session) {
         SessionContract.View view = getView();
-        if (view == null){
+        if (view == null) {
             return;
         }
         //差异对比
         List<Session> old = view.getRecyclerAdapter().getItems();
-        DiffUiDataCallback<Session> callback = new DiffUiDataCallback<>(old,session);
+        DiffUiDataCallback<Session> callback = new DiffUiDataCallback<>(old, session);
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
         //刷新界面；
-        refreshData(result,session);
+        refreshData(result, session);
     }
 }

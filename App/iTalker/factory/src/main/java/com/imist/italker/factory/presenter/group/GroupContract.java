@@ -5,7 +5,7 @@ import com.imist.italker.factory.model.db.User;
 import com.imist.italker.factory.presenter.BaseContract;
 
 /**
- *我的群列表契约
+ * 我的群列表契约
  */
 public interface GroupContract {
 

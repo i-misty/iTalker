@@ -6,7 +6,7 @@ import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.QueryModel;
 
 @QueryModel(database = AppDatabase.class)
-public class UserSampleModel implements Author{
+public class UserSampleModel implements Author {
     @Column
     public String id;
     @Column

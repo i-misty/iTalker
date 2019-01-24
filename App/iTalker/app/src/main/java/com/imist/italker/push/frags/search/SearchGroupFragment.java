@@ -80,6 +80,7 @@ public class SearchGroupFragment extends PresenterFragment<SearchContract.Presen
         mEmptyView.bind(mRecycler);
         setPlaceHolderView(mEmptyView);
     }
+
     @Override
     protected void initData() {
         super.initData();
@@ -133,9 +134,9 @@ public class SearchGroupFragment extends PresenterFragment<SearchContract.Presen
         }
 
         @OnClick(R.id.im_join)
-        void onJoinClick(){
+        void onJoinClick() {
             //进入创建者个人界面
-            PersonalActivity.show(getContext(),mData.getOwnerId());
+            PersonalActivity.show(getContext(), mData.getOwnerId());
         }
     }
 }

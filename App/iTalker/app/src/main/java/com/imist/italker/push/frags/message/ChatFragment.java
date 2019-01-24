@@ -49,7 +49,7 @@ import butterknife.OnClick;
 public abstract class ChatFragment<InitModel>
         extends PresenterFragment<ChatContact.Presenter>
         implements AppBarLayout.OnOffsetChangedListener,
-        ChatContact.View<InitModel> , PanelFragment.PanelCallback{
+        ChatContact.View<InitModel>, PanelFragment.PanelCallback {
 
     protected String mReceiverId;
 
@@ -73,7 +73,7 @@ public abstract class ChatFragment<InitModel>
     protected Adapter mAdapter;
 
     //控制顶部面板与软键盘过度的Boss控件
-    private  AirPanel.Boss mPanelBoss;
+    private AirPanel.Boss mPanelBoss;
     private PanelFragment mPanelFragment;
 
     @Override
@@ -187,6 +187,7 @@ public abstract class ChatFragment<InitModel>
         mPanelBoss.openPanel();
         mPanelFragment.showGallery();
     }
+
     @OnClick(R.id.btn_submit)
     void onSubmitClick() {
         if (mSubmit.isActivated()) {

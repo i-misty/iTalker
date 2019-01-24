@@ -11,7 +11,7 @@ import com.imist.italker.factory.persistence.Account;
 
 import java.util.List;
 
-public class ChatGroupPresenter  extends ChatPresenter<ChatContact.GroupView>
+public class ChatGroupPresenter extends ChatPresenter<ChatContact.GroupView>
         implements ChatContact.Presenter {
 
 
@@ -23,8 +23,8 @@ public class ChatGroupPresenter  extends ChatPresenter<ChatContact.GroupView>
     public void start() {
         super.start();
         //从本地拿到群的信息
-        Group group = GroupHelper.findFromLocal( mReceiverId);
-        if (group != null){
+        Group group = GroupHelper.findFromLocal(mReceiverId);
+        if (group != null) {
             //初始化操作，这里的view不可能为null，因为刚刚start,但是异步操作需要判断一下
             ChatContact.GroupView view = getView();
             boolean isAdmin = Account.getUserId().equalsIgnoreCase(group.getOwner().getId());
@@ -37,7 +37,7 @@ public class ChatGroupPresenter  extends ChatPresenter<ChatContact.GroupView>
             final long memberCount = group.getGroupMemberCount();
             //现在的全部成员去掉之前懒加载的部分成员得到多余的成员
             long moreCount = memberCount - models.size();
-            view.onInitGroupMembers(models,moreCount);
+            view.onInitGroupMembers(models, moreCount);
         }
 
     }

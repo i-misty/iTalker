@@ -159,13 +159,13 @@ public class PanelFragment extends Fragment {
             @Override
             public void onSelectedCountChanged(int count) {
                 String resStr = getText(R.string.label_gallery_selected_size).toString();
-                selectedSize.setText(String.format(resStr,count));
+                selectedSize.setText(String.format(resStr, count));
             }
         });
         galleryPanel.findViewById(R.id.btn_send).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onGalleySendClick(galleryView,galleryView.getSelectedPath());
+                onGalleySendClick(galleryView, galleryView.getSelectedPath());
             }
         });
 

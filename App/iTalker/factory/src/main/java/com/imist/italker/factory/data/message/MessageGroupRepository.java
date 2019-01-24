@@ -36,7 +36,7 @@ public class MessageGroupRepository extends BaseDbRepository<Message>
         SQLite.select()
                 .from(Message.class)
                 .where(Message_Table.group_id.eq(receiverId))
-                .orderBy(Message_Table.createAt,false)
+                .orderBy(Message_Table.createAt, false)
                 .limit(30)
                 .async()
                 .queryListResultCallback(this)

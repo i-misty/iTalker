@@ -55,23 +55,23 @@ public class MessageHelper {
 
                 //发送文件消息分两部分：先上传到云服务器，消息push到我们自己的服务器
                 // 如果是文件类型的（语音，图片，文件）需要先上传后发送
-                if (card.getType() != Message.TYPE_STR){
+                if (card.getType() != Message.TYPE_STR) {
                     //不是文字类型
-                    if (!card.getContent().startsWith(UploadHelper.ENDPOINT)){
+                    if (!card.getContent().startsWith(UploadHelper.ENDPOINT)) {
                         //没有上传到云服务器的，还是手机的本地文件
                         String content;
-                        switch (card.getType()){
+                        switch (card.getType()) {
                             case Message.TYPE_PIC:
                                 content = uploadPicture(card.getContent());
                                 break;
                             case Message.TYPE_AUDIO:
                                 content = uploadAudio(card.getContent());
                                 break;
-                             default:
-                                 content = "";
-                                 break;
+                            default:
+                                content = "";
+                                break;
                         }
-                        if (TextUtils.isEmpty(content)){
+                        if (TextUtils.isEmpty(content)) {
                             card.setStatus(Message.STATUS_FAILED);
                             Factory.getMessageCenter().dispatch(card);
                         }
@@ -114,43 +114,46 @@ public class MessageHelper {
         });
     }
 
-    private static String uploadPicture(String content){
+    private static String uploadPicture(String content) {
         File file = null;
-            //通过Glide的缓存区间解决了图片的外部权限问题
+        //通过Glide的缓存区间解决了图片的外部权限问题
+        try {
+            file = Glide.with(Factory.app())
+                    .load(content)
+                    .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    .get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (file != null) {
+            //进行图片压缩
+            String cacheDir = Application.getCacheDirFile().getAbsolutePath();
+            String tempFile = String.format("%s/image/Cache_%s.png", cacheDir, SystemClock.uptimeMillis());
             try {
-                file = Glide.with(Factory.app())
-                        .load(content)
-                        .downloadOnly(Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAL)
-                        .get();
+                // 压缩工具类
+                if (PicturesCompressor.compressImage(file.getAbsolutePath(), tempFile,
+                        Common.Constance.MAX_UPLOAD_IMAGE_LENGTH)) {
+                    // 上传
+                    String ossPath = UploadHelper.uploadImage(tempFile);
+                    // 清理缓存
+                    StreamUtil.delete(tempFile);
+                    return ossPath;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (file != null){
-                //进行图片压缩
-                String cacheDir = Application.getCacheDirFile().getAbsolutePath();
-                String tempFile = String.format("%s/image/Cache_%s.png",cacheDir,SystemClock.uptimeMillis());
-                try {
-                    // 压缩工具类
-                    if (PicturesCompressor.compressImage(file.getAbsolutePath(), tempFile,
-                            Common.Constance.MAX_UPLOAD_IMAGE_LENGTH)) {
-                        // 上传
-                        String ossPath = UploadHelper.uploadImage(tempFile);
-                        // 清理缓存
-                        StreamUtil.delete(tempFile);
-                        return ossPath;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+        }
         return null;
     }
-    private static String uploadAudio(String content){
+
+    private static String uploadAudio(String content) {
 
         return null;
     }
+
     /**
      * 查询一个消息，这个消息是一个群中的最后一条消息；
+     *
      * @param groupId
      * @return 群中聊天的最后一条消息；
      */
@@ -159,12 +162,13 @@ public class MessageHelper {
         return SQLite.select()
                 .from(Message.class)
                 .where(Message_Table.group_id.eq(groupId))
-                .orderBy(Message_Table.createAt,false)
+                .orderBy(Message_Table.createAt, false)
                 .querySingle();
     }
 
     /**
      * 和一个人的最后一条聊天消息s
+     *
      * @param userId
      * @return
      */
@@ -175,7 +179,7 @@ public class MessageHelper {
                         .and(Message_Table.sender_id.eq(userId))
                         .and(Message_Table.group_id.isNull()))
                 .or(Message_Table.receiver_id.eq(userId))
-                .orderBy(Message_Table.createAt,false)//倒序查询
+                .orderBy(Message_Table.createAt, false)//倒序查询
                 .querySingle();
     }
 }

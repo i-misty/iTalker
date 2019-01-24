@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class GroupCreateModel {
 
-    private String name ;
+    private String name;
 
     private String desc;
 

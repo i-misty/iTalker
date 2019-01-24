@@ -49,6 +49,7 @@
         android:textColor="@color/textSecond"
         android:textSize="@dimen/font_12"
         tools:text="Mary Harmon" />
+
     <TextView
         android:id="@+id/txt_time"
         android:layout_width="wrap_content"

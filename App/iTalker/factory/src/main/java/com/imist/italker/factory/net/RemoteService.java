@@ -106,7 +106,7 @@ public interface RemoteService {
     Call<RspModel<MessageCard>> msgPush(@Body MsgCreateModel moel);
 
     /**
-     *创建群
+     * 创建群
      *
      * @return
      */
@@ -114,7 +114,7 @@ public interface RemoteService {
     Call<RspModel<GroupCard>> groupCreate(@Body GroupCreateModel model);
 
     /**
-     *创建群
+     * 创建群
      *
      * @return
      */
@@ -128,7 +128,7 @@ public interface RemoteService {
      * @return
      */
     @GET("group/search/{name}")
-    Call<RspModel<List<GroupCard>>> groupSearch(@Path(value ="name" ,encoded = true) String name);
+    Call<RspModel<List<GroupCard>>> groupSearch(@Path(value = "name", encoded = true) String name);
 
     /**
      * 我的群列表
@@ -137,7 +137,7 @@ public interface RemoteService {
      * @return
      */
     @GET("group/list/{date}")
-    Call<RspModel<List<GroupCard>>> groups(@Path(value = "date",encoded = true)  String date);
+    Call<RspModel<List<GroupCard>>> groups(@Path(value = "date", encoded = true) String date);
 
     /**
      * 群的成员
@@ -146,7 +146,7 @@ public interface RemoteService {
      * @return
      */
     @GET("group/{groupId}/member")
-    Call<RspModel<List<GroupMemberCard>>> groupMembers(@Path(value = "groupId")  String groupId);
+    Call<RspModel<List<GroupMemberCard>>> groupMembers(@Path(value = "groupId") String groupId);
 
     /**
      * 群的成员添加
@@ -155,10 +155,8 @@ public interface RemoteService {
      * @return
      */
     @POST("group/{groupId}/member")
-    Call<RspModel<List<GroupMemberCard>>> groupMemberAdd(@Path(value = "groupId")  String groupId,
+    Call<RspModel<List<GroupMemberCard>>> groupMemberAdd(@Path(value = "groupId") String groupId,
                                                          @Body GroupMemberAddModel model);
-
-
 
 
 }

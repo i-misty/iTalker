@@ -17,7 +17,7 @@ import retrofit2.Call;
  * 搜索群的逻辑实现
  */
 public class SeachGroupPresenter extends BasePresenter<SearchContract.GroupView>
-        implements SearchContract.Presenter,DataSource.Callback<List<GroupCard>> {
+        implements SearchContract.Presenter, DataSource.Callback<List<GroupCard>> {
 
     private Call searchCall;
 
@@ -43,11 +43,11 @@ public class SeachGroupPresenter extends BasePresenter<SearchContract.GroupView>
     public void onDataNotAvailable(final int strRes) {
         //搜索失败，
         final SearchContract.GroupView view = getView();
-        if (view != null){
+        if (view != null) {
             Run.onUiAsync(new Action() {
                 @Override
                 public void call() {
-                view.showError(strRes);
+                    view.showError(strRes);
                 }
             });
         }
@@ -56,7 +56,7 @@ public class SeachGroupPresenter extends BasePresenter<SearchContract.GroupView>
     @Override
     public void onDataLoaded(final List<GroupCard> groupCards) {
         final SearchContract.GroupView view = getView();
-        if (view != null){
+        if (view != null) {
             Run.onUiAsync(new Action() {
                 @Override
                 public void call() {

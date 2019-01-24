@@ -194,14 +194,14 @@ public class Session extends BaseDbModel<Session> {
     //刷新会话对应的信息为当前message的最新状态
     public void refreshToNow() {
         Message message;
-        if (receiverType == Message.RECEIVER_TYPE_GROUP){
+        if (receiverType == Message.RECEIVER_TYPE_GROUP) {
             //刷新当前对应的群相关信息
             message = MessageHelper.findLastWithGroup(id);
-            if (message == null){
+            if (message == null) {
                 if (TextUtils.isEmpty(this.picture)
-                        || TextUtils.isEmpty(this.title)){
+                        || TextUtils.isEmpty(this.title)) {
                     Group group = GroupHelper.findFromLocal(id);
-                    if (group !=null ){
+                    if (group != null) {
                         this.picture = group.getPicture();
                         this.title = group.getName();
                     }
@@ -209,10 +209,10 @@ public class Session extends BaseDbModel<Session> {
                 this.message = null;
                 this.content = "";
                 this.modifyAt = new Date(System.currentTimeMillis());
-            }else {
+            } else {
                 //本地有最后一条聊天记录
                 if (TextUtils.isEmpty(this.picture)
-                        || TextUtils.isEmpty(this.title)){
+                        || TextUtils.isEmpty(this.title)) {
                     //如果没有基本信息 ,直接从message中load群信息；
                     Group group = message.getGroup();
                     group.load();
@@ -224,16 +224,16 @@ public class Session extends BaseDbModel<Session> {
                 this.content = message.getSampleContent();
                 this.modifyAt = message.getCreateAt();
             }
-        }else {
+        } else {
             //和人聊天
             message = MessageHelper.findLastWithUser(id);
-            if (message == null){
+            if (message == null) {
                 //我和他的消息已经删除完成了
                 //如果没有基本信息
                 if (TextUtils.isEmpty(this.picture)
-                        || TextUtils.isEmpty(this.title)){
+                        || TextUtils.isEmpty(this.title)) {
                     User user = UserHelper.findFromLocal(id);
-                    if (user !=null ){
+                    if (user != null) {
                         this.picture = user.getPortrait();
                         this.title = user.getName();
                     }
@@ -241,10 +241,10 @@ public class Session extends BaseDbModel<Session> {
                 this.message = null;
                 this.content = "";
                 this.modifyAt = new Date(System.currentTimeMillis());
-            }else {
+            } else {
                 //我和他有消息来往
                 if (TextUtils.isEmpty(this.picture)
-                        || TextUtils.isEmpty(this.title)){
+                        || TextUtils.isEmpty(this.title)) {
                     User other = message.getOther();
                     other.load();
 

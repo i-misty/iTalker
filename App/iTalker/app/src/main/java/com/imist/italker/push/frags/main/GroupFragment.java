@@ -43,7 +43,7 @@ public class GroupFragment extends PresenterFragment<GroupContract.Presenter>
         super.initWidget(root);
 
         // 初始化Recycler
-        mRecycler.setLayoutManager(new GridLayoutManager(getContext(),2));
+        mRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
         /**
          * 这里的DBflow一定得是 api引入，可传递的，不然该调用模块无法识别
@@ -124,9 +124,9 @@ public class GroupFragment extends PresenterFragment<GroupContract.Presenter>
             mName.setText(group.getName());
             mDesc.setText(group.getDesc());
 
-            if (group.holder != null && group.holder instanceof  String){
+            if (group.holder != null && group.holder instanceof String) {
                 mMember.setText((String) group.holder);
-            }else {
+            } else {
                 mMember.setText("");
             }
         }

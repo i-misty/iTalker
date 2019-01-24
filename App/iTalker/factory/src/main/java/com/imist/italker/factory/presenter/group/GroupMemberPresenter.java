@@ -11,8 +11,8 @@ import com.imist.italker.factory.presenter.BaseRecyclerPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupMemberPresenter extends BaseRecyclerPresenter<MemberUserModel,GroupMemberContract.View>
-    implements GroupMemberContract.Presenter{
+public class GroupMemberPresenter extends BaseRecyclerPresenter<MemberUserModel, GroupMemberContract.View>
+        implements GroupMemberContract.Presenter {
 
     public GroupMemberPresenter(GroupMemberContract.View view) {
         super(view);
@@ -34,7 +34,7 @@ public class GroupMemberPresenter extends BaseRecyclerPresenter<MemberUserModel,
                 return;
             String groupId = view.getGroupId();
             // -1 代表查询所有
-            List<MemberUserModel> models = GroupHelper.getMemberUsers(groupId,-1);
+            List<MemberUserModel> models = GroupHelper.getMemberUsers(groupId, -1);
             refreshData(models);
         }
     };

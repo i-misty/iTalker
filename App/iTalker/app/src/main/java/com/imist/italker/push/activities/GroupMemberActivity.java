@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class GroupMemberActivity extends PresenterToolbarActivity<GroupMemberContract.Presenter>
-        implements GroupMemberContract.View ,GroupMemberAddFragment.Callback {
+        implements GroupMemberContract.View, GroupMemberAddFragment.Callback {
     private static final String KEY_GROUP_ID = "KEY_GROUP_ID";
     private static final String KEY_GROUP_ADMIN = "KEY_GROUP_ADMIN";
 
@@ -36,19 +36,20 @@ public class GroupMemberActivity extends PresenterToolbarActivity<GroupMemberCon
     private String mGroupID;
     private boolean isAdmin;
 
-    public static void show(Context context,String groupId){
-        show(context,groupId,false);
-    }
-    public static void showAdmin(Context context,String groupId){
-        show(context,groupId,true);
+    public static void show(Context context, String groupId) {
+        show(context, groupId, false);
     }
 
-    public static void show(Context context,String groupId,boolean isAdmin){
+    public static void showAdmin(Context context, String groupId) {
+        show(context, groupId, true);
+    }
+
+    public static void show(Context context, String groupId, boolean isAdmin) {
         if (TextUtils.isEmpty(groupId))
             return;
         Intent intent = new Intent(context, GroupMemberActivity.class);
-        intent.putExtra(KEY_GROUP_ID,groupId);
-        intent.putExtra(KEY_GROUP_ADMIN,isAdmin);
+        intent.putExtra(KEY_GROUP_ID, groupId);
+        intent.putExtra(KEY_GROUP_ADMIN, isAdmin);
         context.startActivity(intent);
     }
 
@@ -146,12 +147,13 @@ public class GroupMemberActivity extends PresenterToolbarActivity<GroupMemberCon
 
         @Override
         protected void onBind(MemberUserModel model) {
-            mPprtrait.setup(Glide.with(GroupMemberActivity.this),model.portrait);
+            mPprtrait.setup(Glide.with(GroupMemberActivity.this), model.portrait);
             mName.setText(model.name);
         }
+
         @OnClick(R.id.im_portrait)
-        void onPortraitClick(){
-            PersonalActivity.show(GroupMemberActivity.this,mData.userId);
+        void onPortraitClick() {
+            PersonalActivity.show(GroupMemberActivity.this, mData.userId);
         }
     }
 }

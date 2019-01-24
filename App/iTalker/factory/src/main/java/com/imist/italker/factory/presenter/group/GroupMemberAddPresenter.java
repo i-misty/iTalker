@@ -57,9 +57,9 @@ public class GroupMemberAddPresenter extends BaseRecyclerPresenter<GroupCreateCo
 
     @Override
     public void changeSelect(GroupCreateContract.ViewModel model, boolean isSelect) {
-        if (isSelect){
+        if (isSelect) {
             users.add(model.author.getId());
-        }else {
+        } else {
             users.remove(model.author.getId());
         }
     }

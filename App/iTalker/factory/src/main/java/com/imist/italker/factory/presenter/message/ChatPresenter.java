@@ -51,8 +51,8 @@ public class ChatPresenter<View extends ChatContact.View>
         for (String path : paths) {
             //构建一个新的消息
             MsgCreateModel model = new MsgCreateModel.Builder()
-                    .receiver(mReceiverId,mReceiveType)
-                    .content(path,Message.TYPE_PIC)
+                    .receiver(mReceiverId, mReceiveType)
+                    .content(path, Message.TYPE_PIC)
                     .build();
             //进行网络发送
             MessageHelper.push(model);

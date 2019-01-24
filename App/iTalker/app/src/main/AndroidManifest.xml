@@ -69,7 +69,7 @@
             android:label="@string/title_activity_message"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TransStatusBar"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.PersonalActivity"
             android:label="@string/title_activity_personal"
@@ -83,7 +83,7 @@
             android:name=".activities.GroupMemberActivity"
             android:label="@string/title_member_list"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.TransStatusBar"/>
+            android:theme="@style/AppTheme.TransStatusBar" />
     </application>
 
 </manifest>

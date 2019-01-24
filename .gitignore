@@ -22,6 +22,8 @@ gradle/
 
 gradle.xml
 
+italker.xml
+
 /captures
 
 .externalNativeBuild

@@ -210,30 +210,33 @@ public class UserHelper {
 
     /**
      * 获取联系人
+     *
      * @return
      */
-    public static List<User> getContacts(){
+    public static List<User> getContacts() {
         return SQLite.select()
                 .from(User.class)
                 .where(User_Table.isFollow.eq(true))
                 .and(User_Table.id.notEq(Account.getUserId()))
-                .orderBy(User_Table.name,true)
+                .orderBy(User_Table.name, true)
                 .limit(100)
                 .queryList();
     }
+
     /**
      * 获取联系人
      * 但是是一个简单的数据的
+     *
      * @return
      */
-    public static List<UserSampleModel> getSampleContacts(){
+    public static List<UserSampleModel> getSampleContacts() {
         return SQLite.select(User_Table.id.withTable().as("id"),
                 User_Table.name.withTable().as("name"),
                 User_Table.portrait.withTable().as("portrait"))
                 .from(User.class)
                 .where(User_Table.isFollow.eq(true))
                 .and(User_Table.id.notEq(Account.getUserId()))
-                .orderBy(User_Table.name,true)
+                .orderBy(User_Table.name, true)
                 .queryCustomList(UserSampleModel.class);
     }
 }

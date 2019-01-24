@@ -99,10 +99,10 @@ public class GroupHelper {
             @Override
             public void onResponse(Call<RspModel<List<GroupCard>>> call, Response<RspModel<List<GroupCard>>> response) {
                 RspModel<List<GroupCard>> rspModel = response.body();
-                if (rspModel.success()){
+                if (rspModel.success()) {
                     callback.onDataLoaded(rspModel.getResult());
-                }else {
-                    Factory.decodeRspCode(rspModel,callback);
+                } else {
+                    Factory.decodeRspCode(rspModel, callback);
                 }
             }
 
@@ -121,14 +121,14 @@ public class GroupHelper {
             @Override
             public void onResponse(Call<RspModel<List<GroupCard>>> call, Response<RspModel<List<GroupCard>>> response) {
                 RspModel<List<GroupCard>> rspModel = response.body();
-                if (rspModel.success()){
-                   List<GroupCard> groupCards = rspModel.getResult();
-                   if (groupCards != null && groupCards.size() > 0){
-                       //进行调度显示
-                       Factory.getGroupCenter().dispatch(groupCards.toArray(new GroupCard[0]));
-                   }
-                }else {
-                    Factory.decodeRspCode(rspModel,null);
+                if (rspModel.success()) {
+                    List<GroupCard> groupCards = rspModel.getResult();
+                    if (groupCards != null && groupCards.size() > 0) {
+                        //进行调度显示
+                        Factory.getGroupCenter().dispatch(groupCards.toArray(new GroupCard[0]));
+                    }
+                } else {
+                    Factory.decodeRspCode(rspModel, null);
                 }
             }
 
@@ -154,14 +154,14 @@ public class GroupHelper {
             @Override
             public void onResponse(Call<RspModel<List<GroupMemberCard>>> call, Response<RspModel<List<GroupMemberCard>>> response) {
                 RspModel<List<GroupMemberCard>> rspModel = response.body();
-                if (rspModel.success()){
+                if (rspModel.success()) {
                     List<GroupMemberCard> memberCards = rspModel.getResult();
-                    if (memberCards != null && memberCards.size() > 0){
+                    if (memberCards != null && memberCards.size() > 0) {
                         //进行调度显示
                         Factory.getGroupCenter().dispatch(memberCards.toArray(new GroupMemberCard[0]));
                     }
-                }else {
-                    Factory.decodeRspCode(rspModel,null);
+                } else {
+                    Factory.decodeRspCode(rspModel, null);
                 }
             }
 
@@ -179,11 +179,11 @@ public class GroupHelper {
                 User_Table.id.withTable().as("userId"),
                 User_Table.name.withTable().as("name"),
                 User_Table.portrait.withTable().as("portrait")
-                ).from(GroupMember.class)
+        ).from(GroupMember.class)
                 .join(User.class, Join.JoinType.INNER)
                 .on(GroupMember_Table.user_id.withTable().eq(User_Table.id.withTable()))
                 .where(GroupMember_Table.group_id.withTable().eq(groupId))
-                .orderBy(GroupMember_Table.user_id,true)
+                .orderBy(GroupMember_Table.user_id, true)
                 .limit(size)
                 .queryCustomList(MemberUserModel.class);
     }

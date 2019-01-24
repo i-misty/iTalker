@@ -12,14 +12,14 @@ import java.util.Collections;
 import java.util.List;
 
 public class SessionRepository extends BaseDbRepository<Session>
-        implements SessionDataSource{
+        implements SessionDataSource {
 
     @Override
     public void load(SuccessCallback<List<Session>> callback) {
         super.load(callback);
         SQLite.select()
                 .from(Session.class)
-                .orderBy(Session_Table.modifyAt,false)//倒序
+                .orderBy(Session_Table.modifyAt, false)//倒序
                 .limit(100)
                 .async()
                 .queryListResultCallback(this)

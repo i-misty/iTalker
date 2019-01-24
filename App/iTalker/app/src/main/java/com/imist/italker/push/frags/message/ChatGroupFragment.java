@@ -102,7 +102,7 @@ public class ChatGroupFragment extends ChatFragment<Group>
 
     @Override
     protected ChatContact.Presenter initPresenter() {
-        return new ChatGroupPresenter(this,mReceiverId);
+        return new ChatGroupPresenter(this, mReceiverId);
     }
 
     @Override
@@ -117,14 +117,14 @@ public class ChatGroupFragment extends ChatFragment<Group>
 
     @Override
     public void onInitGroupMembers(List<MemberUserModel> members, long moreCount) {
-        if (members == null || members.size() == 0){
+        if (members == null || members.size() == 0) {
             return;
         }
         LayoutInflater inflater = LayoutInflater.from(getContext());
         for (final MemberUserModel member : members) {
             // 添加成员头像；false返回当前空间，true返回父控件;
-            ImageView p = (ImageView) inflater.inflate(R.layout.lay_chat_group_portrait,mLayMembers,false);
-            mLayMembers.addView(p,0);
+            ImageView p = (ImageView) inflater.inflate(R.layout.lay_chat_group_portrait, mLayMembers, false);
+            mLayMembers.addView(p, 0);
             Glide.with(this)
                     .load(member.portrait)
                     .placeholder(R.drawable.default_portrait)
@@ -135,35 +135,35 @@ public class ChatGroupFragment extends ChatFragment<Group>
             p.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    PersonalActivity.show(getContext(),member.userId);
+                    PersonalActivity.show(getContext(), member.userId);
                 }
             });
         }
         //更多按钮出现逻辑，若是多余的人数大于0 出现显示成员列表的按钮，否则隐藏
-        if (moreCount > 0){
-            mMembersMore.setText(String.format("+%s",moreCount));
+        if (moreCount > 0) {
+            mMembersMore.setText(String.format("+%s", moreCount));
             mMembersMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //显示成员列表
-                    GroupMemberActivity.show(getContext(),mReceiverId);
+                    GroupMemberActivity.show(getContext(), mReceiverId);
                 }
             });
-        }else {
+        } else {
             mMembersMore.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void showAdminOption(boolean isAdmin) {
-        if (isAdmin){
-            mToolbar.inflateMenu(R.menu. chat_group);
+        if (isAdmin) {
+            mToolbar.inflateMenu(R.menu.chat_group);
             mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    if (item.getItemId() == R.id.action_add){
+                    if (item.getItemId() == R.id.action_add) {
                         //接收者ID就是群的ID
-                        GroupMemberActivity.showAdmin(getContext(),mReceiverId);
+                        GroupMemberActivity.showAdmin(getContext(), mReceiverId);
                         return true;
                     }
                     return false;
@@ -171,7 +171,6 @@ public class ChatGroupFragment extends ChatFragment<Group>
             });
         }
     }
-
 
 
 }

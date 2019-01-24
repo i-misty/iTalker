@@ -37,8 +37,9 @@ public interface ChatContact {
     interface GroupView extends View<Group> {
         //是否是管理员
         void showAdminOption(boolean isAdmin);
+
         //初始化成员
-        void onInitGroupMembers(List<MemberUserModel> members ,long moreCount );
+        void onInitGroupMembers(List<MemberUserModel> members, long moreCount);
 
 
     }

@@ -6,8 +6,9 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DateTimeUtil {
-    private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yy-MM-dd",Locale.ENGLISH);
-    public static String getSimpleDate(Date date){
+    private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yy-MM-dd", Locale.ENGLISH);
+
+    public static String getSimpleDate(Date date) {
         return FORMAT.format(date);
     }
 }

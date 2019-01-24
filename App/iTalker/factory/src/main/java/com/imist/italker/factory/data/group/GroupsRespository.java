@@ -21,7 +21,7 @@ public class GroupsRespository extends BaseDbRepository<Group>
         super.load(callback);
         SQLite.select()
                 .from(Group.class)
-                .orderBy(Group_Table.name,true)
+                .orderBy(Group_Table.name, true)
                 .limit(100)
                 .async()
                 .queryListResultCallback(this)
@@ -34,10 +34,10 @@ public class GroupsRespository extends BaseDbRepository<Group>
         //一个是你被别人加入群，第二个是你直接建立一个群
         //无论什么情况，你拿到的都只是群信息，没有群成员的信息；
         //你需要进行成员信息的初始化操作
-        if (group.getGroupMemberCount() > 0){
+        if (group.getGroupMemberCount() > 0) {
             //初始化了的群信息
             group.holder = buildGroupHolder(group);
-        }else {
+        } else {
             //待初始化的群信息
             group.holder = null;
             GroupHelper.refreshGroupMember(group);
@@ -53,10 +53,10 @@ public class GroupsRespository extends BaseDbRepository<Group>
             return null;
         StringBuilder builder = new StringBuilder();
         for (MemberUserModel userModel : userModels) {
-            builder.append(TextUtils.isEmpty(userModel.alias) ? userModel.name :userModel.alias);
+            builder.append(TextUtils.isEmpty(userModel.alias) ? userModel.name : userModel.alias);
             builder.append(",");
         }
-        builder.delete(builder.lastIndexOf(","),builder.length());
+        builder.delete(builder.lastIndexOf(","), builder.length());
         return builder.toString();
     }
 }

@@ -25,8 +25,7 @@
                 android:id="@+id/view_stub_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                />
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap" />
 
         </android.support.design.widget.AppBarLayout>
 
@@ -113,6 +112,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             class="com.imist.italker.push.frags.panel.PanelFragment"
-            tools:layout="@layout/fragment_panel"/>
+            tools:layout="@layout/fragment_panel" />
     </net.qiujuer.widget.airpanel.AirPanelFrameLayout>
 </com.imist.italker.common.widget.MessageLayout>

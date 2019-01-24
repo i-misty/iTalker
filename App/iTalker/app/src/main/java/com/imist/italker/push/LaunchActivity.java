@@ -20,7 +20,7 @@ import com.imist.italker.push.frags.assist.PermissionsFragment;
 import net.qiujuer.genius.ui.compat.UiCompat;
 
 public class LaunchActivity extends Activity
-        implements PermissionsFragment.PermissionListen{
+        implements PermissionsFragment.PermissionListen {
     // Drawable
     private ColorDrawable mBgDrawable;
     private boolean mNeedRequirePermission = false;
@@ -33,10 +33,11 @@ public class LaunchActivity extends Activity
     @Override
     protected void onResume() {
         super.onResume();
-        if (mNeedRequirePermission && !PermissionsFragment.haveAll(this,getSupportFragmentManager())){
+        if (mNeedRequirePermission && !PermissionsFragment.haveAll(this, getSupportFragmentManager())) {
             mNeedRequirePermission = true;
         }
     }
+
     @Override
     protected void initWidget() {
         super.initWidget();
@@ -115,11 +116,10 @@ public class LaunchActivity extends Activity
                 AccountActivity.show(this);
             }
             finish();
-        }else {
+        } else {
             mNeedRequirePermission = true;
         }
     }
-
 
 
     private void startAnim(float endProgress, final Runnable endCallback) {

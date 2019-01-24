@@ -7,14 +7,15 @@ import com.imist.italker.factory.presenter.BaseContract;
  */
 public interface GroupMemberAddContract {
 
-    interface Presenter extends BaseContract.Presenter{
+    interface Presenter extends BaseContract.Presenter {
         //提交成员
         void submit();
+
         //更改一个Model的选中状态
-        void changeSelect(GroupCreateContract.ViewModel model , boolean isSelect);
+        void changeSelect(GroupCreateContract.ViewModel model, boolean isSelect);
     }
 
-    interface View extends BaseContract.RecyclerView<Presenter,GroupCreateContract.ViewModel>{
+    interface View extends BaseContract.RecyclerView<Presenter, GroupCreateContract.ViewModel> {
         //添加群成员成功;
         void onAddSuccessed();
 

@@ -26,6 +26,7 @@ public class MessageActivity extends Activity {
 
     /**
      * 通过session发起聊天
+     *
      * @param context
      * @param session
      */
@@ -38,6 +39,7 @@ public class MessageActivity extends Activity {
 
         context.startActivity(intent);
     }
+
     public static void show(Context context, Author author) {
         if (author == null || context == null)
             return;

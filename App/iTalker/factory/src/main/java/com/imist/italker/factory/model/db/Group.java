@@ -149,20 +149,23 @@ public class Group extends BaseDbModel<Group> implements Serializable {
     }
 
     private long groupMemberCount = -1;
+
     //获取当前群的成员数量，使用内存缓存
     public long getGroupMemberCount() {
-        if (groupMemberCount == -1){
+        if (groupMemberCount == -1) {
             //没有初始化
             groupMemberCount = GroupHelper.getMemberCount(id);
         }
         return groupMemberCount;
     }
+
     private List<MemberUserModel> groupLatelyMembers;
+
     //获取当前对应的群成员的信息，最多加载四条
-    public  List<MemberUserModel> getLatelyGroupMembers() {
-        if (groupLatelyMembers == null || groupLatelyMembers.isEmpty()){
+    public List<MemberUserModel> getLatelyGroupMembers() {
+        if (groupLatelyMembers == null || groupLatelyMembers.isEmpty()) {
             //加载简单的用户信息，最多返回四条
-            groupLatelyMembers = GroupHelper.getMemberUsers(id,4);
+            groupLatelyMembers = GroupHelper.getMemberUsers(id, 4);
         }
 
         return groupLatelyMembers;
