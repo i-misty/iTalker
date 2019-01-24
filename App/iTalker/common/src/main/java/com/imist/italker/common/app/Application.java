@@ -1,22 +1,54 @@
 package com.imist.italker.common.app;
 
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.StringRes;
 import android.widget.Toast;
+
+import com.imist.italker.common.callback.LifecycleCallbacks;
 
 import net.qiujuer.genius.kit.handler.Run;
 import net.qiujuer.genius.kit.handler.runable.Action;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Application extends android.app.Application {
 
     private static Application instance;
+    private static List<Activity> activities = new ArrayList<>();
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
+        registerActivityLifecycleCallbacks(new LifecycleCallbacks(){
+            @Override
+            public void onActivityCreated(android.app.Activity activity, Bundle bundle) {
+                activities.add(activity);
+            }
+
+            @Override
+            public void onActivityDestroyed(android.app.Activity activity) {
+                activities.remove(activity);
+            }
+        });
+    }
+
+    public void finishAll(){
+        for (Activity activity : activities) {
+            activity.finish();
+        }
+        //跳转到账号界面
+        showAccountView(this);
+    }
+
+    //这里因为依赖顺序的关系，无法直接跳转到账号管理界面通过子类复写实现
+    protected void showAccountView(Context context) {
+
     }
 
     /**
