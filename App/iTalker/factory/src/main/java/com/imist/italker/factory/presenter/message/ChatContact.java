@@ -12,7 +12,8 @@ public interface ChatContact {
     interface Presenter extends BaseContract.Presenter {
         void pushText(String content);
 
-        void pushAudio(String path);
+        //发送语音
+        void pushAudio(String path,long time);
 
         //可以发送多张图片
         void pushImage(String[] paths);

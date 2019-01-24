@@ -1,6 +1,7 @@
 package com.imist.italker.factory.presenter.message;
 
 import android.support.v7.util.DiffUtil;
+import android.text.TextUtils;
 
 import com.imist.italker.factory.data.helper.MessageHelper;
 import com.imist.italker.factory.data.message.MessageDataSource;
@@ -37,10 +38,23 @@ public class ChatPresenter<View extends ChatContact.View>
         MessageHelper.push(model);
     }
 
-    @Override
-    public void pushAudio(String path) {
-        //发送语音
+    //发送语音
+    public void pushAudio(String path, long time) {
+        if(TextUtils.isEmpty(path)){
+            return;
+        }
+
+        // 构建一个新的消息
+        MsgCreateModel model = new MsgCreateModel.Builder()
+                .receiver(mReceiverId, mReceiveType)
+                .content(path, Message.TYPE_AUDIO)
+                .attach(String.valueOf(time))
+                .build();
+
+        // 进行网络发送
+        MessageHelper.push(model);
     }
+
 
     @Override
     public void pushImage(String[] paths) {

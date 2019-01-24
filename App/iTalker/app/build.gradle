@@ -34,25 +34,25 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportVersion"
+    api "com.android.support:appcompat-v7:$rootProject.ext.supportVersion"
     api "com.android.support:recyclerview-v7:$rootProject.ext.supportVersion"
-    implementation "com.android.support:design:$rootProject.ext.supportVersion"
-    implementation "net.qiujuer.genius:ui:$rootProject.ext.geniusVersion"
-    implementation "net.qiujuer.genius:res:$rootProject.ext.geniusVersion"
-    implementation "de.hdodenhof:circleimageview:$rootProject.ext.circleimageviewVersion"
+    api "com.android.support:design:$rootProject.ext.supportVersion"
+    api "net.qiujuer.genius:ui:$rootProject.ext.geniusVersion"
+    api "net.qiujuer.genius:res:$rootProject.ext.geniusVersion"
+    api "de.hdodenhof:circleimageview:$rootProject.ext.circleimageviewVersion"
 
-    implementation "com.yalantis:ucrop:$rootProject.ext.ucropVersion"
-    implementation "pub.devrel:easypermissions:$rootProject.ext.easyPMVersion"
+    api "com.yalantis:ucrop:$rootProject.ext.ucropVersion"
+    api "pub.devrel:easypermissions:$rootProject.ext.easyPMVersion"
     // 个推
-    implementation "com.getui:sdk:$rootProject.ext.getuiVersion"
+    api "com.getui:sdk:$rootProject.ext.getuiVersion"
     //空气面板
-    implementation "net.qiujuer.widget:airpanel:$rootProject.ext.airpanelVersion"
-    implementation "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
+    api "net.qiujuer.widget:airpanel:$rootProject.ext.airpanelVersion"
+    api "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
 
     //implementation project(':common')
     //app --> factory --> common -->lang
-    implementation project(path: ':factory')
+    api project(path: ':factory')
     //implementation project(path: ':common')
     //api = compile 推荐使用api ,implementation编译相当于内部可用而对外部隐藏
 }
