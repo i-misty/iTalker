@@ -20,8 +20,6 @@ import com.imist.italker.factory.model.card.GroupCard;
 import com.imist.italker.factory.model.card.GroupMemberCard;
 import com.imist.italker.factory.model.card.MessageCard;
 import com.imist.italker.factory.model.card.UserCard;
-import com.imist.italker.factory.model.db.GroupMember;
-import com.imist.italker.factory.model.db.Message;
 import com.imist.italker.factory.persistence.Account;
 import com.imist.italker.factory.utils.DBFlowExclusionStrategy;
 import com.raizlabs.android.dbflow.config.FlowConfig;

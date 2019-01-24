@@ -41,5 +41,6 @@ dependencies {
     api "com.github.Raizlabs.DBFlow:dbflow-core:${rootProject.ext.dbflowVersion}"
     api "com.github.Raizlabs.DBFlow:dbflow:${rootProject.ext.dbflowVersion}"
     api "net.qiujuer.genius:kit-reflect:$rootProject.ext.geniusVersion"
+
     api project(path: ':common')
 }

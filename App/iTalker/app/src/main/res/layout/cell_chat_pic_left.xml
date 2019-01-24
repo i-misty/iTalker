@@ -33,7 +33,7 @@
     </FrameLayout>
 
 
-    <net.qiujuer.italker.common.widget.PortraitView
+    <com.imist.italker.common.widget.PortraitView
         android:id="@+id/im_portrait"
         android:layout_width="@dimen/portraitSize"
         android:layout_height="@dimen/portraitSize"
